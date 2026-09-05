@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -58,12 +59,12 @@ export default function Hero() {
             </span>
           </a>
 
-          <a
-            href="#portafolio"
+          <Link
+            href="/#proyectos"
             className="px-8 py-4 bg-white/5 border border-white/20 text-white rounded-full font-bold text-lg backdrop-blur-md hover:bg-white/10 transition-all duration-fast ease-out-expo hover:border-white/40 focus-visible:outline-white"
           >
             Ver repositorio
-          </a>
+          </Link>
         </div>
       </div>
 

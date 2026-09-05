@@ -1,16 +1,19 @@
 import Image from "next/image";
+import Link from "next/link";
 import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  // Absolute paths: the footer also renders on /servicios/* and /proyectos/*,
+  // where a bare hash would resolve against the current page and do nothing.
   const navLinks = [
-    { href: "#servicios", label: "Especialidades" },
-    { href: "#portafolio", label: "Repositorio" },
-    { href: "#proceso", label: "Proceso" },
-    { href: "#equipo", label: "Equipo" },
-    { href: "#contactanos", label: "Contacto" },
+    { href: "/#servicios", label: "Especialidades" },
+    { href: "/#proyectos", label: "Repositorio" },
+    { href: "/#proceso", label: "Proceso" },
+    { href: "/#equipo", label: "Equipo" },
+    { href: "/#contactanos", label: "Contacto" },
   ];
 
   const socialLinks = [
@@ -38,7 +41,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 mb-10">
           {/* Brand */}
           <div className="text-center md:text-left">
-            <a href="#" className="inline-flex items-center gap-3 mb-3" aria-label="OniLabs - Inicio">
+            <Link href="/" className="inline-flex items-center gap-3 mb-3" aria-label="OniLabs - Inicio">
               <Image
                 src="/logo.png"
                 alt="OniLabs logo"
@@ -49,7 +52,7 @@ export default function Footer() {
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 OniLabs
               </span>
-            </a>
+            </Link>
             <p className="text-text-secondary mt-2 text-sm leading-relaxed max-w-xs mx-auto md:mx-0">
               Laboratorio de programación especializado en desarrollo web,
               móvil, microservicios y ecommerce.
@@ -64,12 +67,12 @@ export default function Footer() {
             <ul className="hidden md:flex flex-col gap-2.5">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="link-underline text-text-secondary hover:text-primary text-sm transition-colors duration-fast ease-out-expo"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
