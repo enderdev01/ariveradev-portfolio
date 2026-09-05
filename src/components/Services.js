@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { servicios } from "../data/onilabs";
 
 export default function Services() {
@@ -61,11 +62,29 @@ export default function Services() {
                 {servicio.titulo}
               </h3>
 
-              <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
+              <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-5">
                 {servicio.descripcion}
               </p>
+
+              <Link
+                href={`/servicios/${servicio.slug}`}
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-all"
+              >
+                Ver más
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
             </div>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/servicios"
+            className="inline-flex items-center gap-2 border border-border rounded-lg px-6 py-3 font-semibold text-text-primary hover:border-primary hover:text-primary transition-colors"
+          >
+            Ver todos los servicios
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
       </div>
     </section>

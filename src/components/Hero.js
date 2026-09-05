@@ -30,10 +30,10 @@ export default function Hero() {
         </p>
 
         <h1 className="animate-fade-in-up stagger-2 text-4xl sm:text-5xl lg:text-[5.2rem] font-black leading-[1.08] tracking-tight text-white mb-6">
-          Construimos software{" "}
+          Construimos software a medida{" "}
           <br className="hidden sm:block" />
           <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent">
-            para negocios reales
+            para negocios reales en Perú
           </span>
         </h1>
 

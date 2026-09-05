@@ -14,9 +14,10 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import { SITE_URL } from "../lib/site";
 
 
-const TITLE = "Onilabs - Laboratorio de Programación";
+const TITLE =
+  "Desarrollo de Software a Medida en Perú | Onilabs";
 const DESCRIPTION =
-  "Onilabs: Desarrollo web, aplicaciones móviles, microservicios, integraciones y ecommerce WordPress/WooCommerce. Soluciones escalables para tu negocio.";
+  "Desarrollo de software a medida en Perú: web, apps móviles, ecommerce WooCommerce, integraciones de APIs y microservicios. Propuesta clara de alcance y tiempos.";
 
 const structuredData = {
   "@context": "https://schema.org",

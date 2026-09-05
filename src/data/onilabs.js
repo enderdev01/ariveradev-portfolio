@@ -2,6 +2,7 @@ export const servicios = [
   {
     id: 1,
     titulo: "Desarrollo Web",
+    slug: "desarrollo-web",
     descripcion:
       "Landing pages, sitios corporativos, dashboards y aplicaciones SaaS con tecnologías modernas y escalables.",
     icono: "🌐",
@@ -9,6 +10,7 @@ export const servicios = [
   {
     id: 2,
     titulo: "Aplicaciones Móviles",
+    slug: "aplicaciones-moviles",
     descripcion:
       "Apps nativas y multiplataforma para Android e iOS con React Native e Ionic.",
     icono: "📱",
@@ -16,6 +18,7 @@ export const servicios = [
   {
     id: 3,
     titulo: "Microservicios & Integraciones",
+    slug: "integraciones-api",
     descripcion:
       "APIs RESTful, integraciones con CRMs, sistemas de pagos, colas de mensajería y webhooks.",
     icono: "🔌",
@@ -23,6 +26,7 @@ export const servicios = [
   {
     id: 4,
     titulo: "Ecommerce/WooCommerce",
+    slug: "ecommerce-woocommerce",
     descripcion:
       "Tiendas online optimizadas, plugins personalizados, integración de pagos y gestión de inventario.",
     icono: "🛒",
@@ -30,6 +34,7 @@ export const servicios = [
   {
     id: 5,
     titulo: "Arquitectura Escalable",
+    slug: "software-a-medida",
     descripcion:
       "Diseño de sistemas robustos, cloud deployment, CI/CD y optimización de performance.",
     icono: "⚡",
@@ -37,6 +42,7 @@ export const servicios = [
   {
     id: 6,
     titulo: "Mantenimiento & Evolución",
+    slug: "mantenimiento-web",
     descripcion:
       "Soporte continuo, mejoras incrementales, observabilidad y monitoreo de aplicaciones.",
     icono: "🔧",
