@@ -1,3 +1,4 @@
+import { proyectosSeo } from "../data/proyectos-seo";
 import { serviciosSeo } from "../data/servicios-seo";
 import { SITE_URL } from "../lib/site";
 
@@ -13,6 +14,11 @@ const buildSitemap = () => {
       loc: `${SITE_URL}/servicios/${servicio.slug}`,
       priority: "0.8",
       changefreq: "monthly",
+    })),
+    ...Object.values(proyectosSeo).map((proyecto) => ({
+      loc: `${SITE_URL}/proyectos/${proyecto.slug}`,
+      priority: "0.7",
+      changefreq: "yearly",
     })),
   ];
 

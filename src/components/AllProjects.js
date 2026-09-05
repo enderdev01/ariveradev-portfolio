@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
+import { proyectosSeo } from "../data/proyectos-seo";
 import ProjectVisual from "./ProjectVisual";
 
 const CATEGORIAS = [
@@ -116,7 +118,16 @@ export default function AllProjects() {
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
-                  {proyecto.nombre}
+                  {proyectosSeo[proyecto.id] ? (
+                    <Link
+                      href={`/proyectos/${proyectosSeo[proyecto.id].slug}`}
+                      className="hover:text-primary transition-colors"
+                    >
+                      {proyecto.nombre}
+                    </Link>
+                  ) : (
+                    proyecto.nombre
+                  )}
                 </h3>
                 <p className="text-text-secondary text-sm mb-4 flex-grow leading-relaxed">
                   {proyecto.descripcion}
