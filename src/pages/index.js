@@ -11,8 +11,9 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import PromoModal from "../components/PromoModal";
 import FeaturedProjects from "@/components/FeaturedProjects";
+import { SITE_URL } from "../lib/site";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://onilabs.dev";
+
 const TITLE = "Onilabs - Laboratorio de Programación";
 const DESCRIPTION =
   "Onilabs: Desarrollo web, aplicaciones móviles, microservicios, integraciones y ecommerce WordPress/WooCommerce. Soluciones escalables para tu negocio.";
