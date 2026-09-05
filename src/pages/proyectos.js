@@ -24,14 +24,14 @@ export default function ProyectosPage() {
         <meta property="og:url" content={PAGE_URL} />
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
-        <meta property="og:image" content={`${SITE_URL}/logo.png`} />
+        <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
         <meta property="og:locale" content="es_PE" />
         <meta property="og:site_name" content="Onilabs" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
-        <meta name="twitter:image" content={`${SITE_URL}/logo.png`} />
+        <meta name="twitter:image" content={`${SITE_URL}/og-image.png`} />
       </Head>
       <div className="min-h-screen bg-background">
         <Navbar />

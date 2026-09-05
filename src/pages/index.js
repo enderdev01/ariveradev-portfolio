@@ -97,7 +97,7 @@ export default function Home() {
         <meta property="og:url" content={SITE_URL} />
         <meta property="og:title" content={TITLE} />
         <meta property="og:description" content={DESCRIPTION} />
-        <meta property="og:image" content={`${SITE_URL}/logo.png`} />
+        <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
         <meta property="og:locale" content="es_PE" />
         <meta property="og:site_name" content="Onilabs" />
 
@@ -105,7 +105,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={TITLE} />
         <meta name="twitter:description" content={DESCRIPTION} />
-        <meta name="twitter:image" content={`${SITE_URL}/logo.png`} />
+        <meta name="twitter:image" content={`${SITE_URL}/og-image.png`} />
 
         {/* Structured Data */}
         <script

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
@@ -38,7 +39,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="text-center md:text-left">
             <a href="#" className="inline-flex items-center gap-3 mb-3" aria-label="OniLabs - Inicio">
-              <img
+              <Image
                 src="/logo.png"
                 alt="OniLabs logo"
                 width={48}

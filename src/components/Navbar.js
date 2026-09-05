@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -48,11 +49,12 @@ export default function Navbar() {
               }
             }}
           >
-            <img
+            <Image
               src="/logo.png"
               alt="OniLabs logo"
               width={48}
               height={48}
+              priority
               className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
             />
             <span

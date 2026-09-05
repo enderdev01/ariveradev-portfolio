@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { equipo } from "../data/onilabs";
 
 export default function Team() {
@@ -77,12 +78,13 @@ export default function Team() {
               <div className="relative z-10 w-28 h-48 lg:w-40 lg:h-64 mb-6 lg:mb-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent hidden lg:block blur-xl opacity-30 rounded-full" />
                 <div className="relative w-full h-full rounded-full overflow-hidden shadow-md bg-surface">
-                  <img
+                  <Image
                     src={miembro.imagen}
                     alt={miembro.nombre}
                     loading="lazy"
                     width={160}
                     height={256}
+                    sizes="(min-width: 1024px) 160px, 112px"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
