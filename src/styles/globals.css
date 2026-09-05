@@ -34,12 +34,14 @@
   --motion-fast: 150ms;
   --motion-base: 250ms;
   --motion-slow: 500ms;
-  --motion-stagger: 60ms;
+  --motion-reveal: 640ms;
+  --motion-stagger: 90ms;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-loop: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  --distance-reveal: 16px;
+  --distance-reveal: 28px;
   --distance-lift: -2px;
   --distance-nudge: 2px;
 
@@ -51,6 +53,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keeps a hash target from landing underneath the fixed navbar. */
+  scroll-padding-top: 6rem;
 }
 
 html,
@@ -165,7 +169,7 @@ a {
 
 /* Legacy alias — maps old class name to new keyframe */
 .animate-fade-in-up {
-  animation: fade-up var(--motion-slow) var(--ease-out) both;
+  animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
 }
 
 /* --- Stagger delays (80ms intervals, max 5) --- */
@@ -183,8 +187,8 @@ a {
   transform: translateY(var(--distance-reveal));
   will-change: opacity, transform;
   transition:
-    opacity var(--motion-base) var(--ease-out),
-    transform var(--motion-base) var(--ease-out);
+    opacity var(--motion-reveal) var(--ease-reveal),
+    transform var(--motion-reveal) var(--ease-reveal);
 }
 
 .reveal.visible {
