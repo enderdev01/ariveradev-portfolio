@@ -34,14 +34,14 @@
   --motion-fast: 150ms;
   --motion-base: 250ms;
   --motion-slow: 500ms;
-  --motion-reveal: 640ms;
-  --motion-stagger: 90ms;
+  --motion-reveal: 800ms;
+  --motion-stagger: 110ms;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-loop: cubic-bezier(0.45, 0, 0.55, 1);
-  --ease-reveal: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --distance-reveal: 28px;
+  --distance-reveal: 32px;
   --distance-lift: -2px;
   --distance-nudge: 2px;
 
@@ -130,6 +130,19 @@ a {
   to { opacity: 1; }
 }
 
+@keyframes reveal-blur {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-reveal));
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
 @keyframes scale-in {
   from {
     opacity: 0;
@@ -171,7 +184,6 @@ a {
 .animate-fade-in-up {
   animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
 }
-
 /* --- Stagger delays (80ms intervals, max 5) --- */
 
 .stagger-1 { animation-delay: calc(var(--motion-stagger) * 1); }
@@ -180,20 +192,47 @@ a {
 .stagger-4 { animation-delay: calc(var(--motion-stagger) * 4); }
 .stagger-5 { animation-delay: calc(var(--motion-stagger) * 5); }
 
-/* --- Scroll reveal (IntersectionObserver driven) --- */
+/* --- Scroll reveal (IntersectionObserver driven) ---
+   The reveal runs as a one-shot animation (not a transition) so the
+   element's own Tailwind `transition-all` stays free for hover effects.
+   Once the animation ends, Reveal.js swaps `.visible` for `.revealed`,
+   which releases the animation fill-mode lock. */
 
 .reveal {
   opacity: 0;
   transform: translateY(var(--distance-reveal));
   will-change: opacity, transform;
-  transition:
-    opacity var(--motion-reveal) var(--ease-reveal),
-    transform var(--motion-reveal) var(--ease-reveal);
 }
 
 .reveal.visible {
+  animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
+}
+
+.reveal.revealed {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  animation: none;
+  will-change: auto;
+}
+
+/* --- Soft blur variant for headings and hero-level text --- */
+
+.reveal-blur {
+  opacity: 0;
+  transform: translateY(var(--distance-reveal));
+  filter: blur(8px);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-blur.visible {
+  animation: reveal-blur var(--motion-reveal) var(--ease-reveal) both;
+}
+
+.reveal-blur.revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  animation: none;
   will-change: auto;
 }
 
@@ -276,9 +315,16 @@ a {
     transition-duration: 0.01ms !important;
   }
 
-  .reveal {
+  .reveal,
+  .reveal.visible,
+  .reveal.revealed,
+  .reveal-blur,
+  .reveal-blur.visible,
+  .reveal-blur.revealed {
     opacity: 1;
     transform: none;
+    filter: none;
+    animation: none;
     transition: none;
   }
 

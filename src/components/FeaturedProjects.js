@@ -4,6 +4,7 @@ import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
 import ProjectBadges from "./ProjectBadges";
 import ProjectVisual from "./ProjectVisual";
+import Reveal from "./Reveal";
 
 export default function FeaturedProjects() {
   const proyectosDestacados = proyectosReales
@@ -15,22 +16,29 @@ export default function FeaturedProjects() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-16">
-          <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
-            Nuestro trabajo
-          </p>
-          <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
-            Repositorio
-          </h2>
-          <p className="mx-auto max-w-2xl text-base sm:text-lg text-text-secondary leading-relaxed">
-            Proyectos reales que hemos desarrollado para nuestros clientes
-          </p>
+          <Reveal blur>
+            <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
+              Nuestro trabajo
+            </p>
+          </Reveal>
+          <Reveal blur delay={90}>
+            <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+              Repositorio
+            </h2>
+          </Reveal>
+          <Reveal delay={180}>
+            <p className="mx-auto max-w-2xl text-base sm:text-lg text-text-secondary leading-relaxed">
+              Proyectos reales que hemos desarrollado para nuestros clientes
+            </p>
+          </Reveal>
         </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {proyectosDestacados.map((proyecto) => (
-            <article
+          {proyectosDestacados.map((proyecto, i) => (
+            <Reveal
               key={proyecto.id}
+              delay={i * 110}
               className="bg-white rounded-2xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
               style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
@@ -71,19 +79,21 @@ export default function FeaturedProjects() {
                   )}
                 </div>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
 
         {/* Footer CTA */}
         <div className="mt-16 flex justify-center">
-          <Link
-            href="/proyectos"
-            className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full transition-colors duration-fast ease-out-expo text-sm uppercase tracking-wider inline-block"
-            style={{ boxShadow: "0 4px 14px 0 rgba(37,99,235,0.39)" }}
-          >
-            Ver más proyectos
-          </Link>
+          <Reveal delay={150}>
+            <Link
+              href="/proyectos"
+              className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full transition-colors duration-fast ease-out-expo text-sm uppercase tracking-wider inline-block"
+              style={{ boxShadow: "0 4px 14px 0 rgba(37,99,235,0.39)" }}
+            >
+              Ver más proyectos
+            </Link>
+          </Reveal>
         </div>
       </div>
     </section>

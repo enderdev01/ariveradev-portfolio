@@ -1,32 +1,8 @@
-import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Reveal from "./Reveal";
 import { equipo } from "../data/onilabs";
 
 export default function Team() {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const cards = entry.target.querySelectorAll(".team-card");
-            cards.forEach((card, i) => {
-              setTimeout(() => {
-                card.classList.add("visible");
-              }, i * 60);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
       id="equipo"
@@ -38,18 +14,23 @@ export default function Team() {
     >
       <div className="w-full px-4 sm:px-8 lg:px-16">
         <div className="text-center mb-16 lg:mb-24">
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 text-text-primary">
-            Nuestro Equipo
-          </h2>
-          <div className="w-40 sm:w-64 lg:w-96 h-1 mx-auto bg-gradient-to-r from-primary to-accent rounded-full" />
+          <Reveal blur>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 text-text-primary">
+              Nuestro Equipo
+            </h2>
+          </Reveal>
+          <Reveal delay={90}>
+            <div className="w-40 sm:w-64 lg:w-96 h-1 mx-auto bg-gradient-to-r from-primary to-accent rounded-full" />
+          </Reveal>
         </div>
 
-        <div ref={sectionRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {equipo.map((miembro) => (
-            <div
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          {equipo.map((miembro, i) => (
+            <Reveal
               key={miembro.id}
+              delay={i * 110}
               className="
-                team-card reveal group relative bg-background border border-border rounded-3xl
+                group relative bg-background border border-border rounded-3xl
                 p-8 lg:p-20
                 lg:min-h-[440px]
                 flex flex-col items-center text-center
@@ -101,7 +82,7 @@ export default function Team() {
               <p className="relative z-10 text-text-secondary text-sm lg:text-base font-medium leading-relaxed">
                 {miembro.bio}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
