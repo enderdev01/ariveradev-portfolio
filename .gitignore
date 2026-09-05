@@ -36,3 +36,10 @@ package-lock.json
 
 # VS Code
 .vscode/
+
+# analytics stack secrets
+analytics/.env
+
+# local tooling
+.codegraph/
+.atl/
