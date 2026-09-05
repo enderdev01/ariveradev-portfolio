@@ -5,6 +5,10 @@ export default function Document() {
     <Html lang="es">
       <Head>
         <meta
+          name="google-site-verification"
+          content="vso4G0Xb2c-JXHs-qDo9kcnB9wFraUCuom9XxTWHJAA"
+        />
+        <meta
           name="theme-color"
           content="#FFFFFF"
           media="(prefers-color-scheme: light)"
