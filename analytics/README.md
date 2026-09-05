@@ -54,3 +54,28 @@ All data lives in the `umami-db-data` volume. Back it up before any upgrade:
 ```bash
 docker compose exec -T db pg_dump -U umami umami | gzip > umami-$(date +%F).sql.gz
 ```
+
+## Activar en producción (pendiente)
+
+El sitio ya trae la integración cableada en `src/components/Analytics.js`.
+No renderiza nada mientras falten las variables, así que activarlo no
+requiere tocar código.
+
+Pasos, cuando haya un host público:
+
+1. Deployar este mismo `docker-compose.yml` a un VPS o PaaS, detrás de un
+   proxy con TLS (Caddy o Traefik).
+2. Apuntar un subdominio, por ejemplo `analytics.onilabs.site`, a ese host.
+3. En Vercel, en el proyecto `onilabs-web`, agregar como variables normales
+   (no secretas: son `NEXT_PUBLIC_*`, viajan al navegador de todos modos):
+
+   NEXT_PUBLIC_UMAMI_URL=https://analytics.onilabs.site
+   NEXT_PUBLIC_UMAMI_WEBSITE_ID=d9452480-c136-4ec4-839e-fc149031db0f
+
+4. Redeployar. El script se carga desde `/metrics.js`.
+
+El `website_id` de arriba corresponde al sitio ya creado en esta instancia
+local. Si se levanta una instancia nueva desde cero, el id va a ser otro.
+
+Nota: el sitio está cargado en Umami con dominio `onilabs.site`, pero el
+host canónico del sitio es `www.onilabs.site`. Conviene alinearlos.
