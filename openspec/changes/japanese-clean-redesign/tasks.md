@@ -119,7 +119,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
   generates 16 project pages. `curl localhost:3000/sitemap.xml` (or read the built output)
   shows 16 project URLs with no HooBank slug.
 
-### T1.8 — Inline-hex and inline-style-mutation removal in `AllProjects.js` / `FeaturedProjects.js`
+### T1.8 — Inline-hex and inline-style-mutation removal in `AllProjects.js` / `FeaturedProjects.js` [x]
 
 - **Spec link**: `specs/portfolio-catalog/spec.md` — "No inline hex or style mutation in
   catalog components" (both scenarios)
@@ -140,7 +140,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
   (excluding comments) returns zero matches. `rg '\.style\.' src/components/AllProjects.js src/components/FeaturedProjects.js`
   returns zero matches. `npm run build` and `npm run lint` pass.
 
-### T1.9 — Heading order fix in `AllProjects.js`
+### T1.9 — Heading order fix in `AllProjects.js` [x]
 
 - **Spec link**: `specs/portfolio-catalog/spec.md` — "Heading order does not skip levels"
 - **Depends on**: none

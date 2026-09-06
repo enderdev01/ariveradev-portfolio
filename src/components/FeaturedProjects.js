@@ -40,7 +40,6 @@ export default function FeaturedProjects() {
               key={proyecto.id}
               delay={i * 110}
               className="bg-white rounded-2xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
-              style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
               {/* Image */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-border">
@@ -65,10 +64,7 @@ export default function FeaturedProjects() {
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block text-text-secondary text-sm font-medium py-2 px-5 rounded-md transition-colors duration-fast ease-out-expo"
-                      style={{ background: "#E2E8F0" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "#CBD5E1")}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "#E2E8F0")}
+                      className="inline-block bg-border hover:bg-slate-300 text-text-secondary text-sm font-medium py-2 px-5 rounded-md transition-colors duration-fast ease-out-expo"
                     >
                       Ver proyecto
                     </a>
@@ -88,8 +84,7 @@ export default function FeaturedProjects() {
           <Reveal delay={150}>
             <Link
               href="/proyectos"
-              className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full transition-colors duration-fast ease-out-expo text-sm uppercase tracking-wider inline-block"
-              style={{ boxShadow: "0 4px 14px 0 rgba(37,99,235,0.39)" }}
+              className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full transition-colors duration-fast ease-out-expo text-sm uppercase tracking-wider inline-block shadow-lg shadow-primary/25"
             >
               Ver más proyectos
             </Link>

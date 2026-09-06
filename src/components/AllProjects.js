@@ -17,6 +17,14 @@ const CATEGORIAS = [
   { label: "Próximamente", value: "proximamente", featured: true },
 ];
 
+// Filter pill classes. Colors are provisional Tailwind utilities for Phase 1
+// (pink for the "featured" próximamente pill has no Ai-Zome token yet); the
+// final token classes (border-seal/text-seal per D4/D2) land in Phase 2 (T2.6).
+const PILL_IDLE = "border border-border text-text-muted hover:border-primary hover:text-primary";
+const PILL_ACTIVE = "border border-primary text-primary bg-primary/10";
+const PILL_FEATURED_IDLE = "border border-pink-300 text-pink-700 bg-pink-50 hover:border-pink-400";
+const PILL_FEATURED_ACTIVE = "border border-pink-600 text-white bg-pink-600 shadow-md shadow-pink-600/20";
+
 export default function AllProjects() {
   const [activa, setActiva] = useState("all");
 
@@ -48,31 +56,15 @@ export default function AllProjects() {
               <button
                 key={cat.value}
                 onClick={() => setActiva(cat.value)}
-                className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast ease-out-expo"
-                style={{
-                  border: cat.featured
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast ease-out-expo ${
+                  cat.featured
                     ? activa === cat.value
-                      ? "1px solid #DB2777"
-                      : "1px solid #F9A8D4"
+                      ? PILL_FEATURED_ACTIVE
+                      : PILL_FEATURED_IDLE
                     : activa === cat.value
-                      ? "1px solid #2563EB"
-                      : "1px solid #E2E8F0",
-                  color: cat.featured
-                    ? activa === cat.value
-                      ? "#FFFFFF"
-                      : "#BE185D"
-                    : activa === cat.value
-                      ? "#2563EB"
-                      : "#64748B",
-                  background: cat.featured
-                    ? activa === cat.value
-                      ? "#DB2777"
-                      : "#FDF2F8"
-                    : activa === cat.value
-                      ? "#EFF6FF"
-                      : "transparent",
-                  boxShadow: cat.featured && activa === cat.value ? "0 8px 18px rgba(219, 39, 119, 0.22)" : "none",
-                }}
+                      ? PILL_ACTIVE
+                      : PILL_IDLE
+                }`}
               >
                 {cat.label}
               </button>
@@ -86,7 +78,6 @@ export default function AllProjects() {
             <article
               key={proyecto.id}
               className="bg-white rounded-xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
-              style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
               {/* Image */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
@@ -98,7 +89,7 @@ export default function AllProjects() {
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
+                <h2 className="text-xl font-bold text-text-primary mb-3 leading-tight">
                   {proyectosSeo[proyecto.id] ? (
                     <Link
                       href={`/proyectos/${proyectosSeo[proyecto.id].slug}`}
@@ -109,7 +100,7 @@ export default function AllProjects() {
                   ) : (
                     proyecto.nombre
                   )}
-                </h3>
+                </h2>
                 <p className="text-text-secondary text-sm mb-4 flex-grow leading-relaxed">
                   {proyecto.descripcion}
                 </p>
@@ -117,8 +108,7 @@ export default function AllProjects() {
                   {proyecto.stack?.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 rounded-md text-xs font-medium text-text-muted"
-                      style={{ background: "#F1F5F9" }}
+                      className="px-3 py-1 rounded-md text-xs font-medium text-text-muted bg-surface-alt"
                     >
                       {tech}
                     </span>
@@ -130,10 +120,7 @@ export default function AllProjects() {
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
-                      style={{ background: "#2563EB" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "#1E40AF")}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "#2563EB")}
+                      className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
                     >
                       Ver proyecto
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
