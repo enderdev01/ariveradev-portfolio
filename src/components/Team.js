@@ -7,13 +7,13 @@ export default function Team() {
     <section
       id="equipo"
       className="
-        py-20 lg:py-32
+        py-16 lg:py-20
         w-full
         bg-gradient-to-b from-surface via-surface to-background
       "
     >
       <div className="w-full px-4 sm:px-8 lg:px-16">
-        <div className="text-center mb-16 lg:mb-24">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 text-text-primary">
               Nuestro Equipo
@@ -75,7 +75,7 @@ export default function Team() {
                 {miembro.nombre}
               </h3>
 
-              <p className="relative z-10 text-accent mb-4 lg:mb-6 font-semibold text-sm lg:text-base">
+              <p className="relative z-10 text-accent-strong mb-4 lg:mb-6 font-semibold text-sm lg:text-base">
                 {miembro.rol}
               </p>
 
