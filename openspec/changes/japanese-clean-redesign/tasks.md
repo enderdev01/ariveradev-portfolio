@@ -166,7 +166,11 @@ Flagging for the orchestrator/reviewer rather than silently forcing a false "16"
 - **Verification**: Manual DOM inspection of rendered heading order confirms sequential
   levels (h1 → h2 → h3, no skip).
 
-### T1.10 — Hero image weight fix (hard prerequisite for Phase 4)
+### T1.10 — Hero image weight fix (hard prerequisite for Phase 4) [x]
+
+**Measured result**: `public/fondoHero1.webp` is 21 KB (well under the ≤180 kB target),
+resized to 1920×1080 at quality 72 via `sips` + `cwebp`. `public/fondoHero1.png` (5.8 MB)
+deleted. `priority` retained in `Hero.js` per D8.
 
 - **Spec link**: `specs/project-showcase-3d/spec.md` — "Hero image fix is a hard
   prerequisite" (both scenarios)
