@@ -10,7 +10,7 @@ export default function Footer() {
   // where a bare hash would resolve against the current page and do nothing.
   const navLinks = [
     { href: "/#servicios", label: "Especialidades" },
-    { href: "/#proyectos", label: "Repositorio" },
+    { href: "/#proyectos", label: "Proyectos" },
     { href: "/#proceso", label: "Proceso" },
     { href: "/#equipo", label: "Equipo" },
     { href: "/#contactanos", label: "Contacto" },

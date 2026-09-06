@@ -95,7 +95,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
   after waiting past the old timeout duration with no further action. `npm run build` and
   `npm run lint` pass.
 
-### T1.6 — Nav label renames
+### T1.6 — Nav label renames [x]
 
 - **Spec link**: proposal Success Criteria — "Nav reads 'Proyectos' and 'Equipo'"
 - **Depends on**: none

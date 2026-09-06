@@ -33,9 +33,9 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/#servicios", label: "Especialidades" },
-    { href: "/#proyectos", label: "Repositorio" },
+    { href: "/#proyectos", label: "Proyectos" },
     { href: "/#proceso", label: "Metodología" },
-    { href: "/#equipo", label: "Colaboradores" },
+    { href: "/#equipo", label: "Equipo" },
   ];
 
   return (
