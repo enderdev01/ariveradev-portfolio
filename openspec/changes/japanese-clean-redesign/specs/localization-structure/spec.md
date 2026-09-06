@@ -68,5 +68,9 @@ crawlable locale.
 
 - GIVEN the generated sitemap output
 - WHEN inspected after HooBank removal and the `{es,en}` restructuring
-- THEN the URL count matches 16 projects
+- THEN the URL count matches 15 projects
 - AND no broken or orphaned slug is present
+- NOTE: the indexable-project count is 15, not 16 — `proyectosSeo` never had
+  an entry for id 17 (`proximamente`), which is excluded from indexing by
+  design (D5). The catalog (`proyectosReales`) holds 16 projects; the sitemap
+  indexable set is 15.

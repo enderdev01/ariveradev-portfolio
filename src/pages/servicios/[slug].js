@@ -2,10 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { serviciosSeo, getServicioSeo } from "../../data/servicios-seo";
+import { getServiciosSeo, getServicioSeo } from "../../data/servicios-seo";
 import { SITE_URL } from "../../lib/site";
+import { DEFAULT_LOCALE } from "../../lib/i18n";
 
 export default function ServicioPage({ servicio }) {
+  const serviciosSeo = getServiciosSeo(DEFAULT_LOCALE);
   const pageUrl = `${SITE_URL}/servicios/${servicio.slug}`;
 
   const structuredData = {
@@ -156,7 +158,7 @@ export default function ServicioPage({ servicio }) {
               </p>
               <Link
                 href="/#contactanos"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors"
               >
                 Contactanos
               </Link>
@@ -191,6 +193,7 @@ export default function ServicioPage({ servicio }) {
 }
 
 export function getStaticPaths() {
+  const serviciosSeo = getServiciosSeo(DEFAULT_LOCALE);
   return {
     paths: serviciosSeo.map((servicio) => ({
       params: { slug: servicio.slug },
@@ -200,7 +203,7 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps({ params }) {
-  const servicio = getServicioSeo(params.slug);
+  const servicio = getServicioSeo(params.slug, DEFAULT_LOCALE);
   if (!servicio) return { notFound: true };
   return { props: { servicio } };
 }

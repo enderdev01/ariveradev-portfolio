@@ -117,7 +117,7 @@ export default function Navbar() {
               className="
                 ml-3 bg-primary text-white
                 px-5 py-2.5 rounded-lg font-bold text-sm
-                hover:bg-primary-dark
+                hover:bg-primary/90
                 transition-all duration-fast ease-out-expo
                 hover:shadow-md hover:shadow-primary/20
               "
@@ -197,7 +197,7 @@ export default function Navbar() {
                   block
                   bg-primary text-white
                   px-6 py-3 rounded-lg text-center font-bold
-                  hover:bg-primary-dark transition-colors duration-fast ease-out-expo
+                  hover:bg-primary/90 transition-colors duration-fast ease-out-expo
                 "
                 onClick={(e) => handleNavClick(e, "/#contactanos")}
                 tabIndex={isMenuOpen ? 0 : -1}

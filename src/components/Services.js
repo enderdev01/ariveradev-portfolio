@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Reveal from "./Reveal";
-import { servicios } from "../data/onilabs";
+import { getServicios } from "../data/onilabs";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 
 export default function Services() {
+  const servicios = getServicios(DEFAULT_LOCALE);
   return (
-    <section id="servicios" className="py-16 sm:py-20 bg-baseEsp">
+    <section id="servicios" className="py-16 sm:py-20 bg-washi">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>

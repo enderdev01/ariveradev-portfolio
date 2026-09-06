@@ -1,4 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+const tokens = require("./src/styles/tokens");
+
+const colorEntries = Object.fromEntries(
+  Object.entries(tokens).map(([name, triple]) => [
+    name,
+    `rgb(var(--${name}-rgb) / <alpha-value>)`,
+  ]),
+);
+
 module.exports = {
   darkMode: "class",
   content: [
@@ -10,35 +20,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        burtons: ["burtons", "sans-serif"],
-        quantico: ["var(--font-quantico)"],
+        display: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
+        sans: ["var(--font-ibm-plex-sans)", "IBM Plex Sans", "system-ui", "sans-serif"],
       },
       colors: {
-        background: "#FFFFFF",
-        surface: "#F8FAFC",
-        "surface-alt": "#F1F5F9",
-        baseEsp: "#F9F7F2",
-
-        "text-primary": "#0F172A",
-        "text-secondary": "#334155",
-        "text-muted": "#5B6A7D",
-
-        primary: "#2563EB",
-        "primary-soft": "#DBEAFE",
-        "primary-dark": "#1E40AF",
-
-        accent: "#0EA5E9",
-        "accent-soft": "#E0F2FE",
-        // Text-safe accent: #0EA5E9 is 2.77:1 on white and fails WCAG AA.
-        "accent-strong": "#0369A1",
-
-        success: "#16A34A",
-        // Text-safe success: #16A34A is 2.79:1 on the success/10 tint and fails AA.
-        "success-strong": "#166534",
-        warning: "#F59E0B",
-        error: "#DC2626",
-
-        border: "#E2E8F0",
+        ...colorEntries,
       },
 
       /* ===== Motion system tokens ===== */
@@ -72,5 +58,14 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addBase }) => {
+      const vars = {};
+      for (const [name, triple] of Object.entries(tokens)) {
+        vars[`--${name}-rgb`] = triple;
+        vars[`--${name}`] = `rgb(var(--${name}-rgb))`;
+      }
+      addBase({ ":root": vars });
+    }),
+  ],
 };

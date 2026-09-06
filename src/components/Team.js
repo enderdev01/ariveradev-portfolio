@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
-import { equipo } from "../data/onilabs";
+import { getEquipo } from "../data/onilabs";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 
 export default function Team() {
+  const equipo = getEquipo(DEFAULT_LOCALE);
   return (
     <section
       id="equipo"
@@ -75,7 +77,7 @@ export default function Team() {
                 {miembro.nombre}
               </h3>
 
-              <p className="relative z-10 text-accent-strong mb-4 lg:mb-6 font-semibold text-sm lg:text-base">
+              <p className="relative z-10 text-accent mb-4 lg:mb-6 font-semibold text-sm lg:text-base">
                 {miembro.rol}
               </p>
 

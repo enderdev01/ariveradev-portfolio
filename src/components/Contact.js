@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiOutlineLinkedin, AiOutlineMail } from "react-icons/ai";
 import Reveal from "./Reveal";
+import Hanko from "./marks/Hanko";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
 export default function Contact() {
@@ -214,30 +215,33 @@ export default function Contact() {
               </div>
 
               <div className="md:col-span-2">
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className={`
-                    group w-full py-3.5 rounded-xl text-base font-semibold transition-all duration-base ease-out-expo
-                    flex items-center justify-center gap-2
-                    ${status === "idle" ? "bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25" : ""}
-                    ${status === "loading" ? "bg-text-muted text-white cursor-not-allowed" : ""}
-                    ${status === "success" ? "bg-success text-white" : ""}
-                    ${status === "error" ? "bg-error text-white" : ""}
-                  `}
-                >
-                  {status === "idle" && (
-                    <>
-                      Enviar mensaje
-                      <svg className="w-5 h-5 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </>
-                  )}
-                  {status === "loading" && "Enviando..."}
-                  {status === "success" && "Mensaje enviado"}
-                  {status === "error" && "Reintentar"}
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className={`
+                      group w-full py-3.5 rounded-xl text-base font-semibold transition-all duration-base ease-out-expo
+                      flex items-center justify-center gap-2
+                      ${status === "idle" ? "bg-primary text-white hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25" : ""}
+                      ${status === "loading" ? "bg-text-muted text-white cursor-not-allowed" : ""}
+                      ${status === "success" ? "bg-success text-white" : ""}
+                      ${status === "error" ? "bg-error text-white" : ""}
+                    `}
+                  >
+                    {status === "idle" && (
+                      <>
+                        Enviar mensaje
+                        <svg className="w-5 h-5 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </>
+                    )}
+                    {status === "loading" && "Enviando..."}
+                    {status === "success" && "Mensaje enviado"}
+                    {status === "error" && "Reintentar"}
+                  </button>
+                  <Hanko className="w-8 h-8 shrink-0" title="Sello OniLabs" />
+                </div>
               </div>
             </form>
           </Reveal>

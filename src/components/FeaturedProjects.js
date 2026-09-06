@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { proyectosReales } from "../data/onilabs";
+import { getProyectosReales } from "../data/onilabs";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 import ProjectBadges from "./ProjectBadges";
 import ProjectVisual from "./ProjectVisual";
 import Reveal from "./Reveal";
+import Hanko from "./marks/Hanko";
 
 export default function FeaturedProjects() {
+  const proyectosReales = getProyectosReales(DEFAULT_LOCALE);
   const proyectosDestacados = proyectosReales
     .filter((proyecto) => proyecto.estado !== "proximamente" && !proyecto.sinSoporte)
     .slice(0, 3);
@@ -58,13 +61,15 @@ export default function FeaturedProjects() {
                 <p className="text-text-secondary text-sm mb-6 flex-grow leading-relaxed">
                   {proyecto.descripcion}
                 </p>
-                <div>
+                <div className="flex items-center gap-3">
+                  <Hanko className="w-6 h-6 shrink-0" title={`Sello ${proyecto.nombre}`} />
+                  <div>
                   {proyecto.url && !proyecto.sinSoporte ? (
                     <a
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block bg-border hover:bg-slate-300 text-text-secondary text-sm font-medium py-2 px-5 rounded-md transition-colors duration-fast ease-out-expo"
+                      className="inline-block border border-border hover:border-primary hover:text-primary text-text-secondary text-sm font-medium py-2 px-5 rounded-md transition-colors duration-fast ease-out-expo"
                     >
                       Ver proyecto
                     </a>
@@ -73,6 +78,7 @@ export default function FeaturedProjects() {
                       {proyecto.sinSoporte ? "Sin soporte activo" : "Próximamente"}
                     </span>
                   )}
+                  </div>
                 </div>
               </div>
             </Reveal>
@@ -84,7 +90,7 @@ export default function FeaturedProjects() {
           <Reveal delay={150}>
             <Link
               href="/proyectos"
-              className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full transition-colors duration-fast ease-out-expo text-sm uppercase tracking-wider inline-block shadow-lg shadow-primary/25"
+              className="bg-primary hover:bg-primary/90 text-white font-semibold py-4 px-12 rounded-full transition-colors duration-fast ease-out-expo text-sm uppercase tracking-wider inline-block shadow-lg shadow-primary/25"
             >
               Ver más proyectos
             </Link>

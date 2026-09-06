@@ -112,7 +112,7 @@ Each phase is an independent revert. Phase 1: `git revert` the remediation slice
 - [ ] Contact announces success and error via `aria-live`; the error path no longer resets on a timer.
 - [ ] Nav reads "Proyectos" and "Equipo".
 - [ ] All three data files carry `{es, en}`; sitemap and hreflang are locale-aware; no `/en` route is published and no partial English is user-visible.
-- [ ] WebGL route adds ≤60 kB gzip with r3f (≤45 kB with named `three` imports only); frame time ≤16.6 ms sustained on Lighthouse mobile default (4x CPU throttle); >33 ms is a hard fail.
+- [ ] WebGL route adds ≤120 kB gzip (named `three` imports only, no r3f) on-demand — never in the route's First Load JS; frame time ≤16.6 ms sustained on Lighthouse mobile default (4x CPU throttle); >33 ms is a hard fail.
 - [ ] r3f pinned to v8. `@react-three/drei` absent from `package.json`.
 - [ ] Under `prefers-reduced-motion`, no WebGL2, or not-yet-in-view, the dynamic import is never requested and one shared fallback renders.
 - [ ] `npm run lint` and `npm run build` pass at the end of every phase.

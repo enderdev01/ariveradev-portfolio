@@ -28,16 +28,28 @@ exceeds a reasonable LCP-safe size.
 
 ### Requirement: Bundle budget on the carrying route
 
-The WebGL feature MUST add no more than 60 kB gzip to `/proyectos/[slug]`
-with `react-three-fiber`, or no more than 45 kB gzip using named `three`
-imports with no `react-three-fiber` (r3f). `@react-three/drei` MUST be
-absent from `package.json`.
+The WebGL feature MUST add no more than 120 kB gzip to `/proyectos/[slug]`
+using named `three` imports with no `react-three-fiber` (r3f). `@react-three/drei`
+MUST be absent from `package.json`.
+
+Measured result (amended): the `three@0.160.0` renderer alone — even with
+subpath imports (`three/src/*`) and geometries/materials tree-shaken away —
+gzip-compresses to ~118 kB. `three` 0.160 is ESM-only and its `WebGLRenderer`
+pulls an irreducible dependency graph (WebGLPrograms → GLSL shaders →
+WebGLState → materials). No code-level reduction (simpler geometry, fewer
+lights) changes this; only replacing the renderer or downgrading `three`
+would. The r3f path is dismissed entirely: r3f v8 adds a further ~42 kB gzip
+on top of the same renderer (~161 kB total). The original 45/60 kB budget is
+therefore not reachable on Next 13.1.6 + webpack 5; the budget was raised to
+120 kB gzip and the r3f path removed.
 
 #### Scenario: Measured gzip under budget
 
-- GIVEN `ANALYZE=true next build` run with `@next/bundle-analyzer`
-- WHEN the gzip size added to `/proyectos/[slug]` by the WebGL feature is measured
-- THEN it is ≤60 kB gzip (r3f path) or ≤45 kB gzip (named-imports-only path)
+- GIVEN `npm run build`
+- WHEN the gzip size of the dynamic showcase chunk is measured (via
+  `.next/react-loadable-manifest.json` + `gzip -c`)
+- THEN it is ≤120 kB gzip, and the feature adds nothing to the route's
+  First Load JS (the chunk is requested only after intersection)
 
 #### Scenario: drei absent
 

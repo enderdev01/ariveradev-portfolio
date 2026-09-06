@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { proyectosReales } from "../data/onilabs";
-import { proyectosSeo } from "../data/proyectos-seo";
+import { getProyectosReales } from "../data/onilabs";
+import { getProyectosSeo } from "../data/proyectos-seo";
 import { toCategoryKey } from "../lib/categories";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 import ProjectVisual from "./ProjectVisual";
+import Hanko from "./marks/Hanko";
 
 const CATEGORIAS = [
   { label: "Todos", value: "all" },
@@ -17,16 +19,17 @@ const CATEGORIAS = [
   { label: "Próximamente", value: "proximamente", featured: true },
 ];
 
-// Filter pill classes. Colors are provisional Tailwind utilities for Phase 1
-// (pink for the "featured" próximamente pill has no Ai-Zome token yet); the
-// final token classes (border-seal/text-seal per D4/D2) land in Phase 2 (T2.6).
-const PILL_IDLE = "border border-border text-text-muted hover:border-primary hover:text-primary";
-const PILL_ACTIVE = "border border-primary text-primary bg-primary/10";
-const PILL_FEATURED_IDLE = "border border-pink-300 text-pink-700 bg-pink-50 hover:border-pink-400";
-const PILL_FEATURED_ACTIVE = "border border-pink-600 text-white bg-pink-600 shadow-md shadow-pink-600/20";
+// Filter pill classes — final Ai-Zome tokens (D4). Idle/active shared with every
+// filter; próximamente ("featured") uses the seal accent.
+const PILL_IDLE = "border border-border text-text-muted hover:border-accent hover:text-accent";
+const PILL_ACTIVE = "border border-primary text-primary bg-primary-soft";
+const PILL_FEATURED_IDLE = "border border-seal text-seal hover:bg-seal/5";
+const PILL_FEATURED_ACTIVE = "border border-seal text-seal bg-seal/10";
 
 export default function AllProjects() {
   const [activa, setActiva] = useState("all");
+  const proyectosReales = getProyectosReales(DEFAULT_LOCALE);
+  const proyectosSeo = getProyectosSeo(DEFAULT_LOCALE);
 
   const proyectosFiltrados = proyectosReales.filter((proyecto) => {
     const esProximamente = proyecto.estado === "proximamente";
@@ -114,13 +117,15 @@ export default function AllProjects() {
                     </span>
                   ))}
                 </div>
-                <div>
+                <div className="flex items-center gap-3">
+                  <Hanko className="w-6 h-6 shrink-0" title={`Sello ${proyecto.nombre}`} />
+                  <div>
                   {proyecto.url && !proyecto.sinSoporte ? (
                     <a
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
+                      className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
                     >
                       Ver proyecto
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -132,6 +137,7 @@ export default function AllProjects() {
                       {proyecto.sinSoporte ? "Sin soporte activo" : "Próximamente"}
                     </span>
                   )}
+                  </div>
                 </div>
               </div>
             </article>

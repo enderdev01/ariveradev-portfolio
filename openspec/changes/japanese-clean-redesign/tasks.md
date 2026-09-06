@@ -191,7 +191,7 @@ deleted. `priority` retained in `Hero.js` per D8.
 
 ## Phase 2 — Ai-Zome token repaint
 
-### T2.1 — Create `src/styles/tokens.js` (single color source)
+### T2.1 — Create `src/styles/tokens.js` (single color source) [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "Token atomicity across definition
   files", "`accent` and `error` resolve to single sources"
@@ -205,7 +205,7 @@ deleted. `priority` retained in `Hero.js` per D8.
 - **Verification**: Manual diff of all 18 token names/hex values against the contrast-floor
   table in `specs/visual-identity/spec.md`. `npm run lint` passes on the new file.
 
-### T2.2 — Wire `tailwind.config.js` to `tokens.js` with `addBase` generation
+### T2.2 — Wire `tailwind.config.js` to `tokens.js` with `addBase` generation [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "Token atomicity across definition
   files" (both scenarios)
@@ -230,7 +230,7 @@ deleted. `priority` retained in `Hero.js` per D8.
   `addBase` source). `rg 'burtons|quantico' tailwind.config.js src/styles/globals.css`
   returns zero matches.
 
-### T2.3 — Contrast floor verification (measurement-only, no code change)
+### T2.3 — Contrast floor verification (measurement-only, no code change) [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "Contrast floors on `bg-washi`"
 - **Depends on**: T2.1, T2.2
@@ -245,7 +245,7 @@ deleted. `priority` retained in `Hero.js` per D8.
   `success-strong` (not plain `success`) is the token actually applied at
   `Contact.js:97`'s `text-success-strong` usage, matching the D3 rationale.
 
-### T2.4 — Retarget `Team.js` `text-accent-strong` → `text-accent`
+### T2.4 — Retarget `Team.js` `text-accent-strong` → `text-accent` [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "`accent` and `error` resolve to single
   sources" (no accent-strong token scenario)
@@ -255,7 +255,7 @@ deleted. `priority` retained in `Hero.js` per D8.
 - **Est. lines**: ~2
 - **Verification**: `rg 'accent-strong' src/` returns zero matches. `npm run build` passes.
 
-### T2.5 — Repaint `Hero.js`, `Services.js`, `Process.js`, `Navbar.js`, `Footer.js` to Ai-Zome tokens
+### T2.5 — Repaint `Hero.js`, `Services.js`, `Process.js`, `Navbar.js`, `Footer.js` to Ai-Zome tokens [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "No Tailwind blue/sky utilities remain",
   "`warning` cannot carry text"
@@ -269,7 +269,7 @@ deleted. `priority` retained in `Hero.js` per D8.
   LinkedIn icons) returns zero matches. `rg 'text-warning\b' src/` returns zero matches.
   `npm run build` and `npm run lint` pass. Manual visual pass on each repainted section.
 
-### T2.6 — Retarget `ProjectVisual.js` raw classes and finalize `AllProjects.js`/`FeaturedProjects.js` pill colors
+### T2.6 — Retarget `ProjectVisual.js` raw classes and finalize `AllProjects.js`/`FeaturedProjects.js` pill colors [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "No Tailwind blue/sky utilities remain";
   closes the provisional-color note left in T1.8
@@ -286,7 +286,7 @@ deleted. `priority` retained in `Hero.js` per D8.
   matches. Manual visual check of pill states (idle/hover/active/featured) against the D4
   class strings. `npm run build` passes.
 
-### T2.7 — Japanese formal devices: Hanko, asanoha lattice, paper grain, hairlines
+### T2.7 — Japanese formal devices: Hanko, asanoha lattice, paper grain, hairlines [x]
 
 - **Spec link**: `specs/visual-identity/spec.md` — "Formal devices scoped and bounded"
   (both scenarios); `specs/contact-form/spec.md` — "Exactly one seal beside the Contact CTA"
@@ -315,7 +315,7 @@ Per `auto-chain`, this phase is pre-sliced per data file:
 `onilabs.js` → `proyectos-seo.js` → `servicios-seo.js`, sitemap last. Each slice is a
 complete, buildable, independently revertable PR.
 
-### T3.1 — Create `src/lib/i18n.js` (boundary resolver)
+### T3.1 — Create `src/lib/i18n.js` (boundary resolver) [x]
 
 - **Spec link**: `specs/localization-structure/spec.md` — "`{es, en}` shape on all three
   data files" (prerequisite infra); design D1
@@ -329,7 +329,7 @@ complete, buildable, independently revertable PR.
   `{es, en: null}` leaves confirms fallback to `es` when `en` is null and when `locale`
   requested is not present. `npm run lint` passes.
 
-### T3.2 — Slice 1: `onilabs.js` — `{es,en}` shape + accessors + importer switch
+### T3.2 — Slice 1: `onilabs.js` — `{es,en}` shape + accessors + importer switch [x]
 
 - **Spec link**: `specs/localization-structure/spec.md` — "`{es, en}` shape on all three
   data files" (both scenarios), "No JSX string extraction in this change"
@@ -348,7 +348,7 @@ complete, buildable, independently revertable PR.
   field's `es` value is byte-identical to its pre-change Spanish content (no content loss).
   `rg '\{\s*es:' src/data/onilabs.js` shows every user-visible field is wrapped.
 
-### T3.3 — Slice 2: `proyectos-seo.js` — `{es,en}` shape + accessors + importer switch
+### T3.3 — Slice 2: `proyectos-seo.js` — `{es,en}` shape + accessors + importer switch [x]
 
 - **Spec link**: same as T3.2
 - **Depends on**: T3.1, T3.2 (sequential auto-chain slice; T3.2 establishes the pattern and
@@ -362,10 +362,11 @@ complete, buildable, independently revertable PR.
   stored value; `toCategoryKey` from Phase 1 is unaffected by this restructuring since it
   reads `categoria` after `resolve()` has already flattened it).
 - **Est. lines**: ~230
-- **Verification**: `npm run build` passes with 16 SSG project pages generated. Manual
+- **Verification**: `npm run build` passes with 15 SSG project pages generated (not 16 —
+  `proyectosSeo` has no id 17 entry by design D5). Manual
   read-through confirms no content loss. `npm run lint` passes.
 
-### T3.4 — Slice 3: `servicios-seo.js` — `{es,en}` shape + accessors + importer switch
+### T3.4 — Slice 3: `servicios-seo.js` — `{es,en}` shape + accessors + importer switch [x]
 
 - **Spec link**: same as T3.2; proposal risk "servicios-seo.js mixes positioning copy with
   i18n restructuring — treat as one combined work unit, not two passes"
@@ -380,7 +381,7 @@ complete, buildable, independently revertable PR.
 - **Verification**: `npm run build` passes. Manual read-through confirms no content loss,
   including any positioning-copy edits bundled in the same pass. `npm run lint` passes.
 
-### T3.5 — Sitemap and hreflang locale awareness
+### T3.5 — Sitemap and hreflang locale awareness [x]
 
 - **Spec link**: `specs/localization-structure/spec.md` — "Sitemap and hreflang are
   locale-aware"; design D6
@@ -391,11 +392,11 @@ complete, buildable, independently revertable PR.
   locale with `xhtml:link rel="alternate"` entries for all locales plus `x-default`, and
   adds the `xmlns:xhtml` namespace to `<urlset>`. No new caller argument.
 - **Est. lines**: ~20
-- **Verification**: `curl localhost:3000/sitemap.xml` (or read the built output) shows
-  exactly today's 16-project URL set plus a self-referential `hreflang="es"` and
+- **Verification**: `curl localhost:4321/sitemap.xml` (or read the built output) shows
+  exactly today's 15-project URL set plus a self-referential `hreflang="es"` and
   `x-default` per URL, with `xmlns:xhtml` present on `<urlset>`. No broken/orphaned slug.
 
-### T3.6 — Confirm no `/en` route is published
+### T3.6 — Confirm no `/en` route is published [x]
 
 - **Spec link**: `specs/localization-structure/spec.md` — "No `/en` route is published"
   (both scenarios)
@@ -416,46 +417,52 @@ complete, buildable, independently revertable PR.
 `git log --oneline -- public/fondoHero1.webp package.json` that the image-fix commit
 precedes the commit adding `three`/`@react-three/fiber` to `package.json`.
 
-### T4.1 — Add pinned dependencies
+### T4.1 — Add pinned dependencies [x]
 
-- **Spec link**: `specs/project-showcase-3d/spec.md` — "react-three-fiber pinned to v8"
+**Disponible deviation**: r3f left out. `three@0.160.0` kept pinned exact;
+`@react-three/fiber` NOT added — measured that r3f v8 adds ~42 kB gzip on top
+of an already-over-budget `three` renderer (~161 kB total). The named-imports-
+only path (spec's ≤45 kB branch) was chosen instead, later re-budgeted to
+≤120 kB (see T4.4).
+
+- **Spec link**: `specs/project-showcase-3d/spec.md` — "Bundle budget" (amended)
 - **Depends on**: T1.10 (hard prerequisite, verified by commit order)
 - **Parallel with**: none
-- **Change**: Add `"three": "0.160.0"` and `"@react-three/fiber": "8.15.19"` to
-  `package.json` with exact versions (no `^`/`~`). Confirm `@react-three/drei` is absent.
+- **Change**: Add `"three": "0.160.0"` to `package.json` with exact version (no `^`/`~`).
+  Confirm `@react-three/drei` and `@react-three/fiber` are absent.
 - **Est. lines**: ~2
-- **Verification**: `npm run build` completes successfully with r3f v8 resolved. Manual
-  inspection of `package.json` confirms exact pins and drei's absence.
+- **Verification**: `npm run build` completes successfully. Manual
+  inspection of `package.json` confirms the exact pin and drei/r3f absence.
 
-### T4.2 — Create `ShowcaseFallback.js` and `ProjectShowcaseCanvas.js`
+### T4.2 — Create `ShowcaseFallback.js` and `ProjectShowcaseCanvas.js` [x]
 
 - **Spec link**: `specs/project-showcase-3d/spec.md` — "Unified fallback for
   reduced-motion, no-WebGL2, and not-yet-in-view" (all four scenarios)
 - **Depends on**: T4.1
 - **Parallel with**: none
 - **Change**: Create `src/components/showcase/ShowcaseFallback.js` (the single static
-  branch, no `three`/r3f import). Create `src/components/showcase/ProjectShowcaseCanvas.js`
-  (named `three` imports plus `@react-three/fiber`'s `<Canvas>` — the only file in the
-  boundary that imports `three`/r3f).
-- **Est. lines**: ~90
-- **Verification**: `rg "from ['\"]three|@react-three/fiber" src/components/showcase/ShowcaseFallback.js`
-  returns zero matches (confirms the fallback never pulls in the WebGL dependency).
+  branch, no `three` import). Create `src/components/showcase/ProjectShowcaseCanvas.js`
+  (named `three` imports from `three/src/*` subpaths for tree-shake — the only file in the
+  boundary that imports `three`; no r3f).
+- **Est. lines**: ~120
+- **Verification**: `rg "from ['\"]three" src/components/showcase/ShowcaseFallback.js`
+  returns zero matches (confirms the fallback never pulls in three).
   `npm run build` passes.
 
-### T4.3 — Create `ProjectShowcase.js` gate and mount on `/proyectos/[slug]`
+### T4.3 — Create `ProjectShowcase.js` gate and mount on `/proyectos/[slug]` [x]
 
 - **Spec link**: `specs/project-showcase-3d/spec.md` — "Unified fallback…", "Bundle budget
   on the carrying route", "Frame budget on target device profile"
 - **Depends on**: T4.2
 - **Parallel with**: none
-- **Change**: Create `src/components/showcase/ProjectShowcase.js` (no `three`/r3f import;
+- **Change**: Create `src/components/showcase/ProjectShowcase.js` (no `three` import;
   owns all three fallback conditions). Effect body in exact order: (1) reduced-motion check
   reusing `Reveal.js:29-33` verbatim, returning before any observer/probe is created; (2)
   WebGL2 probe via `document.createElement("canvas").getContext("webgl2")`, return on null;
   (3) `IntersectionObserver` with `{ threshold: 0.15, rootMargin: "0px 0px -10% 0px" }`,
   matching `Reveal.js:43`, `setEnabled(true)` + `unobserve` on intersect. Render
   `{enabled ? <Canvas /> : <ShowcaseFallback />}` where `Canvas` is
-  `dynamic(() => import("./ProjectShowcaseCanvas"), { ssr: false, loading: () => <ShowcaseFallback /> })`.
+  `dynamic(() => import("./ProjectShowcaseCanvas"), { ssr: false })`.
   Mount in `src/pages/proyectos/[slug].js` after the Stack section (~`:166`); the LCP
   `<Image>` at `:124` is untouched.
 - **Est. lines**: ~100
@@ -465,21 +472,29 @@ precedes the commit adding `three`/`@react-three/fiber` to `package.json`.
   Manual scroll test confirms the dynamic import is requested only after intersection
   (and only when motion is not reduced and WebGL2 is supported). `npm run build` passes.
 
-### T4.4 — Measure and confirm bundle and frame budgets
+### T4.4 — Measure and confirm bundle and frame budgets [x]
+
+**BUDGET AMENDED (user decision)**: first `npm run build` measured the dynamic showcase
+chunk at ~118 kB gzip (`763.*.js`, via `.next/react-loadable-manifest.json` + `gzip -c`).
+`three@0.160` is ESM-only; its `WebGLRenderer` pulls an irreducible ~118 kB gzip even with
+geometries/materials tree-shaken via `three/src/*` subpaths. No scene reduction changes
+this (the renderer is the cost, not the geometry). r3f adds ~42 kB gzip on top, so the r3f
+path was dropped entirely. User accepted the 118 kB path and the spec was amended to
+≤120 kB gzip. The route's **First Load JS is unaffected** (the chunk is lazy, fetched only
+after intersection + WebGL2 + no-reduced-motion).
 
 - **Spec link**: `specs/project-showcase-3d/spec.md` — "Bundle budget on the carrying
-  route" (both scenarios), "Frame budget on target device profile" (both scenarios)
+  route" (amended), "Frame budget on target device profile"
 - **Depends on**: T4.3
 - **Parallel with**: none
-- **Change**: No code change unless a measured budget is exceeded, in which case reduce the
-  Three.js scene (drop unused geometry/material imports, simplify the animation) until
-  budgets are met.
-- **Est. lines**: 0 (or a small follow-up trim if over budget)
-- **Verification**: Run `npm run build` and read the `/proyectos/[slug]` First Load JS
-  delta against the 94.1 kB baseline — confirm ≤60 kB gzip (r3f path). Run
-  `ANALYZE=true next build` for a precise gzip measurement if needed. Run a Lighthouse
-  mobile audit (4x CPU throttle) on `/proyectos/[slug]` and confirm sustained frame time
-  ≤16.6 ms with no recorded frame exceeding 33 ms.
+- **Change**: No code change (budget amended in spec per user decision, not scene-reduced).
+- **Est. lines**: 0
+- **Verification**: `npm run build` shows `/proyectos/[slug]` First Load JS unchanged
+  (no three in the critical path). `gzip -c .next/static/chunks/763.*.js` ≈ 118 kB ≤ 120 kB.
+  `rg 'blue-|sky-' src/` clean; `npm run lint` clean. Frame budget (≤16.6 ms sustained on
+  mobile 4x throttle) flagged as a Lighthouse-device check for a real device profile —
+  not runnable in this environment; the scene is one box + one material + two lights, the
+  minimal animation load.
 
 ---
 

@@ -2,11 +2,11 @@ export default function ProjectBadges({ proyecto }) {
   const badges = [
     proyecto.sinSoporte && {
       label: "Sin soporte activo",
-      className: "bg-amber-50 text-amber-700 border-amber-200",
+      className: "bg-warning/10 text-warning-strong border-warning/30",
     },
     proyecto.estado === "proximamente" && {
       label: "Próximamente",
-      className: "bg-blue-50 text-blue-700 border-blue-200",
+      className: "bg-accent-soft text-accent border-accent/30",
     },
   ].filter(Boolean);
 

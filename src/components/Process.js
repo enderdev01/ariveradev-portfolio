@@ -1,17 +1,16 @@
 import Reveal from "./Reveal";
-import { procesoi, procesop } from "../data/onilabs";
+import { getProceso, procesoi } from "../data/onilabs";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 
 export default function Process() {
-  const procesosOrdenados = [...procesoi, ...procesop].sort(
-    (a, b) => a.id - b.id,
-  );
+  const procesosOrdenados = getProceso(DEFAULT_LOCALE);
 
   return (
     <section
       id="proceso"
-      className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-background"
+      className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-background asanoha"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">

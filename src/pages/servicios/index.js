@@ -2,8 +2,9 @@ import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { serviciosSeo } from "../../data/servicios-seo";
+import { getServiciosSeo } from "../../data/servicios-seo";
 import { SITE_URL } from "../../lib/site";
+import { DEFAULT_LOCALE } from "../../lib/i18n";
 
 const PAGE_URL = `${SITE_URL}/servicios`;
 const TITLE = "Servicios de Desarrollo de Software en Perú | Onilabs";
@@ -11,6 +12,7 @@ const DESCRIPTION =
   "Servicios de desarrollo de software en Perú: web, apps móviles, ecommerce WooCommerce, integraciones de APIs, software a medida y mantenimiento.";
 
 export default function ServiciosPage() {
+  const serviciosSeo = getServiciosSeo(DEFAULT_LOCALE);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
