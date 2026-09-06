@@ -67,7 +67,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
   the 7 category chips shows the exact project set from the D5 table; confirm Santed
   appears under Plataformas and Onistore appears under Ecommerce.
 
-### T1.4 — Delete dead code: `Portfolio.js`, `Projects.js`, `index.js:7` import
+### T1.4 — Delete dead code: `Portfolio.js`, `Projects.js`, `index.js:7` import [x]
 
 - **Spec link**: proposal Success Criteria — "`Portfolio.js`, `Projects.js`, and the
   `index.js:7` import are gone"
