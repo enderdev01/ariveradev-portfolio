@@ -35,13 +35,13 @@ export default function ProjectVisual({
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col justify-between bg-primary p-5 text-white">
+    <div className="absolute inset-0 flex flex-col justify-between bg-primary-fill p-5 text-white">
       <div className="flex justify-between gap-3">
         {showBadges && <ProjectBadges proyecto={proyecto} />}
-        <span className="text-xs font-medium text-surface/60">Sin imagen</span>
+        <span className="text-xs font-medium text-white/70">Sin imagen</span>
       </div>
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-accent-soft">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary-soft">
           Onilabs
         </p>
         <p className="mt-2 max-w-[14rem] text-2xl font-bold leading-tight">

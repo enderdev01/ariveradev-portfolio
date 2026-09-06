@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiOutlineLinkedin, AiOutlineMail } from "react-icons/ai";
 import Reveal from "./Reveal";
+import InkReveal from "./InkReveal";
 import Hanko from "./marks/Hanko";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
@@ -68,7 +69,8 @@ export default function Contact() {
   return (
     <section
       id="contactanos"
-      className="py-16 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
+      data-oni-section="contact"
+      className="relative py-16 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface/80 to-surface-alt/80"
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10 sm:mb-12">
@@ -77,11 +79,9 @@ export default function Contact() {
               Hablemos
             </p>
           </Reveal>
-          <Reveal blur delay={90}>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
-              Contáctanos
-            </h2>
-          </Reveal>
+          <InkReveal className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
+            Contáctanos
+          </InkReveal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
@@ -222,7 +222,7 @@ export default function Contact() {
                     className={`
                       group w-full py-3.5 rounded-xl text-base font-semibold transition-all duration-base ease-out-expo
                       flex items-center justify-center gap-2
-                      ${status === "idle" ? "bg-primary text-white hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25" : ""}
+                      ${status === "idle" ? "bg-primary-fill text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary-fill/25" : ""}
                       ${status === "loading" ? "bg-text-muted text-white cursor-not-allowed" : ""}
                       ${status === "success" ? "bg-success text-white" : ""}
                       ${status === "error" ? "bg-error text-white" : ""}

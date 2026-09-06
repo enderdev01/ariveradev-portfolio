@@ -20,8 +20,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
-        sans: ["var(--font-ibm-plex-sans)", "IBM Plex Sans", "system-ui", "sans-serif"],
+        display: ["Archivo Black", "Noto Sans JP", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Noto Sans", "Noto Sans JP", "system-ui", "sans-serif"],
       },
       colors: {
         ...colorEntries,

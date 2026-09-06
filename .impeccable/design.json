@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-06T16:26:36.023Z",
+  "title": "Design System: OniLabs",
+  "extensions": {
+    "colorMeta": {
+      "void": {
+        "role": "neutral",
+        "displayName": "Void",
+        "canonical": "#080616",
+        "cssVar": "--background",
+        "note": "Luminance 0.0024. Channel spread of 16, so it reads calm rather than tinted. White reaches 20.04:1.",
+        "tonalRamp": [
+          "#0E0A26",
+          "#181242",
+          "#221A5E",
+          "#2D217A",
+          "#372996",
+          "#4131B3",
+          "#4C39D1",
+          "#5842F2"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#1A1953",
+        "cssVar": "--surface",
+        "note": "One tonal step up from the void (1.25).",
+        "tonalRamp": [
+          "#0C0C26",
+          "#151442",
+          "#1E1C5E",
+          "#26257A",
+          "#2F2D96",
+          "#3836B3",
+          "#423FD1",
+          "#4C49F2"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Surface Raised",
+        "canonical": "#162E93",
+        "cssVar": "--surface-alt",
+        "note": "The highest tonal step (1.41 above surface).",
+        "tonalRamp": [
+          "#060C26",
+          "#0A1542",
+          "#0E1E5E",
+          "#12267A",
+          "#172F96",
+          "#1B38B3",
+          "#1F41D1",
+          "#244CF2"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#162E93",
+        "cssVar": "--border",
+        "note": "Same value as Surface Raised. A border in this system is a tonal edge, not a drawn line.",
+        "tonalRamp": [
+          "#060C26",
+          "#0A1542",
+          "#0E1E5E",
+          "#12267A",
+          "#172F96",
+          "#1B38B3",
+          "#1F41D1",
+          "#244CF2"
+        ]
+      },
+      "ink-white": {
+        "role": "neutral",
+        "displayName": "Ink White",
+        "canonical": "#F0F0F4",
+        "cssVar": "--text-primary",
+        "tonalRamp": [
+          "#262626",
+          "#414142",
+          "#5D5D5E",
+          "#78787A",
+          "#949496",
+          "#B0B0B3",
+          "#CECED1",
+          "#EEEEF2"
+        ],
+        "contrastOnVoid": "17.63:1",
+        "contrastOnSurface": "14.13:1"
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#CECEDA",
+        "cssVar": "--text-secondary",
+        "tonalRamp": [
+          "#242426",
+          "#3F3F42",
+          "#59595E",
+          "#74747A",
+          "#8E8E96",
+          "#A9A9B3",
+          "#C6C6D1",
+          "#E5E5F2"
+        ],
+        "contrastOnVoid": "12.85:1",
+        "contrastOnSurface": "10.30:1"
+      },
+      "ink-quiet": {
+        "role": "neutral",
+        "displayName": "Ink Quiet",
+        "canonical": "#9292AA",
+        "cssVar": "--text-muted",
+        "note": "Passes AA on both grounds, so it is a real text color and not a decorative gray.",
+        "tonalRamp": [
+          "#212126",
+          "#393942",
+          "#51515E",
+          "#69697A",
+          "#818196",
+          "#9999B3",
+          "#B4B4D1",
+          "#D0D0F2"
+        ],
+        "contrastOnVoid": "6.60:1",
+        "contrastOnSurface": "5.29:1"
+      },
+      "workshop-indigo": {
+        "role": "primary",
+        "displayName": "Workshop Indigo",
+        "canonical": "#8E8EF6",
+        "cssVar": "--primary",
+        "note": "The text-level interactive voice: link text, hovered borders, eyebrows, focus outline, link-underline bar, asanoha strokes.",
+        "tonalRamp": [
+          "#161626",
+          "#262642",
+          "#36365E",
+          "#47477A",
+          "#575796",
+          "#6767B3",
+          "#7979D1",
+          "#8C8CF2"
+        ],
+        "contrastOnVoid": "7.01:1",
+        "contrastOnSurface": "5.62:1"
+      },
+      "workshop-indigo-fill": {
+        "role": "primary",
+        "displayName": "Workshop Indigo Fill",
+        "canonical": "#2F2FE4",
+        "cssVar": "--primary-fill",
+        "note": "Filled surfaces ONLY. Measures 2.53:1 against the void, so it cannot carry text or a border.",
+        "tonalRamp": [
+          "#080826",
+          "#0E0E42",
+          "#13135E",
+          "#19197A",
+          "#1F1F96",
+          "#2525B3",
+          "#2B2BD1",
+          "#3232F2"
+        ],
+        "whiteOnIt": "7.93:1"
+      },
+      "workshop-indigo-deep": {
+        "role": "primary",
+        "displayName": "Workshop Indigo Deep",
+        "canonical": "#162E93",
+        "cssVar": "--primary-dark",
+        "note": "Hover and pressed state for a filled surface. Doubles as the hairline.",
+        "tonalRamp": [
+          "#060C26",
+          "#0A1542",
+          "#0E1E5E",
+          "#12267A",
+          "#172F96",
+          "#1B38B3",
+          "#1F41D1",
+          "#244CF2"
+        ],
+        "whiteOnIt": "11.37:1"
+      },
+      "workshop-indigo-wash": {
+        "role": "primary",
+        "displayName": "Workshop Indigo Wash",
+        "canonical": "#C2C2FF",
+        "cssVar": "--primary-soft",
+        "note": "The focus-ring halo, and the one value legible as text on top of the fill.",
+        "tonalRamp": [
+          "#1D1D26",
+          "#323242",
+          "#48485E",
+          "#5D5D7A",
+          "#727296",
+          "#8888B3",
+          "#9F9FD1",
+          "#B8B8F2"
+        ],
+        "contrastOnFill": "4.70:1"
+      },
+      "fleck-periwinkle": {
+        "role": "secondary",
+        "displayName": "Fleck Periwinkle",
+        "canonical": "#C2C2FF",
+        "cssVar": "--accent",
+        "note": "Separates from the primary by luminance, not hue, which is what keeps the family closed. Hero eyebrow, upcoming badge, and the <=5% luminous particles.",
+        "tonalRamp": [
+          "#1D1D26",
+          "#323242",
+          "#48485E",
+          "#5D5D7A",
+          "#727296",
+          "#8888B3",
+          "#9F9FD1",
+          "#B8B8F2"
+        ],
+        "contrastOnVoid": "11.88:1"
+      },
+      "fleck-periwinkle-ground": {
+        "role": "secondary",
+        "displayName": "Fleck Periwinkle Ground",
+        "canonical": "#1E1B5E",
+        "cssVar": "--accent-soft",
+        "note": "The accent's container is DARKER than the page, inverting the light-theme convention.",
+        "tonalRamp": [
+          "#0C0B26",
+          "#151342",
+          "#1E1B5E",
+          "#27237A",
+          "#302B96",
+          "#3933B3",
+          "#433CD1",
+          "#4D46F2"
+        ],
+        "accentOnIt": "9.07:1"
+      },
+      "seal-red": {
+        "role": "tertiary",
+        "displayName": "Seal Red",
+        "canonical": "#F25A5A",
+        "cssVar": "--seal",
+        "note": "Hanko authorship and inline form errors. The deeper #EC5151 was rejected: it measured 4.48:1 on cards and missed AA by 0.02.",
+        "tonalRamp": [
+          "#260E0E",
+          "#421919",
+          "#5E2323",
+          "#7A2E2E",
+          "#963838",
+          "#B34242",
+          "#D14E4E",
+          "#F25A5A"
+        ],
+        "contrastOnVoid": "6.09:1",
+        "contrastOnSurface": "4.88:1"
+      },
+      "confirm-green": {
+        "role": "status",
+        "displayName": "Confirm Green",
+        "canonical": "#61D190",
+        "cssVar": "--success",
+        "note": "Form success only.",
+        "tonalRamp": [
+          "#12261A",
+          "#1F422E",
+          "#2C5E41",
+          "#397A54",
+          "#469668",
+          "#53B37B",
+          "#61D190",
+          "#70F2A7"
+        ],
+        "contrastOnVoid": "10.53:1"
+      },
+      "caution-amber": {
+        "role": "status",
+        "displayName": "Caution Amber",
+        "canonical": "#F0B042",
+        "cssVar": "--warning",
+        "note": "Backgrounds, borders, and icons.",
+        "tonalRamp": [
+          "#261C0B",
+          "#423112",
+          "#5E451A",
+          "#7A5A22",
+          "#966E29",
+          "#B38331",
+          "#D1993A",
+          "#F2B243"
+        ],
+        "contrastOnSurface": "8.41:1"
+      },
+      "caution-amber-text": {
+        "role": "status",
+        "displayName": "Caution Amber Text",
+        "canonical": "#F6BB55",
+        "cssVar": "--warning-strong",
+        "note": "The text-safe value. Lighter than the background value, inverting the light-theme convention.",
+        "tonalRamp": [
+          "#261D0D",
+          "#423217",
+          "#5E4821",
+          "#7A5D2A",
+          "#967234",
+          "#B3883E",
+          "#D19F48",
+          "#F2B854"
+        ],
+        "contrastOnVoid": "11.60:1"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only, one per page. Archivo Black has a single weight, so hierarchy comes from size alone.",
+        "selfHosted": "/fonts/archivo-black.woff2"
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles. These are the elements that receive the ink-reveal brush wipe."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles and panel headings. Note the face switch: body face at bold, never the display face."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs. Section intros capped at max-w-2xl.",
+        "selfHosted": "/fonts/noto-sans.woff2"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Section eyebrows, button text, field labels. The 0.1em tracking is what makes these read as labels."
+      },
+      "micro": {
+        "displayName": "Micro",
+        "purpose": "Status badges only. One step below Label and the floor of the system — nothing goes smaller."
+      },
+      "root-mobile": {
+        "displayName": "Root (mobile)",
+        "purpose": "Root size below 768px. Raised from 16px so body copy stays comfortable on a phone."
+      },
+      "small-mobile": {
+        "displayName": "Small (mobile)",
+        "purpose": "text-sm below 768px, bumped from 0.875rem so metadata stays legible."
+      },
+      "caption-mobile": {
+        "displayName": "Caption (mobile)",
+        "purpose": "text-xs below 768px, bumped from 0.75rem. The mobile floor."
+      }
+    },
+    "shadows": [
+      {
+        "name": "focus-halo",
+        "value": "0 0 0 6px var(--primary-soft)",
+        "purpose": "Global :focus-visible halo, paired with a 2px primary outline at 3px offset. Suppressed under prefers-reduced-motion."
+      },
+      {
+        "name": "action-glow",
+        "value": "0 0 20px rgb(47 47 228 / 0.45)",
+        "purpose": "The hero primary CTA only. The single deliberate exception to flatness; duplicating it destroys its meaning."
+      },
+      {
+        "name": "action-glow-hover",
+        "value": "0 0 30px rgb(47 47 228 / 0.55)",
+        "purpose": "Hover state of the hero CTA. The glow widens rather than the button changing color."
+      },
+      {
+        "name": "card-ambient",
+        "value": "0 10px 15px -3px rgb(47 47 228 / 0.25)",
+        "purpose": "Section-closing CTA buttons. Reads as soft ground contact, not a lift."
+      }
+    ],
+    "motion": [
+      {
+        "name": "motion-fast",
+        "value": "150ms",
+        "purpose": "Color and border state changes; link underline."
+      },
+      {
+        "name": "motion-base",
+        "value": "250ms",
+        "purpose": "Default for transforms, hover lift, scale."
+      },
+      {
+        "name": "motion-slow",
+        "value": "500ms",
+        "purpose": "One-shot entrance animations."
+      },
+      {
+        "name": "motion-reveal",
+        "value": "800ms",
+        "purpose": "Scroll-driven reveals."
+      },
+      {
+        "name": "motion-stagger",
+        "value": "110ms",
+        "purpose": "Interval between staggered children; stops at five steps."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for every state transition."
+      },
+      {
+        "name": "ease-reveal",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Scroll reveals only."
+      },
+      {
+        "name": "ease-loop",
+        "value": "cubic-bezier(0.45, 0, 0.55, 1)",
+        "purpose": "Continuous loops (the scroll-drift indicator). A smooth sine in-out — never bounce or elastic."
+      },
+      {
+        "name": "ink-reveal-duration",
+        "value": "620ms",
+        "purpose": "The brush wipe across a section heading."
+      },
+      {
+        "name": "distance-reveal",
+        "value": "32px",
+        "purpose": "Vertical travel of a scroll reveal."
+      },
+      {
+        "name": "distance-lift",
+        "value": "-2px",
+        "purpose": "Hover lift on interactive surfaces."
+      },
+      {
+        "name": "scale-hover",
+        "value": "1.02",
+        "purpose": "Button hover scale."
+      },
+      {
+        "name": "scale-press",
+        "value": "0.97",
+        "purpose": "Button active scale."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "ornament": [
+      {
+        "name": "paper-grain",
+        "purpose": "Fixed fractal-noise layer over the entire page at 2.5% opacity, z-9999, pointer-events none. Zero HTTP requests.",
+        "css": "body::before { content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.025; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\"); }"
+      },
+      {
+        "name": "asanoha-lattice",
+        "purpose": "Three overlapping repeating-linear-gradients forming a hemp-leaf lattice at 5% opacity. Process section only.",
+        "css": ".asanoha::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.05; background-image: repeating-linear-gradient(60deg, var(--primary) 0 1px, transparent 1px 24px), repeating-linear-gradient(120deg, var(--primary) 0 1px, transparent 1px 24px), repeating-linear-gradient(0deg, var(--primary) 0 1px, transparent 1px 24px); }"
+      }
+    ],
+    "tonalLadder": [
+      {
+        "step": "void -> surface",
+        "ratio": 1.25
+      },
+      {
+        "step": "surface -> surface-raised",
+        "ratio": 1.41
+      },
+      {
+        "step": "void -> hairline",
+        "ratio": 1.76
+      },
+      {
+        "step": "surface -> hairline",
+        "ratio": 1.41
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action that matters on a surface. Fully round, filled with primary-fill (white on it reaches 7.93:1), and the only element carrying an ambient glow.",
+      "html": "<button class=\"ds-btn-primary\">Agenda una llamada<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M17 8l4 4m0 0l-4 4m4-4H3\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-fill); color: #fff; font-family: 'Noto Sans', system-ui, sans-serif; font-size: 1.125rem; font-weight: 700; padding: 16px 48px; border: none; border-radius: 9999px; cursor: pointer; box-shadow: 0 0 20px rgb(47 47 228 / 0.45); transition: transform 250ms cubic-bezier(0.16,1,0.3,1), box-shadow 250ms cubic-bezier(0.16,1,0.3,1), background 250ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary svg { width: 20px; height: 20px; transition: transform 250ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: var(--primary-dark); transform: scale(1.02); box-shadow: 0 0 30px rgb(47 47 228 / 0.55); } .ds-btn-primary:hover svg { transform: translateX(2px); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The secondary action, and the only button treatment used over photography. Blurred glass on a white hairline.",
+      "html": "<button class=\"ds-btn-ghost\">Ver repositorio</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; background: rgb(255 255 255 / 0.05); color: #fff; font-family: 'Noto Sans', system-ui, sans-serif; font-size: 1.125rem; font-weight: 700; padding: 16px 32px; border: 1px solid rgb(255 255 255 / 0.2); border-radius: 9999px; backdrop-filter: blur(12px); cursor: pointer; transition: background 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-ghost:hover { background: rgb(255 255 255 / 0.1); border-color: rgb(255 255 255 / 0.4); } .ds-btn-ghost:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "card-project",
+      "description": "A delivered project: 4:3 image window, copy that grows to align the footer row, and the hanko seal marking authorship.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-media\"></div><div class=\"ds-card-body\"><h3 class=\"ds-card-title\">Integra BPO</h3><p class=\"ds-card-copy\">Sitio corporativo para presentar servicios BPO y captar oportunidades desde Latam.</p><div class=\"ds-card-foot\"><svg class=\"ds-hanko\" viewBox=\"0 0 32 32\" fill=\"currentColor\" role=\"img\" aria-label=\"Sello Integra BPO\"><rect x=\"1\" y=\"1\" width=\"30\" height=\"30\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"M9 9h5v14H9z\"/><path d=\"M17 9h5v5h-5z\"/><path d=\"M17 16h5v7h-5z\"/></svg><a class=\"ds-pill\" href=\"#\">Ver sitio</a></div></div></article>",
+      "css": ".ds-card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 340px; transition: transform 250ms cubic-bezier(0.16,1,0.3,1); } .ds-card:hover { transform: translateY(-4px); } .ds-card-media { aspect-ratio: 4 / 3; background: linear-gradient(135deg, var(--surface-alt), var(--surface)); border-bottom: 1px solid var(--border); } .ds-card-body { display: flex; flex-direction: column; flex-grow: 1; padding: 24px; font-family: 'Noto Sans', system-ui, sans-serif; } .ds-card-title { margin: 0 0 12px; font-size: 1.25rem; font-weight: 700; line-height: 1.3; color: var(--text-primary); } .ds-card-copy { margin: 0 0 24px; flex-grow: 1; font-size: 0.875rem; line-height: 1.625; color: var(--text-secondary); } .ds-card-foot { display: flex; align-items: center; gap: 12px; } .ds-hanko { width: 24px; height: 24px; flex-shrink: 0; color: var(--seal); } .ds-pill { display: inline-block; padding: 8px 20px; font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; transition: color 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-pill:hover { color: var(--primary); border-color: var(--primary); } .ds-pill:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }"
+    },
+    {
+      "name": "Underline Field",
+      "kind": "input",
+      "refersTo": "input-underline",
+      "description": "A ruled line on paper. No box, no radius, no background — focus moves the rule to Workshop Blue.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-nombre\">Nombre</label><input class=\"ds-input\" id=\"ds-nombre\" type=\"text\" placeholder=\"Tu nombre\"></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 4px; font-family: 'Noto Sans', system-ui, sans-serif; max-width: 320px; } .ds-field-label { font-size: 0.875rem; font-weight: 500; color: var(--text-muted); } .ds-input { width: 100%; padding: 12px 0; font-family: inherit; font-size: 1rem; color: var(--text-primary); background: transparent; border: none; border-bottom: 1px solid var(--border); border-radius: 0; transition: border-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-input::placeholder { color: var(--text-muted); } .ds-input:focus { border-bottom-color: var(--primary); outline: none; }"
+    },
+    {
+      "name": "Eyebrow Chip",
+      "kind": "chip",
+      "refersTo": "chip-eyebrow",
+      "description": "The hero's one-per-page label. Fleck Periwinkle on a blurred tint — the only place the accent gets a container.",
+      "html": "<span class=\"ds-eyebrow\">Laboratorio de programación</span>",
+      "css": ".ds-eyebrow { display: inline-block; padding: 6px 16px; font-family: 'Noto Sans', system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: rgb(194 194 255 / 0.1); border: 1px solid rgb(194 194 255 / 0.3); border-radius: 9999px; backdrop-filter: blur(4px); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-caution",
+      "description": "Three variants on one shell. The shell is opaque (bg-surface/90 + blur) because badges sit over an arbitrary project photograph, where a 10% tint leaves the label at whatever contrast the image supplies. International leads the row. Renders only when true; an empty row returns null.",
+      "html": "<div class=\"ds-badges\"><span class=\"ds-badge ds-badge-intl\">Cliente internacional</span><span class=\"ds-badge ds-badge-caution\">Sin soporte activo</span><span class=\"ds-badge ds-badge-upcoming\">Próximamente</span></div>",
+      "css": ".ds-badges { display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Noto Sans', system-ui, sans-serif; } .ds-badge { display: inline-flex; align-items: center; padding: 4px 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.025em; text-transform: uppercase; border: 1px solid; border-radius: 8px; background: rgb(26 25 83 / 0.9); backdrop-filter: blur(4px); } .ds-badge-intl { color: var(--seal); border-color: rgb(242 90 90 / 0.4); } .ds-badge-caution { color: var(--warning-strong); border-color: rgb(240 176 66 / 0.4); } .ds-badge-upcoming { color: var(--accent); border-color: rgb(194 194 255 / 0.4); }"
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Scrolled state. A 2px underline scales in from the left in 150ms; under reduced motion it fades instead.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación principal\"><a class=\"ds-nav-link\" href=\"#\">Servicios</a><a class=\"ds-nav-link\" href=\"#\">Proyectos</a><a class=\"ds-nav-link\" href=\"#\">Equipo</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 4px; font-family: 'Noto Sans', system-ui, sans-serif; } .ds-nav-link { position: relative; padding: 8px 16px; font-size: 0.875rem; font-weight: 600; color: var(--text-secondary); border-radius: 8px; text-decoration: none; transition: color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link::after { content: ''; position: absolute; inset-inline: 16px; bottom: 4px; height: 2px; background: currentColor; border-radius: 1px; transform: scaleX(0); transform-origin: left center; transition: transform 150ms cubic-bezier(0.16,1,0.3,1); } .ds-nav-link:hover { color: var(--primary); } .ds-nav-link:hover::after, .ds-nav-link:focus-visible::after { transform: scaleX(1); } .ds-nav-link:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; } @media (prefers-reduced-motion: reduce) { .ds-nav-link::after { transition: none; transform: scaleX(1); opacity: 0; } .ds-nav-link:hover::after, .ds-nav-link:focus-visible::after { opacity: 1; } }"
+    },
+    {
+      "name": "Hanko Seal",
+      "kind": "custom",
+      "refersTo": "mark-hanko",
+      "description": "The authorship mark on delivered work. A rounded-square seal in Seal Red enclosing an abstract two-glyph composition. Never a decorative divider, bullet, or icon.",
+      "html": "<svg class=\"ds-hanko-lg\" viewBox=\"0 0 32 32\" fill=\"currentColor\" role=\"img\" aria-label=\"Sello OniLabs\"><rect x=\"1\" y=\"1\" width=\"30\" height=\"30\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"M9 9h5v14H9z\"/><path d=\"M17 9h5v5h-5z\"/><path d=\"M17 16h5v7h-5z\"/></svg>",
+      "css": ".ds-hanko-lg { width: 48px; height: 48px; color: var(--seal); }"
+    },
+    {
+      "name": "Section Header",
+      "kind": "custom",
+      "refersTo": "pattern-section-header",
+      "description": "The four-part section signature: eyebrow label, ink-reveal heading, intro capped at max-w-2xl, then content. Reuse it rather than reinventing per section.",
+      "html": "<header class=\"ds-section-head\"><p class=\"ds-section-eyebrow\">Proyectos</p><h2 class=\"ds-section-title\">Trabajo entregado y en producción</h2><p class=\"ds-section-intro\">Cada proyecto es un sitio vivo con URL pública. Abrilo y auditalo.</p></header>",
+      "css": ".ds-section-head { text-align: center; font-family: 'Noto Sans', system-ui, sans-serif; max-width: 720px; margin: 0 auto; } .ds-section-eyebrow { margin: 0 0 12px; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); } .ds-section-title { margin: 0 0 16px; font-family: 'Archivo Black', 'Noto Sans JP', sans-serif; font-weight: 400; font-size: clamp(1.5rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.01em; color: var(--text-primary); } .ds-section-intro { margin: 0 auto; max-width: 42rem; font-size: 1.125rem; line-height: 1.625; color: var(--text-secondary); }"
+    },
+    {
+      "name": "Active Filter Pill",
+      "kind": "chip",
+      "refersTo": "pill-active",
+      "description": "The fill/text boundary made visible: the active pill is a filled surface (primary-fill + white, 7.93:1); the idle pill is a line and text (primary on hover, 7.01:1). The same voice, two sides of one rule.",
+      "html": "<div class=\"ds-pills\"><button class=\"ds-pill-active\">Todos</button><button class=\"ds-pill-idle\">Web</button><button class=\"ds-pill-idle\">Móvil</button></div>",
+      "css": ".ds-pills { display: flex; flex-wrap: wrap; gap: 8px; font-family: 'Noto Sans', system-ui, sans-serif; } .ds-pill-active, .ds-pill-idle { padding: 8px 20px; font-size: 0.875rem; font-weight: 600; border-radius: 9999px; border: 1px solid; cursor: pointer; transition: color 150ms cubic-bezier(0.16,1,0.3,1), border-color 150ms cubic-bezier(0.16,1,0.3,1); } .ds-pill-active { background: var(--primary-fill); border-color: var(--primary-fill); color: #fff; } .ds-pill-idle { background: transparent; border-color: var(--border); color: var(--text-muted); } .ds-pill-idle:hover { border-color: var(--primary); color: var(--primary); } .ds-pill-active:focus-visible, .ds-pill-idle:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Suspended Workshop",
+    "overview": "Nothing here moves fast. The page is a workshop where the work has been set down deliberately and left to settle: pigment hangs in the air, surfaces sit flat and unhurried, and headings are laid onto the page by a brush stroke rather than sliding in. The register is craft and time taken, not technical power. A visitor should feel that someone worked slowly and on purpose, because that is the actual claim being made — a small team, working directly, without haste imposed by a layer of management.\n\nThe system's defining move is that depth lives behind the content, not in it. A single fixed WebGL layer runs the full height of the page — a procedural sumi-e haze plus a particle field of pigment bodies, brush fragments, ash, and rare luminous flecks — and every section above it is transparent so it shows through. Because the atmosphere carries the depth, the UI itself can stay almost perfectly flat: hairline borders, tonal steps, no drop shadows at rest. Take the canvas away and the interface would read as severe. That is the correct trade.\n\nJapanese formal devices appear as structure, never as decoration or theme dressing: a fixed paper-grain layer at 2.5% opacity over the entire page, an asanoha lattice at 5% behind the Process section, a hanko seal marking each delivered project, and the ink-reveal brush wipe on section headings. All four are generated inline as data-URI SVG or CSS gradients — the system ships zero HTTP requests for ornament. Kanji is available (Noto Sans JP) but reserved for seal marks, not body copy.",
+    "keyCharacteristics": [
+      "One closed indigo family, hue 228-248deg; saturation climbs with interactivity",
+      "The interactive voice is split: primary for text and lines, primary-fill for surfaces",
+      "Flat surfaces at rest; atmosphere and tonal layering supply depth",
+      "One fixed WebGL ink field behind the entire page, intensity driven by scroll",
+      "Heavy display face (Archivo Black) against a quiet variable body face",
+      "Hairline borders instead of shadows; underline-only form fields",
+      "Motion is felt, never watched — transform and opacity only, no layout shift",
+      "Ornament is generated, never fetched",
+      "The hanko seal is the authorship mark on delivered work"
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "Indigo is the only hue that means \"interactive\". Fleck Periwinkle is emphasis and Seal Red is authorship or failure — neither may be promoted to a second clickable color. When a screen has two competing accents, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fill-Is-Not-Text Rule",
+        "body": "primary-fill (#2F2FE4) is a background and nothing else: bg-primary-fill with white text, never text-primary-fill and never border-primary-fill as the only edge. Conversely primary (#8E8EF6) is a text and line color; filling a surface with it and putting white on top measures 2.31:1. Each token has exactly one side of that boundary.",
+        "section": "colors"
+      },
+      {
+        "name": "The Transparent Section Rule",
+        "body": "No section may carry an opaque background. bg-background matches the page color and still hides the atmosphere entirely. Sections use transparency, or a gradient wash with alpha, and the content sits at z-10 above a z-0 canvas.",
+        "section": "colors"
+      },
+      {
+        "name": "The Closed Family Rule",
+        "body": "Every color is indigo at hue 228-248deg, except the three status values and the seal. A new hue is a palette decision made at src/styles/tokens.js, never a one-off in a component: consume the semantic token names so the family can be retuned in one edit.",
+        "section": "colors"
+      },
+      {
+        "name": "The Size-Not-Weight Rule",
+        "body": "Archivo Black ships one weight. Display hierarchy is created by size and space, never by a bolder cut — there isn't one. Never apply font-bold to a display element; it triggers synthetic bolding and smears the letterforms.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two-Roles-One-Face Rule",
+        "body": "Display face for h1-h4 and nothing else. Card titles, buttons, badges, and every piece of UI text use the body face, even at bold weight. Display type on a button reads as a mistake in this system.",
+        "section": "typography"
+      },
+      {
+        "name": "The Self-Hosted Rule",
+        "body": "Fonts are woff2 files in public/fonts, declared with @font-face and font-display: swap. Never reintroduce @next/font/google or a Google Fonts stylesheet link for the display or body face: it fetches at build time, breaks offline builds, and adds a render-blocking dependency.",
+        "section": "typography"
+      },
+      {
+        "name": "The Layered-Stack Rule",
+        "body": "The atmosphere canvas is position: fixed at z-0. A fixed element paints above static content, so every section's content wrapper needs relative z-10 or the canvas covers the page. The paper-grain overlay sits alone at z-9999 with pointer-events: none.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-At-Rest Rule",
+        "body": "Idle surfaces are flat. Every shadow in the system answers a state (focus, hover, primary action). If a new component needs a resting shadow to be legible, its tonal step or its border is wrong.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Atmosphere-Carries-Depth Rule",
+        "body": "Do not add depth to the UI to compensate for a section that reads flat. Check that the section is transparent and the canvas is reaching it first — a hidden atmosphere is the usual cause, and stacking shadows on top of it is the wrong fix.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Round-Means-Clickable Rule",
+        "body": "A pill radius signals an action. Containers never take rounded-full, and actions never take a container radius. When you can't tell whether a thing is a button, its radius has failed.",
+        "section": "shapes"
+      },
+      {
+        "name": "The No-Box Field Rule",
+        "body": "Text inputs are underlines, not boxes. Do not add a background, border ring, or radius to a form field; focus is expressed by the underline changing color, and errors by red helper text below it.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Multi-Signal Rule",
+        "body": "A load-bearing fact gets more than one signal. Cross-border delivery (TDS, Integra BPO) carries a Seal Red badge, a dedicated catalog filter, and priority in the home grid's featured sort — because a badge on 2 of 15 cards does not survive a scan. The claim never exceeds the evidence: both are live public URLs, and nothing about timezone, language, or contract terms is asserted alongside them.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do consume semantic tokens (bg-surface, text-text-secondary, border-border) so the palette can be retuned in one edit at src/styles/tokens.js.",
+      "Do verify contrast against the real pairing before adding a color use: every ratio in Colors was measured against the surface the element actually sits on, void and card both.",
+      "Do keep every section transparent and its content at relative z-10 above the z-0 canvas.",
+      "Do animate only transform, opacity, and filter. The motion system's stated principle is that motion is felt, never seen — and a layout-shifting animation is always seen.",
+      "Do use the motion tokens (--motion-fast 150ms, --motion-base 250ms, --motion-slow 500ms, --motion-reveal 800ms) with --ease-out cubic-bezier(0.16, 1, 0.3, 1) for state changes and --ease-reveal cubic-bezier(0.22, 1, 0.36, 1) for scroll reveals.",
+      "Do give every new animation a prefers-reduced-motion branch that lands on the finished state, not a hidden one.",
+      "Do generate ornament inline as data-URI SVG or CSS gradient. The paper grain, asanoha lattice, and ink-reveal mask all ship as zero HTTP requests.",
+      "Do reuse the section header pattern: eyebrow label, ink-reveal heading, intro paragraph capped at max-w-2xl, then content.",
+      "Do stagger entrance animations with --motion-stagger (110ms) and stop at five steps.",
+      "Do give a badge that sits over imagery an opaque backing. A tint alone inherits whatever contrast the photograph happens to supply.",
+      "Do signal a load-bearing fact in more than one place. A badge is not findable on 2 of 15 cards; a badge plus a filter plus grid priority is."
+    ],
+    "donts": [
+      "Don't put a raw hex, an rgb() literal, or a Tailwind palette utility (bg-slate-800, text-blue-600) in a component. It breaks the single point of palette retuning at src/styles/tokens.js.",
+      "Don't use primary-fill as a text or border color, or primary as a surface fill under white text. See The Fill-Is-Not-Text Rule.",
+      "Don't apply a background gradient to text. bg-clip-text with text-transparent was removed from the hero, navigation wordmark, and footer during the palette migration; emphasis comes from weight or size.",
+      "Don't use bounce or elastic easing. --ease-loop cubic-bezier(0.45, 0, 0.55, 1) exists for continuous loops; real objects decelerate, they do not spring. The scroll-bounce keyframe is a legacy exception, not a pattern.",
+      "Don't add a resting drop shadow to a surface. See The Flat-At-Rest Rule.",
+      "Don't give a section an opaque background, bg-background included — it matches the page color and still hides the atmosphere completely.",
+      "Don't set font-bold on display type. Archivo Black has one weight; bolding it synthesizes and smears.",
+      "Don't promote Fleck Periwinkle or Seal Red to a second interactive color.",
+      "Don't box a form field. Underline only.",
+      "Don't raise petalShare far above 0.4 or the particle field stops reading as pigment and starts reading as flowers.",
+      "Don't put a backtick inside a GLSL comment. The shaders are template literals and the resulting error points somewhere unhelpful.",
+      "Don't reintroduce @next/font/google or a remote font stylesheet for the display or body face."
+    ]
+  }
+}

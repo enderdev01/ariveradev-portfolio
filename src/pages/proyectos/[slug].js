@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import ProjectShowcase from "../../components/showcase/ProjectShowcase";
 import { getProyectosReales } from "../../data/onilabs";
 import { getProyectosSeo, getProyectoPorSlug } from "../../data/proyectos-seo";
 import { SITE_URL } from "../../lib/site";
@@ -168,7 +167,14 @@ export default function ProyectoPage({ proyecto, relacionados }) {
             </section>
 
             <section className="mb-12">
-              <ProjectShowcase proyecto={proyecto} />
+              <Image
+                src={proyecto.imagen}
+                alt={`Vista del proyecto ${proyecto.nombre}`}
+                width={1200}
+                height={720}
+                sizes="(min-width: 768px) 768px, 100vw"
+                className="w-full h-auto rounded-2xl object-cover object-top border border-border"
+              />
             </section>
 
             {proyecto.url && (
@@ -177,7 +183,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
                   href={proyecto.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                  className="inline-flex items-center gap-2 bg-primary-fill text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
                 >
                   Ver el proyecto en vivo
                   <span aria-hidden="true">&rarr;</span>
@@ -195,7 +201,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
               </p>
               <Link
                 href="/#contactanos"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                className="inline-block bg-primary-fill text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
               >
                 Contactanos
               </Link>

@@ -8,15 +8,12 @@ export default function Document() {
           name="google-site-verification"
           content="vso4G0Xb2c-JXHs-qDo9kcnB9wFraUCuom9XxTWHJAA"
         />
-        <meta
-          name="theme-color"
-          content="#FFFFFF"
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="theme-color"
-          content="#0F172A"
-          media="(prefers-color-scheme: dark)"
+        <meta name="theme-color" content="#080616" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+          rel="stylesheet"
         />
       </Head>
       <body>

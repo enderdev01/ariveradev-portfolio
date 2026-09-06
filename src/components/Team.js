@@ -8,10 +8,12 @@ export default function Team() {
   return (
     <section
       id="equipo"
+      data-oni-section="team"
       className="
+        relative
         py-16 lg:py-20
         w-full
-        bg-gradient-to-b from-surface via-surface to-background
+        bg-gradient-to-b from-surface/85 via-surface/85 to-background/85
       "
     >
       <div className="w-full px-4 sm:px-8 lg:px-16">

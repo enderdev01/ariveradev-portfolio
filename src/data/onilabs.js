@@ -259,6 +259,10 @@ export const proyectosReales = [
       en: null,
     },
     stack: ["Next.js", "Tailwind CSS", "Node.js"],
+    // Delivered across a border. Surfaced in the UI because it is the one
+    // question the primary audience asks that the rest of the catalog, which
+    // reads as Peru-local, cannot answer.
+    internacional: true,
   },
   {
     id: 3,
@@ -406,6 +410,7 @@ export const proyectosReales = [
     },
     stack: ["Landing", "Ecommerce", "Catálogo"],
     url: "https://www.techdsolution.com/",
+    internacional: true,
   },
   {
     id: 17,

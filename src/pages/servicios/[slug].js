@@ -158,7 +158,7 @@ export default function ServicioPage({ servicio }) {
               </p>
               <Link
                 href="/#contactanos"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors"
+                className="inline-block bg-primary-fill text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
               >
                 Contactanos
               </Link>

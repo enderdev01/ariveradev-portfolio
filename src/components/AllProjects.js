@@ -11,6 +11,10 @@ import Hanko from "./marks/Hanko";
 
 const CATEGORIAS = [
   { label: "Todos", value: "all" },
+  // Cross-border delivery is a filter, not just a badge: the primary audience
+  // arrives asking one question, and a badge on 2 of 15 cards does not survive
+  // a scan. This lets them isolate the answer in a click.
+  { label: "Internacional", value: "internacional" },
   { label: "Ecommerce", value: "ecommerce" },
   { label: "Landing", value: "landing" },
   { label: "App Móvil", value: "app" },
@@ -22,7 +26,7 @@ const CATEGORIAS = [
 // Filter pill classes — final Ai-Zome tokens (D4). Idle/active shared with every
 // filter; próximamente ("featured") uses the seal accent.
 const PILL_IDLE = "border border-border text-text-muted hover:border-accent hover:text-accent";
-const PILL_ACTIVE = "border border-primary text-primary bg-primary-soft";
+const PILL_ACTIVE = "border border-primary-fill bg-primary-fill text-white";
 const PILL_FEATURED_IDLE = "border border-seal text-seal hover:bg-seal/5";
 const PILL_FEATURED_ACTIVE = "border border-seal text-seal bg-seal/10";
 
@@ -37,6 +41,7 @@ export default function AllProjects() {
     if (activa === "proximamente") return esProximamente;
     if (esProximamente) return false;
     if (activa === "all") return true;
+    if (activa === "internacional") return Boolean(proyecto.internacional);
 
     return toCategoryKey(proyectosSeo[proyecto.id]?.categoria) === activa;
   });
@@ -54,7 +59,7 @@ export default function AllProjects() {
           </h1>
 
           {/* Filtros */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3" role="group" aria-label="Filtrar por categoría">
             {CATEGORIAS.map((cat) => (
               <button
                 key={cat.value}
@@ -68,6 +73,7 @@ export default function AllProjects() {
                       ? PILL_ACTIVE
                       : PILL_IDLE
                 }`}
+                aria-pressed={activa === cat.value}
               >
                 {cat.label}
               </button>
@@ -80,7 +86,7 @@ export default function AllProjects() {
           {proyectosFiltrados.map((proyecto) => (
             <article
               key={proyecto.id}
-              className="bg-white rounded-xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
+              className="bg-surface rounded-xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
             >
               {/* Image */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
@@ -125,7 +131,7 @@ export default function AllProjects() {
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
+                      className="inline-flex items-center gap-2 bg-primary-fill hover:bg-primary-dark text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
                     >
                       Ver proyecto
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

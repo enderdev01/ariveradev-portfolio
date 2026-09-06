@@ -81,7 +81,7 @@ export default function Navbar() {
                 ${
                   isTransparent
                     ? "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]"
-                    : "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                    : "text-primary"
                 }
               `}
             >
@@ -115,9 +115,9 @@ export default function Navbar() {
               href="/#contactanos"
               onClick={(e) => handleNavClick(e, "/#contactanos")}
               className="
-                ml-3 bg-primary text-white
+                ml-3 bg-primary-fill text-white
                 px-5 py-2.5 rounded-lg font-bold text-sm
-                hover:bg-primary/90
+                hover:bg-primary-dark
                 transition-all duration-fast ease-out-expo
                 hover:shadow-md hover:shadow-primary/20
               "
@@ -195,9 +195,9 @@ export default function Navbar() {
                 href="/#contactanos"
                 className="
                   block
-                  bg-primary text-white
+                  bg-primary-fill text-white
                   px-6 py-3 rounded-lg text-center font-bold
-                  hover:bg-primary/90 transition-colors duration-fast ease-out-expo
+                  hover:bg-primary-dark transition-colors duration-fast ease-out-expo
                 "
                 onClick={(e) => handleNavClick(e, "/#contactanos")}
                 tabIndex={isMenuOpen ? 0 : -1}

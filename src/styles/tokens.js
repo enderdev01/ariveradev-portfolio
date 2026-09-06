@@ -1,30 +1,47 @@
-// Ai-Zome color tokens — single source of truth (design D2).
+// Dark theme color tokens — single source of truth.
+//
+// Indigo family, hue 228-248deg. The four anchors (#080616, #1A1953, #162E93,
+// #2F2FE4) are the committed palette; every other value is derived at hue 240
+// so the family stays closed. Contrast was verified against each real usage
+// before these landed — see the ratios in the comments below.
+//
+// The tonal ladder matches the one the layout already relies on:
+//   background -> surface      1.25
+//   surface    -> surface-alt  1.41
+//   background -> border       1.76
+// Surface steps are meant to be subtle; they are not text contrast.
+//
 // Each value is a space-separated RGB channel triple so Tailwind can emit
 // `rgb(var(--<name>) / <alpha-value>)` and `bg-primary/10` keeps working.
-// `global` modules use the emitted `--<name>: rgb(var(--<name>-rgb))` alias.
 module.exports = {
-  background: "247 245 239", // #F7F5EF — washi base
-  "bg-washi": "247 245 239", // #F7F5EF — explicit alias
-  surface: "253 252 250", // #FDFCFA
-  "surface-alt": "233 228 216", // #E9E4D8
+  background: "8 6 22", // #080616 — near-black indigo. Channel spread is 16, so it reads calm, not tinted.
+  "bg-washi": "8 6 22", // #080616 — alias for "washi" references
+  surface: "26 25 83", // #1A1953 — cards, panels
+  "surface-alt": "22 46 147", // #162E93 — the highest tonal step
 
-  "text-primary": "23 26 35", // #171A23
-  "text-secondary": "74 78 92", // #4A4E5C
-  "text-muted": "107 111 125", // #6B6F7D
+  "text-primary": "240 240 244", // #F0F0F4 — 17.63:1 on background, 14.13:1 on surface
+  "text-secondary": "206 206 218", // #CECEDA — 12.85:1 on background, 10.30:1 on surface
+  "text-muted": "146 146 170", // #9292AA — 6.60:1 on background, 5.29:1 on surface
 
-  primary: "34 52 94", // #22345E
-  "primary-soft": "226 227 232", // #E2E3E8 — primary over washi at 10%
+  // The interactive voice, split by job. `primary` is the text-level voice:
+  // links, hovered borders, eyebrows, focus outlines. `primary-fill` is the
+  // filled-surface voice and NOTHING else — at 2.53:1 on the background it
+  // cannot carry text or a border.
+  primary: "142 142 246", // #8E8EF6 — 7.01:1 on background, 5.62:1 on surface
+  "primary-fill": "47 47 228", // #2F2FE4 — white on it is 7.93:1
+  "primary-dark": "22 46 147", // #162E93 — hover for a filled surface; white on it is 11.37:1
+  "primary-soft": "194 194 255", // #C2C2FF — focus halo; also legible on primary-fill at 4.70:1
 
-  accent: "62 110 150", // #3E6E96
-  "accent-soft": "231 237 242", // #E7EDF2 — accent over washi at 10%
+  accent: "194 194 255", // #C2C2FF — the rare luminous fleck, 11.88:1 on background
+  "accent-soft": "30 27 94", // #1E1B5E — dark wash behind accent text (9.07:1)
 
-  seal: "166 58 46", // #A63A2E
-  error: "166 58 46", // #A63A2E — resolves to seal, exactly one red (D3)
+  seal: "236 90 90", // #F25A5A — 6.09:1 on background, 4.88:1 on surface
+  error: "236 90 90", // #F25A5A — resolves to seal
 
-  success: "63 107 78", // #3F6B4E
-  "success-strong": "40 74 52", // #284A34 — text-safe on success/10 tint
-  warning: "184 134 59", // #B8863B — icons/borders only, never text
-  "warning-strong": "138 97 31", // #8A611F — text-safe warning
+  success: "97 209 144", // #61D190 — 10.53:1 on background
+  "success-strong": "97 209 144", // #61D190 — text-safe on dark
+  warning: "240 176 66", // #F0B042 — 8.41:1 on surface
+  "warning-strong": "246 187 85", // #F6BB55 — 11.60:1 on background
 
-  border: "216 211 197", // #D8D3C5 — warm hairline
+  border: "22 46 147", // #162E93 — hairline. Same value as surface-alt: a border here is a tonal edge.
 };
