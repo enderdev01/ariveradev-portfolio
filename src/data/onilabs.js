@@ -230,14 +230,6 @@ export const proyectosReales = [
     sinSoporte: true,
   },
   {
-    id: 7,
-    nombre: "HooBank",
-    imagen: "/hoobank.png",
-    url: "https://banco-webmodern.vercel.app/",
-    descripcion: "Landing moderna para presentar una propuesta de banca digital con diseño claro, secciones comerciales y foco en producto.",
-    stack: ["React", "Tailwind CSS", "Vite"],
-  },
-  {
     id: 8,
     nombre: "Impuestos Perú",
     imagen: "/impuestosperu.png",

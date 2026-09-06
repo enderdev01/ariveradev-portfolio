@@ -54,14 +54,6 @@ export const proyectosSeo = {
     enfoque:
       "Ecommerce sobre WooCommerce y WordPress con MySQL, con el catálogo administrable desde el panel para que publicar y dar de baja productos sea una tarea diaria del equipo y no un pedido de desarrollo.",
   },
-  7: {
-    slug: "hoobank",
-    categoria: "Landing de producto",
-    desafio:
-      "Presentar una propuesta de banca digital exige transmitir solidez en pocos segundos. El diseño tiene que sostener la confianza antes de que el usuario lea el primer párrafo.",
-    enfoque:
-      "Landing construida con React y Tailwind CSS sobre Vite, priorizando tiempos de carga bajos y una jerarquía visual clara donde cada sección comercial cumple una función definida.",
-  },
   8: {
     slug: "impuestos-peru",
     categoria: "App móvil",

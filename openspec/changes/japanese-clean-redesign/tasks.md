@@ -105,7 +105,22 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
 - **Est. lines**: ~4
 - **Verification**: Manual visual check of rendered nav; `npm run build` passes.
 
-### T1.7 — HooBank removal from data files, re-verify sitemap at 16
+### T1.7 — HooBank removal from data files, re-verify sitemap at 16 [x]
+
+**Measured deviation from the stated verification**: `proyectosReales` (the catalog) is
+confirmed at 16 entries, matching the spec's "Project count is 16" requirement. However
+the sitemap and `/proyectos/[slug]` SSG pages are built from `proyectosSeo`, not
+`proyectosReales` — `proyectosSeo` never had an entry for id 17 (`proximamente`, by
+design per D5) and had 16 entries before this task (including HooBank id 7). After
+removing HooBank, `proyectosSeo` has **15** entries, so the sitemap emits **15** project
+URLs and the build generates **15** SSG project pages, not 16. Verified with
+`npx next build` (route table shows "3 explicit + [+12 more paths]" = 15) and
+`npx next start` + `curl localhost:4321/sitemap.xml` (15 `<loc>` entries under
+`/proyectos/`). This is a pre-existing design/tasks assumption error (the "16" in D6/D5
+conflates the catalog count with the indexable/SEO count), not a defect introduced by
+this task. No code change can reconcile it without adding a `proyectosSeo` entry for id
+17, which is explicitly out of scope (`proximamente` projects are not indexed by design).
+Flagging for the orchestrator/reviewer rather than silently forcing a false "16".
 
 - **Spec link**: `specs/portfolio-catalog/spec.md` — "HooBank absent from all catalog
   sources" (all three scenarios)
