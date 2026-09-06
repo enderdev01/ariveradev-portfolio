@@ -1,17 +1,23 @@
 import Head from "next/head";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Services from "../components/Services";
-import Portfolio from "../components/Portfolio";
 import Process from "../components/Process";
 import Team from "../components/Team";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
-import PromoModal from "../components/PromoModal";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import { SITE_URL } from "../lib/site";
+
+// WebGL only on the client: the atmosphere is decorative and must never block
+// the page content from rendering server-side.
+const OniAtmosphere = dynamic(() => import("../components/OniAtmosphere"), {
+  ssr: false,
+  loading: () => null,
+});
 
 
 const TITLE =
@@ -116,11 +122,12 @@ export default function Home() {
           }}
         />
       </Head>
-
-      <PromoModal />
       <div className="min-h-screen bg-background">
+        {/* One atmosphere for the whole page; each section only changes its
+            character. Sections must stay transparent for it to show. */}
+        <OniAtmosphere />
         <Navbar />
-        <main>
+        <main className="relative z-10">
           <Hero />
           <Services />
           <FeaturedProjects />

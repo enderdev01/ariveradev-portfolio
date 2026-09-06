@@ -1,4 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
+const tokens = require("./src/styles/tokens");
+
+const colorEntries = Object.fromEntries(
+  Object.entries(tokens).map(([name, triple]) => [
+    name,
+    `rgb(var(--${name}-rgb) / <alpha-value>)`,
+  ]),
+);
+
 module.exports = {
   darkMode: "class",
   content: [
@@ -10,31 +20,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        burtons: ["burtons", "sans-serif"],
-        quantico: ["var(--font-quantico)"],
+        display: ["Archivo Black", "Noto Sans JP", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        sans: ["Noto Sans", "Noto Sans JP", "system-ui", "sans-serif"],
       },
       colors: {
-        background: "#FFFFFF",
-        surface: "#F8FAFC",
-        "surface-alt": "#F1F5F9",
-        baseEsp: "#F9F7F2",
-
-        "text-primary": "#0F172A",
-        "text-secondary": "#334155",
-        "text-muted": "#64748B",
-
-        primary: "#2563EB",
-        "primary-soft": "#DBEAFE",
-        "primary-dark": "#1E40AF",
-
-        accent: "#0EA5E9",
-        "accent-soft": "#E0F2FE",
-
-        success: "#16A34A",
-        warning: "#F59E0B",
-        error: "#DC2626",
-
-        border: "#E2E8F0",
+        ...colorEntries,
       },
 
       /* ===== Motion system tokens ===== */
@@ -68,5 +58,14 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addBase }) => {
+      const vars = {};
+      for (const [name, triple] of Object.entries(tokens)) {
+        vars[`--${name}-rgb`] = triple;
+        vars[`--${name}`] = `rgb(var(--${name}-rgb))`;
+      }
+      addBase({ ":root": vars });
+    }),
+  ],
 };

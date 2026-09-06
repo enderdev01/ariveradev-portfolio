@@ -10,7 +10,7 @@ export default function Footer() {
   // where a bare hash would resolve against the current page and do nothing.
   const navLinks = [
     { href: "/#servicios", label: "Especialidades" },
-    { href: "/#proyectos", label: "Repositorio" },
+    { href: "/#proyectos", label: "Proyectos" },
     { href: "/#proceso", label: "Proceso" },
     { href: "/#equipo", label: "Equipo" },
     { href: "/#contactanos", label: "Contacto" },
@@ -36,7 +36,9 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-surface border-t border-border pt-12 pb-8 px-4 sm:px-6 lg:px-8">
+    <footer
+      data-oni-section="footer"
+      className="relative bg-surface border-t border-border pt-12 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 mb-10">
           {/* Brand */}
@@ -49,7 +51,7 @@ export default function Footer() {
                 height={48}
                 className="h-12 w-12 object-contain"
               />
-              <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-primary">
                 OniLabs
               </span>
             </Link>

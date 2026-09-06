@@ -3,9 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { proyectosReales } from "../../data/onilabs";
-import { proyectosSeo, getProyectoPorSlug } from "../../data/proyectos-seo";
+import { getProyectosReales } from "../../data/onilabs";
+import { getProyectosSeo, getProyectoPorSlug } from "../../data/proyectos-seo";
 import { SITE_URL } from "../../lib/site";
+import { DEFAULT_LOCALE } from "../../lib/i18n";
 
 export default function ProyectoPage({ proyecto, relacionados }) {
   const pageUrl = `${SITE_URL}/proyectos/${proyecto.slug}`;
@@ -165,13 +166,24 @@ export default function ProyectoPage({ proyecto, relacionados }) {
               </ul>
             </section>
 
+            <section className="mb-12">
+              <Image
+                src={proyecto.imagen}
+                alt={`Vista del proyecto ${proyecto.nombre}`}
+                width={1200}
+                height={720}
+                sizes="(min-width: 768px) 768px, 100vw"
+                className="w-full h-auto rounded-2xl object-cover object-top border border-border"
+              />
+            </section>
+
             {proyecto.url && (
               <section className="mb-14">
                 <a
                   href={proyecto.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                  className="inline-flex items-center gap-2 bg-primary-fill text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
                 >
                   Ver el proyecto en vivo
                   <span aria-hidden="true">&rarr;</span>
@@ -189,7 +201,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
               </p>
               <Link
                 href="/#contactanos"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                className="inline-block bg-primary-fill text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
               >
                 Contactanos
               </Link>
@@ -226,7 +238,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
   );
 }
 
-const construirProyecto = (id) => {
+const construirProyecto = (id, proyectosReales, proyectosSeo) => {
   const base = proyectosReales.find((proyecto) => proyecto.id === id);
   const seo = proyectosSeo[id];
   if (!base || !seo) return null;
@@ -242,6 +254,7 @@ const construirProyecto = (id) => {
 };
 
 export function getStaticPaths() {
+  const proyectosSeo = getProyectosSeo(DEFAULT_LOCALE);
   return {
     paths: Object.values(proyectosSeo).map((datos) => ({
       params: { slug: datos.slug },
@@ -251,10 +264,12 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps({ params }) {
-  const encontrado = getProyectoPorSlug(params.slug);
+  const proyectosReales = getProyectosReales(DEFAULT_LOCALE);
+  const proyectosSeo = getProyectosSeo(DEFAULT_LOCALE);
+  const encontrado = getProyectoPorSlug(params.slug, DEFAULT_LOCALE);
   if (!encontrado) return { notFound: true };
 
-  const proyecto = construirProyecto(encontrado.id);
+  const proyecto = construirProyecto(encontrado.id, proyectosReales, proyectosSeo);
   if (!proyecto) return { notFound: true };
 
   const relacionados = Object.entries(proyectosSeo)

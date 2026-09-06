@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { AiOutlineLinkedin, AiOutlineMail } from "react-icons/ai";
 import Reveal from "./Reveal";
+import InkReveal from "./InkReveal";
+import Hanko from "./marks/Hanko";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
 export default function Contact() {
@@ -56,11 +58,8 @@ export default function Contact() {
         tipo: "",
         mensaje: "",
       });
-
-      setTimeout(() => setStatus("idle"), 4000);
     } catch {
       setStatus("error");
-      setTimeout(() => setStatus("idle"), 4000);
     }
   };
 
@@ -70,20 +69,19 @@ export default function Contact() {
   return (
     <section
       id="contactanos"
-      className="py-20 sm:py-28 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
+      data-oni-section="contact"
+      className="relative py-16 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface/80 to-surface-alt/80"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Hablemos
             </p>
           </Reveal>
-          <Reveal blur delay={90}>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
-              Contáctanos
-            </h2>
-          </Reveal>
+          <InkReveal className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
+            Contáctanos
+          </InkReveal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
@@ -94,13 +92,19 @@ export default function Contact() {
             </h3>
 
             {status === "success" && (
-              <div className="mb-8 bg-success/10 text-success px-4 py-3 rounded-xl text-center font-medium border border-success/20">
+              <div
+                role="status"
+                className="mb-8 bg-success/10 text-success-strong px-4 py-3 rounded-xl text-center font-medium border border-success/20"
+              >
                 Mensaje enviado correctamente
               </div>
             )}
 
             {status === "error" && (
-              <div className="mb-8 bg-error/10 text-error px-4 py-3 rounded-xl text-center font-medium border border-error/20">
+              <div
+                role="alert"
+                className="mb-8 bg-error/10 text-error px-4 py-3 rounded-xl text-center font-medium border border-error/20"
+              >
                 Error al enviar el mensaje
               </div>
             )}
@@ -211,30 +215,33 @@ export default function Contact() {
               </div>
 
               <div className="md:col-span-2">
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className={`
-                    group w-full py-3.5 rounded-xl text-base font-semibold transition-all duration-base ease-out-expo
-                    flex items-center justify-center gap-2
-                    ${status === "idle" ? "bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25" : ""}
-                    ${status === "loading" ? "bg-text-muted text-white cursor-not-allowed" : ""}
-                    ${status === "success" ? "bg-success text-white" : ""}
-                    ${status === "error" ? "bg-error text-white" : ""}
-                  `}
-                >
-                  {status === "idle" && (
-                    <>
-                      Enviar mensaje
-                      <svg className="w-5 h-5 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </>
-                  )}
-                  {status === "loading" && "Enviando..."}
-                  {status === "success" && "Mensaje enviado"}
-                  {status === "error" && "Reintentar"}
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className={`
+                      group w-full py-3.5 rounded-xl text-base font-semibold transition-all duration-base ease-out-expo
+                      flex items-center justify-center gap-2
+                      ${status === "idle" ? "bg-primary-fill text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary-fill/25" : ""}
+                      ${status === "loading" ? "bg-text-muted text-white cursor-not-allowed" : ""}
+                      ${status === "success" ? "bg-success text-white" : ""}
+                      ${status === "error" ? "bg-error text-white" : ""}
+                    `}
+                  >
+                    {status === "idle" && (
+                      <>
+                        Enviar mensaje
+                        <svg className="w-5 h-5 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </>
+                    )}
+                    {status === "loading" && "Enviando..."}
+                    {status === "success" && "Mensaje enviado"}
+                    {status === "error" && "Reintentar"}
+                  </button>
+                  <Hanko className="w-8 h-8 shrink-0" title="Sello OniLabs" />
+                </div>
               </div>
             </form>
           </Reveal>
@@ -303,7 +310,7 @@ export default function Contact() {
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex-shrink-0">2</span>
-                  Respondemos en 24–48 horas
+                  Respondemos en 24–48 horas hábiles (UTC−5)
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex-shrink-0">3</span>

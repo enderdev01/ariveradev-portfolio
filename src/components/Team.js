@@ -1,19 +1,23 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
-import { equipo } from "../data/onilabs";
+import { getEquipo } from "../data/onilabs";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 
 export default function Team() {
+  const equipo = getEquipo(DEFAULT_LOCALE);
   return (
     <section
       id="equipo"
+      data-oni-section="team"
       className="
-        py-20 lg:py-32
+        relative
+        py-16 lg:py-20
         w-full
-        bg-gradient-to-b from-surface via-surface to-background
+        bg-gradient-to-b from-surface/85 via-surface/85 to-background/85
       "
     >
       <div className="w-full px-4 sm:px-8 lg:px-16">
-        <div className="text-center mb-16 lg:mb-24">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 text-text-primary">
               Nuestro Equipo

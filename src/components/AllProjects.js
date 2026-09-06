@@ -2,12 +2,19 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { proyectosReales } from "../data/onilabs";
-import { proyectosSeo } from "../data/proyectos-seo";
+import { getProyectosReales } from "../data/onilabs";
+import { getProyectosSeo } from "../data/proyectos-seo";
+import { toCategoryKey } from "../lib/categories";
+import { DEFAULT_LOCALE } from "../lib/i18n";
 import ProjectVisual from "./ProjectVisual";
+import Hanko from "./marks/Hanko";
 
 const CATEGORIAS = [
   { label: "Todos", value: "all" },
+  // Cross-border delivery is a filter, not just a badge: the primary audience
+  // arrives asking one question, and a badge on 2 of 15 cards does not survive
+  // a scan. This lets them isolate the answer in a click.
+  { label: "Internacional", value: "internacional" },
   { label: "Ecommerce", value: "ecommerce" },
   { label: "Landing", value: "landing" },
   { label: "App Móvil", value: "app" },
@@ -16,28 +23,17 @@ const CATEGORIAS = [
   { label: "Próximamente", value: "proximamente", featured: true },
 ];
 
-const categoriasPorProyecto = {
-  1: "ecommerce",
-  2: "landing",
-  3: "ecommerce",
-  4: "landing",
-  5: "landing",
-  6: "ecommerce",
-  7: "landing",
-  8: "app",
-  9: "ecommerce",
-  10: "landing",
-  11: "platform",
-  12: "platform",
-  13: "ecommerce",
-  14: "platform",
-  15: "game",
-  16: "ecommerce",
-  17: "platform",
-};
+// Filter pill classes — final Ai-Zome tokens (D4). Idle/active shared with every
+// filter; próximamente ("featured") uses the seal accent.
+const PILL_IDLE = "border border-border text-text-muted hover:border-accent hover:text-accent";
+const PILL_ACTIVE = "border border-primary-fill bg-primary-fill text-white";
+const PILL_FEATURED_IDLE = "border border-seal text-seal hover:bg-seal/5";
+const PILL_FEATURED_ACTIVE = "border border-seal text-seal bg-seal/10";
 
 export default function AllProjects() {
   const [activa, setActiva] = useState("all");
+  const proyectosReales = getProyectosReales(DEFAULT_LOCALE);
+  const proyectosSeo = getProyectosSeo(DEFAULT_LOCALE);
 
   const proyectosFiltrados = proyectosReales.filter((proyecto) => {
     const esProximamente = proyecto.estado === "proximamente";
@@ -45,8 +41,9 @@ export default function AllProjects() {
     if (activa === "proximamente") return esProximamente;
     if (esProximamente) return false;
     if (activa === "all") return true;
+    if (activa === "internacional") return Boolean(proyecto.internacional);
 
-    return categoriasPorProyecto[proyecto.id] === activa;
+    return toCategoryKey(proyectosSeo[proyecto.id]?.categoria) === activa;
   });
 
   return (
@@ -62,36 +59,21 @@ export default function AllProjects() {
           </h1>
 
           {/* Filtros */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3" role="group" aria-label="Filtrar por categoría">
             {CATEGORIAS.map((cat) => (
               <button
                 key={cat.value}
                 onClick={() => setActiva(cat.value)}
-                className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast ease-out-expo"
-                style={{
-                  border: cat.featured
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast ease-out-expo ${
+                  cat.featured
                     ? activa === cat.value
-                      ? "1px solid #DB2777"
-                      : "1px solid #F9A8D4"
+                      ? PILL_FEATURED_ACTIVE
+                      : PILL_FEATURED_IDLE
                     : activa === cat.value
-                      ? "1px solid #2563EB"
-                      : "1px solid #E2E8F0",
-                  color: cat.featured
-                    ? activa === cat.value
-                      ? "#FFFFFF"
-                      : "#BE185D"
-                    : activa === cat.value
-                      ? "#2563EB"
-                      : "#64748B",
-                  background: cat.featured
-                    ? activa === cat.value
-                      ? "#DB2777"
-                      : "#FDF2F8"
-                    : activa === cat.value
-                      ? "#EFF6FF"
-                      : "transparent",
-                  boxShadow: cat.featured && activa === cat.value ? "0 8px 18px rgba(219, 39, 119, 0.22)" : "none",
-                }}
+                      ? PILL_ACTIVE
+                      : PILL_IDLE
+                }`}
+                aria-pressed={activa === cat.value}
               >
                 {cat.label}
               </button>
@@ -104,8 +86,7 @@ export default function AllProjects() {
           {proyectosFiltrados.map((proyecto) => (
             <article
               key={proyecto.id}
-              className="bg-white rounded-xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
-              style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
+              className="bg-surface rounded-xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
             >
               {/* Image */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
@@ -117,7 +98,7 @@ export default function AllProjects() {
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
+                <h2 className="text-xl font-bold text-text-primary mb-3 leading-tight">
                   {proyectosSeo[proyecto.id] ? (
                     <Link
                       href={`/proyectos/${proyectosSeo[proyecto.id].slug}`}
@@ -128,7 +109,7 @@ export default function AllProjects() {
                   ) : (
                     proyecto.nombre
                   )}
-                </h3>
+                </h2>
                 <p className="text-text-secondary text-sm mb-4 flex-grow leading-relaxed">
                   {proyecto.descripcion}
                 </p>
@@ -136,23 +117,21 @@ export default function AllProjects() {
                   {proyecto.stack?.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 rounded-md text-xs font-medium text-text-muted"
-                      style={{ background: "#F1F5F9" }}
+                      className="px-3 py-1 rounded-md text-xs font-medium text-text-muted bg-surface-alt"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-                <div>
+                <div className="flex items-center gap-3">
+                  <Hanko className="w-6 h-6 shrink-0" title={`Sello ${proyecto.nombre}`} />
+                  <div>
                   {proyecto.url && !proyecto.sinSoporte ? (
                     <a
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
-                      style={{ background: "#2563EB" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "#1E40AF")}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "#2563EB")}
+                      className="inline-flex items-center gap-2 bg-primary-fill hover:bg-primary-dark text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
                     >
                       Ver proyecto
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -164,6 +143,7 @@ export default function AllProjects() {
                       {proyecto.sinSoporte ? "Sin soporte activo" : "Próximamente"}
                     </span>
                   )}
+                  </div>
                 </div>
               </div>
             </article>
