@@ -47,7 +47,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
   table's "→ key" column, including the ordering-dependent id 16 ("Landing y ecommerce" →
   `ecommerce`, not `landing`). `npm run lint` passes.
 
-### T1.3 — Replace the id→category map in `AllProjects.js` with `toCategoryKey`
+### T1.3 — Replace the id→category map in `AllProjects.js` with `toCategoryKey` [x]
 
 - **Spec link**: `specs/portfolio-catalog/spec.md` — "Single source of truth for project
   category" (both scenarios, including negative case)

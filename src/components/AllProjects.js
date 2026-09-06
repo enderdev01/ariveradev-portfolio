@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
 import { proyectosSeo } from "../data/proyectos-seo";
+import { toCategoryKey } from "../lib/categories";
 import ProjectVisual from "./ProjectVisual";
 
 const CATEGORIAS = [
@@ -16,26 +17,6 @@ const CATEGORIAS = [
   { label: "Próximamente", value: "proximamente", featured: true },
 ];
 
-const categoriasPorProyecto = {
-  1: "ecommerce",
-  2: "landing",
-  3: "ecommerce",
-  4: "landing",
-  5: "landing",
-  6: "ecommerce",
-  7: "landing",
-  8: "app",
-  9: "ecommerce",
-  10: "landing",
-  11: "platform",
-  12: "platform",
-  13: "ecommerce",
-  14: "platform",
-  15: "game",
-  16: "ecommerce",
-  17: "platform",
-};
-
 export default function AllProjects() {
   const [activa, setActiva] = useState("all");
 
@@ -46,7 +27,7 @@ export default function AllProjects() {
     if (esProximamente) return false;
     if (activa === "all") return true;
 
-    return categoriasPorProyecto[proyecto.id] === activa;
+    return toCategoryKey(proyectosSeo[proyecto.id]?.categoria) === activa;
   });
 
   return (
