@@ -70,10 +70,10 @@ export default function Contact() {
   return (
     <section
       id="contactanos"
-      className="py-20 sm:py-28 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
+      className="py-16 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Hablemos
@@ -94,7 +94,7 @@ export default function Contact() {
             </h3>
 
             {status === "success" && (
-              <div className="mb-8 bg-success/10 text-success px-4 py-3 rounded-xl text-center font-medium border border-success/20">
+              <div className="mb-8 bg-success/10 text-success-strong px-4 py-3 rounded-xl text-center font-medium border border-success/20">
                 Mensaje enviado correctamente
               </div>
             )}
@@ -303,7 +303,7 @@ export default function Contact() {
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex-shrink-0">2</span>
-                  Respondemos en 24–48 horas
+                  Respondemos en 24–48 horas hábiles (UTC−5)
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex-shrink-0">3</span>

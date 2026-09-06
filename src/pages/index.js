@@ -9,7 +9,6 @@ import Process from "../components/Process";
 import Team from "../components/Team";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
-import PromoModal from "../components/PromoModal";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import { SITE_URL } from "../lib/site";
 
@@ -116,8 +115,6 @@ export default function Home() {
           }}
         />
       </Head>
-
-      <PromoModal />
       <div className="min-h-screen bg-background">
         <Navbar />
         <main>
