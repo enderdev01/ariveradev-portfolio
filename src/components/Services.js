@@ -4,9 +4,9 @@ import { servicios } from "../data/onilabs";
 
 export default function Services() {
   return (
-    <section id="servicios" className="py-20 sm:py-28 bg-baseEsp">
+    <section id="servicios" className="py-16 sm:py-20 bg-baseEsp">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14 md:mb-20">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Lo que hacemos

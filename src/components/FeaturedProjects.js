@@ -12,10 +12,10 @@ export default function FeaturedProjects() {
     .slice(0, 3);
 
   return (
-    <section id="proyectos" className="w-full bg-background py-20 sm:py-28">
+    <section id="proyectos" className="w-full bg-background py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Nuestro trabajo
@@ -84,7 +84,7 @@ export default function FeaturedProjects() {
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-16 flex justify-center">
+        <div className="mt-10 sm:mt-12 flex justify-center">
           <Reveal delay={150}>
             <Link
               href="/proyectos"

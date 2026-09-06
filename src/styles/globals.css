@@ -11,7 +11,7 @@
   /* Text colors */
   --text-primary: #0F172A;
   --text-secondary: #334155;
-  --text-muted: #64748B;
+  --text-muted: #5B6A7D;
 
   /* Brand blues */
   --primary: #2563EB;
@@ -21,9 +21,13 @@
   /* Accents */
   --accent: #0EA5E9;
   --accent-soft: #E0F2FE;
+  /* Text-safe accent; --accent itself fails WCAG AA as text. */
+  --accent-strong: #0369A1;
 
   /* States */
   --success: #16A34A;
+  /* Text-safe success; --success itself fails WCAG AA as text. */
+  --success-strong: #166534;
   --warning: #F59E0B;
   --error: #DC2626;
 
@@ -53,8 +57,10 @@
 
 html {
   scroll-behavior: smooth;
-  /* Keeps a hash target from landing underneath the fixed navbar. */
-  scroll-padding-top: 6rem;
+  /* Matches the fixed navbar height exactly (py-2 + h-16 = 5rem) so a hash
+     target lands flush under it instead of leaving a sliver of the previous
+     section peeking out. */
+  scroll-padding-top: 5rem;
 }
 
 html,

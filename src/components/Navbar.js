@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
+
+  // On the home page the hero runs full-bleed underneath the navbar, so the bar
+  // stays transparent until the user scrolls past it.
+  const isHome = router.pathname === "/";
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const isTransparent = isHome && !isScrolled && !isMenuOpen;
 
   const handleNavClick = (e, href) => {
     const hash = href.replace("/#", "#");
@@ -26,13 +40,17 @@ export default function Navbar() {
 
   return (
     <nav
-      className="
+      className={`
         fixed top-0 w-full z-50
-        bg-background/90
-        backdrop-blur-lg
-        border-b border-border/80
         py-2 px-4 sm:px-6 lg:px-8
-      "
+        border-b
+        transition-[background-color,border-color,backdrop-filter] duration-base ease-out-expo
+        ${
+          isTransparent
+            ? "bg-transparent border-transparent"
+            : "bg-background/90 backdrop-blur-lg border-border/80"
+        }
+      `}
       role="navigation"
       aria-label="Navegación principal"
     >
@@ -58,11 +76,14 @@ export default function Navbar() {
               className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
             />
             <span
-              className="
+              className={`
                 text-xl sm:text-2xl font-bold
-                bg-gradient-to-r from-primary to-accent
-                bg-clip-text text-transparent
-              "
+                ${
+                  isTransparent
+                    ? "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]"
+                    : "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                }
+              `}
             >
               OniLabs
             </span>
@@ -75,12 +96,16 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="
+                className={`
                   link-underline relative px-4 py-2 text-sm font-semibold
-                  text-text-secondary hover:text-primary
                   transition-colors duration-fast ease-out-expo
                   rounded-lg
-                "
+                  ${
+                    isTransparent
+                      ? "text-white/85 hover:text-white"
+                      : "text-text-secondary hover:text-primary"
+                  }
+                `}
               >
                 {link.label}
               </Link>
@@ -107,7 +132,15 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={isMenuOpen}
-              className="relative w-10 h-10 flex items-center justify-center rounded-lg text-text-primary hover:bg-surface transition-colors"
+              className={`
+                relative w-10 h-10 flex items-center justify-center rounded-lg
+                transition-colors
+                ${
+                  isTransparent
+                    ? "text-white hover:bg-white/10"
+                    : "text-text-primary hover:bg-surface"
+                }
+              `}
             >
               <svg
                 className="w-6 h-6"
