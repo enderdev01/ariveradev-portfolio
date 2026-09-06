@@ -21,7 +21,7 @@ module.exports = {
 
         "text-primary": "#0F172A",
         "text-secondary": "#334155",
-        "text-muted": "#64748B",
+        "text-muted": "#5B6A7D",
 
         primary: "#2563EB",
         "primary-soft": "#DBEAFE",
@@ -29,8 +29,12 @@ module.exports = {
 
         accent: "#0EA5E9",
         "accent-soft": "#E0F2FE",
+        // Text-safe accent: #0EA5E9 is 2.77:1 on white and fails WCAG AA.
+        "accent-strong": "#0369A1",
 
         success: "#16A34A",
+        // Text-safe success: #16A34A is 2.79:1 on the success/10 tint and fails AA.
+        "success-strong": "#166534",
         warning: "#F59E0B",
         error: "#DC2626",
 
