@@ -41,7 +41,11 @@ NOT exist alongside it.
 
 - GIVEN every project id in the catalog
 - WHEN its rendered category is compared to `proyectosSeo[id].categoria`
-- THEN the values are identical for all ids, including ids 13 and 18
+- THEN the values are identical for all ids, including id 5 (bucket
+  disagreement, corrected to Plataformas) and id 18 (previously absent from
+  the map, now visible under Ecommerce)
+- NOTE: id 13 was a phantom key in the deleted map and never corresponded to
+  a real project — it is not part of the corrected id list
 
 #### Scenario: No duplicate category map exists (negative case)
 

@@ -13,7 +13,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
 
 ## Phase 1 — Remediation
 
-### T1.1 — Amend the portfolio-catalog spec's phantom-id scenario
+### T1.1 — Amend the portfolio-catalog spec's phantom-id scenario [x]
 
 - **Spec link**: `specs/portfolio-catalog/spec.md:44` (illustrative id list only — the
   requirement text at `:36-37` is NOT touched)
@@ -28,7 +28,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
 - **Verification**: Manual read-through confirming `:36-37` text is byte-identical to
   before the edit, and the amended scenario no longer claims id 13 is a real project.
 
-### T1.2 — Create `src/lib/categories.js` (pure category projection)
+### T1.2 — Create `src/lib/categories.js` (pure category projection) [x]
 
 - **Spec link**: `specs/portfolio-catalog/spec.md` — "Single source of truth for project
   category"; prerequisite named in D5
