@@ -146,7 +146,7 @@ export default function Portfolio() {
   }, [getSegmentWidth, setTranslate, handleTouchMove, startAutoScroll]);
 
   return (
-    <section id="portafolio" className="relative bg-background py-20 sm:py-28">
+    <section id="portafolio" className="relative bg-background py-16 sm:py-20">
       <div className="mx-auto">
         <div className="mb-12 text-center px-4">
           <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">

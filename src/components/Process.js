@@ -9,10 +9,10 @@ export default function Process() {
   return (
     <section
       id="proceso"
-      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-background"
+      className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-background"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-14 md:mb-20">
+        <div className="text-center mb-10 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Cómo trabajamos
