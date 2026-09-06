@@ -79,7 +79,7 @@ in the same unit, independent rollback. Chained-PR slicing follows the proposal'
 - **Verification**: `npm run build` passes with no unresolved-import errors. Grep confirms
   no remaining reference to `Portfolio` or `Projects` component names in `src/`.
 
-### T1.5 — Contact form: remove `setTimeout` auto-dismiss, add `aria-live` roles
+### T1.5 — Contact form: remove `setTimeout` auto-dismiss, add `aria-live` roles [x]
 
 - **Spec link**: `specs/contact-form/spec.md` — "Success feedback is announced and
   persists", "Error feedback is announced and retry persists"

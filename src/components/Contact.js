@@ -56,11 +56,8 @@ export default function Contact() {
         tipo: "",
         mensaje: "",
       });
-
-      setTimeout(() => setStatus("idle"), 4000);
     } catch {
       setStatus("error");
-      setTimeout(() => setStatus("idle"), 4000);
     }
   };
 
@@ -94,13 +91,19 @@ export default function Contact() {
             </h3>
 
             {status === "success" && (
-              <div className="mb-8 bg-success/10 text-success-strong px-4 py-3 rounded-xl text-center font-medium border border-success/20">
+              <div
+                role="status"
+                className="mb-8 bg-success/10 text-success-strong px-4 py-3 rounded-xl text-center font-medium border border-success/20"
+              >
                 Mensaje enviado correctamente
               </div>
             )}
 
             {status === "error" && (
-              <div className="mb-8 bg-error/10 text-error px-4 py-3 rounded-xl text-center font-medium border border-error/20">
+              <div
+                role="alert"
+                className="mb-8 bg-error/10 text-error px-4 py-3 rounded-xl text-center font-medium border border-error/20"
+              >
                 Error al enviar el mensaje
               </div>
             )}
