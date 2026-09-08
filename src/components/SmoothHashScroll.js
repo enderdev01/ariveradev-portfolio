@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { smoothScrollToElement } from "../lib/smoothScroll";
 
 // next/link performs its own instant scroll for hash targets and ignores the
 // CSS `scroll-behavior: smooth`. This intercepts clicks whose target already
@@ -27,7 +28,7 @@ export default function SmoothHashScroll() {
       if (!target) return;
 
       event.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      smoothScrollToElement(target);
       window.history.pushState(null, "", url.hash);
     };
 
