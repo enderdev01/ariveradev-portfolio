@@ -121,7 +121,7 @@ export const equipo = [
     rol: "Developer",
     bio: "Especialista en desarrollo full-stack y arquitectura de sistemas escalables con experiencia en tecnologías modernas.",
     iniciales: "A",
-    imagen: "/acxeldev.jpeg",
+    imagen: "/ahksel.png",
   },
   {
     id: 3,
@@ -129,15 +129,7 @@ export const equipo = [
     rol: "Developer",
     bio: "Desarrollador experto en aplicaciones móviles y APIs, con enfoque en performance y experiencia de usuario.",
     iniciales: "M",
-    imagen: "/mauro.jpg",
-  },
-  {
-    id: 4,
-    nombre: "GHOST",
-    rol: "Developer",
-    bio: "Desarrollador especializado en integraciones complejas, microservicios y optimización de sistemas existentes.",
-    iniciales: "G",
-    imagen: "/samuel.jpeg",
+    imagen: "/mauro.png",
   },
 ];
 

@@ -24,7 +24,7 @@ export default function Team() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {equipo.map((miembro, i) => (
             <Reveal
               key={miembro.id}
@@ -36,37 +36,34 @@ export default function Team() {
                 flex flex-col items-center text-center
                 shadow-sm overflow-hidden
                 select-none cursor-default
-                transition-all duration-base ease-out-expo
-                hover:border-primary/50 hover:shadow-xl hover:shadow-primary/8 hover:-translate-y-0.5
+                hover-lift
+                hover:border-primary/50 hover:shadow-xl hover:shadow-primary/8
                 focus-within:border-primary/50 focus-within:shadow-xl
               "
             >
               <div
                 className="
-                  absolute -top-16 lg:-top-20 left-1/2 -translate-x-1/2
-                  w-52 h-52 lg:w-72 lg:h-72
-                  bg-primary/20 rounded-full
-                  hidden lg:block blur-3xl
-                  opacity-0 z-0
-                  transition-opacity duration-base ease-out-expo
-                  group-hover:opacity-100
-                  group-focus-within:opacity-100
-                  pointer-events-none
+                  glow-bloom
+                  absolute -top-20 lg:-top-28 left-1/2
+                  w-64 h-64 lg:w-[22rem] lg:h-[22rem]
+                  rounded-full
+                  hidden lg:block
+                  z-0 pointer-events-none
                 "
                 aria-hidden="true"
               />
 
-              <div className="relative z-10 w-28 h-48 lg:w-40 lg:h-64 mb-6 lg:mb-10">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent hidden lg:block blur-xl opacity-30 rounded-full" />
+              <div className="relative z-10 w-36 h-36 lg:w-52 lg:h-52 mb-6 lg:mb-10">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent hidden lg:block blur-xl opacity-20 rounded-full" />
                 <div className="relative w-full h-full rounded-full overflow-hidden shadow-md bg-surface">
                   <Image
                     src={miembro.imagen}
                     alt={miembro.nombre}
                     loading="lazy"
-                    width={160}
-                    height={256}
-                    sizes="(min-width: 1024px) 160px, 112px"
-                    className="w-full h-full object-cover object-top"
+                    width={208}
+                    height={208}
+                    sizes="(min-width: 1024px) 208px, 144px"
+                    className="w-full h-full object-cover object-center"
                   />
                 </div>
               </div>
