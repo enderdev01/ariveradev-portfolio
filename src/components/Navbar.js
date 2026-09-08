@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,6 +6,9 @@ import { useRouter } from "next/router";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const menuButtonRef = useRef(null);
+  const menuRef = useRef(null);
+  const firstMenuLinkRef = useRef(null);
   const router = useRouter();
 
   // On the home page the hero runs full-bleed underneath the navbar, so the bar
@@ -19,15 +22,67 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isTransparent = isHome && !isScrolled && !isMenuOpen;
+  useEffect(() => {
+    if (!isMenuOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      firstMenuLinkRef.current?.focus();
+    });
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setIsMenuOpen(false);
+        menuButtonRef.current?.focus();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      if (!menuRef.current) return;
+
+      const focusableElements = [
+        menuButtonRef.current,
+        ...menuRef.current.querySelectorAll("a[href], button:not([disabled])"),
+      ].filter(Boolean);
+
+      if (!focusableElements.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
+
+  const isHeaderOnDarkSurface = isMenuOpen || (isHome && !isScrolled);
 
   const handleNavClick = (e, href) => {
     const hash = href.replace("/#", "#");
-    if (router.pathname === "/") {
+    const el = router.pathname === "/" ? document.querySelector(hash) : null;
+
+    if (el) {
       e.preventDefault();
-      const el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      el.scrollIntoView({ behavior: "smooth" });
     }
+
     setIsMenuOpen(false);
   };
 
@@ -41,12 +96,12 @@ export default function Navbar() {
   return (
     <nav
       className={`
-        fixed top-0 w-full z-50
+        fixed top-0 w-full z-[70]
         py-2 px-4 sm:px-6 lg:px-8
         border-b
         transition-[background-color,border-color,backdrop-filter] duration-base ease-out-expo
         ${
-          isTransparent
+          isHeaderOnDarkSurface
             ? "bg-transparent border-transparent"
             : "bg-background/90 backdrop-blur-lg border-border/80"
         }
@@ -58,8 +113,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center min-h-16">
           <Link
             href="/"
-            className="flex-shrink-0 flex items-center gap-3"
+            className="relative z-[80] flex-shrink-0 flex items-center gap-3"
             aria-label="OniLabs - Inicio"
+            tabIndex={isMenuOpen ? -1 : 0}
             onClick={(e) => {
               if (router.pathname === "/") {
                 e.preventDefault();
@@ -79,7 +135,7 @@ export default function Navbar() {
               className={`
                 text-xl sm:text-2xl font-bold
                 ${
-                  isTransparent
+                  isHeaderOnDarkSurface
                     ? "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]"
                     : "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
                 }
@@ -101,7 +157,7 @@ export default function Navbar() {
                   transition-colors duration-hover-in ease-hover
                   rounded-lg
                   ${
-                    isTransparent
+                    isHeaderOnDarkSurface
                       ? "text-white/85 hover:text-white"
                       : "text-text-secondary hover:text-primary"
                   }
@@ -129,83 +185,127 @@ export default function Navbar() {
           {/* Mobile button */}
           <div className="md:hidden">
             <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              ref={menuButtonRef}
+              onClick={() => setIsMenuOpen((open) => !open)}
               aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-navigation"
               className={`
-                relative w-11 h-11 flex items-center justify-center rounded-lg
+                relative z-[80] w-11 h-11 flex items-center justify-center rounded-lg
                 transition-colors duration-hover-in ease-hover
                 ${
-                  isTransparent
+                  isHeaderOnDarkSurface
                     ? "text-white hover:bg-white/10"
                     : "text-text-primary hover:bg-surface"
                 }
               `}
             >
               <svg
-                className="w-6 h-6"
+                className="mobile-menu__toggle-icon w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
-                {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
+                <path
+                  className={`mobile-menu__toggle-line mobile-menu__toggle-line--top ${isMenuOpen ? "is-open" : ""}`}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 7h16"
+                />
+                <path
+                  className={`mobile-menu__toggle-line mobile-menu__toggle-line--middle ${isMenuOpen ? "is-open" : ""}`}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 12h16"
+                />
+                <path
+                  className={`mobile-menu__toggle-line mobile-menu__toggle-line--bottom ${isMenuOpen ? "is-open" : ""}`}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 17h16"
+                />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Mobile menu with transition */}
+        {/* Full-screen mobile navigation */}
         <div
+          ref={menuRef}
           id="mobile-navigation"
-          className={`
-            md:hidden grid min-h-0
-            transition-[grid-template-rows,opacity] duration-base ease-out-expo
-            ${isMenuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}
-          `}
+          className="mobile-menu"
+          data-open={isMenuOpen}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="mobile-menu-title"
           aria-hidden={!isMenuOpen}
         >
-          <div className="min-h-0 overflow-hidden">
-            <div className="py-4 space-y-1 border-t border-border/50">
-              {navLinks.map((link) => (
+          <div className="mobile-menu__orb" aria-hidden="true" />
+          <div className="mobile-menu__inner">
+            <div className="mobile-menu__heading">
+              <h2 id="mobile-menu-title">Navegación</h2>
+              <span aria-hidden="true">OniLabs / 2026</span>
+            </div>
+
+            <div className="mobile-menu__nav" role="menu">
+              {navLinks.map((link, index) => (
                 <Link
                   key={link.href}
+                  ref={index === 0 ? firstMenuLinkRef : undefined}
                   href={link.href}
-                  className="block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-hover-in ease-hover font-medium"
-                  onClick={(e) => handleNavClick(e, link.href)}
+                  role="menuitem"
                   tabIndex={isMenuOpen ? 0 : -1}
+                  style={{ "--menu-index": index }}
+                  className="mobile-menu__link"
+                  onClick={(e) => handleNavClick(e, link.href)}
                 >
-                  {link.label}
+                  <span className="mobile-menu__link-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>{link.label}</span>
+                  <svg
+                    className="mobile-menu__link-arrow"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M5 19 19 5M8 5h11v11"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.7"
+                    />
+                  </svg>
                 </Link>
               ))}
-              <div className="pt-2 px-4">
-                <Link
-                  href="/#contactanos"
-                  className="
-                    block
-                    bg-primary text-white
-                    px-6 py-3 rounded-lg text-center font-bold
-                    hover-press hover:bg-primary-dark
-                  "
-                  onClick={(e) => handleNavClick(e, "/#contactanos")}
-                  tabIndex={isMenuOpen ? 0 : -1}
-                >
-                  Contáctanos
-                </Link>
+            </div>
+
+            <div className="mobile-menu__footer">
+              <Link
+                href="/#contactanos"
+                role="menuitem"
+                tabIndex={isMenuOpen ? 0 : -1}
+                className="mobile-menu__cta hover-press"
+                onClick={(e) => handleNavClick(e, "/#contactanos")}
+              >
+                <span>Hablemos de tu proyecto</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path
+                    d="M5 12h13M13 6l6 6-6 6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.8"
+                  />
+                </svg>
+              </Link>
+              <div className="mobile-menu__meta">
+                <span>Desarrollo web · móvil · ecommerce</span>
+                <span>LinkedIn · GitHub · Lima</span>
               </div>
             </div>
           </div>
