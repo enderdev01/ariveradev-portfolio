@@ -16,17 +16,17 @@ export default function FeaturedProjects() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-10 sm:mb-12">
-          <Reveal blur>
+          <Reveal variant="small">
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Nuestro trabajo
             </p>
           </Reveal>
-          <Reveal blur delay={90}>
+          <Reveal variant="heading" delay={80}>
             <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
               Repositorio
             </h2>
           </Reveal>
-          <Reveal delay={180}>
+          <Reveal delay={160}>
             <p className="mx-auto max-w-2xl text-base sm:text-lg text-text-secondary leading-relaxed">
               Proyectos reales que hemos desarrollado para nuestros clientes
             </p>
@@ -38,7 +38,8 @@ export default function FeaturedProjects() {
           {proyectosDestacados.map((proyecto, i) => (
             <Reveal
               key={proyecto.id}
-              delay={i * 110}
+              variant="card"
+              delay={100 + i * 80}
               className="bg-white rounded-2xl border border-border overflow-hidden flex flex-col hover-lift"
               style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
@@ -85,7 +86,7 @@ export default function FeaturedProjects() {
 
         {/* Footer CTA */}
         <div className="mt-10 sm:mt-12 flex justify-center">
-          <Reveal delay={150}>
+          <Reveal variant="small" delay={120}>
             <Link
               href="/proyectos"
               className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full hover-press text-sm uppercase tracking-wider inline-block"

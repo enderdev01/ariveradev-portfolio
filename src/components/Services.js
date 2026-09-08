@@ -7,17 +7,17 @@ export default function Services() {
     <section id="servicios" className="py-16 sm:py-20 bg-baseEsp">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-12">
-          <Reveal blur>
+          <Reveal variant="small">
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Lo que hacemos
             </p>
           </Reveal>
-          <Reveal blur delay={90}>
+          <Reveal variant="heading" delay={80}>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-5 text-text-primary">
               Nuestras Especialidades
             </h2>
           </Reveal>
-          <Reveal delay={180}>
+          <Reveal delay={160}>
             <p className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
               Ofrecemos soluciones tecnológicas completas para impulsar tu negocio digital
             </p>
@@ -28,7 +28,8 @@ export default function Services() {
           {servicios.map((servicio, i) => (
             <Reveal
               key={servicio.id}
-              delay={i * 90}
+              variant="card"
+              delay={100 + Math.min(i, 2) * 80}
               className="group relative bg-background text-center border border-border rounded-2xl p-6 sm:p-8 hover-lift hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30"
             >
               <div className="text-4xl mb-5" aria-hidden="true">
@@ -55,7 +56,7 @@ export default function Services() {
         </div>
 
         <div className="mt-12 text-center">
-          <Reveal delay={120}>
+          <Reveal variant="small" delay={120}>
             <Link
               href="/servicios"
               className="inline-flex items-center gap-2 border border-border rounded-lg px-6 py-3 font-semibold text-text-primary hover-press hover:border-primary hover:text-primary"

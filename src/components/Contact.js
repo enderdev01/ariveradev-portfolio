@@ -74,12 +74,12 @@ export default function Contact() {
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10 sm:mb-12">
-          <Reveal blur>
+          <Reveal variant="small">
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Hablemos
             </p>
           </Reveal>
-          <Reveal blur delay={90}>
+          <Reveal variant="heading" delay={80}>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-text-primary">
               Contáctanos
             </h2>
@@ -88,7 +88,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
           {/* Form */}
-          <Reveal delay={120} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10 shadow-sm">
+          <Reveal variant="card" threshold={0.12} delay={100} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10 shadow-sm">
             <h3 className="text-xl font-semibold text-text-primary mb-8">
               Cuéntanos qué tienes en mente
             </h3>
@@ -241,7 +241,7 @@ export default function Contact() {
 
           {/* Contact info */}
           <div className="flex flex-col gap-8">
-            <Reveal delay={220} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10">
+            <Reveal variant="card" threshold={0.12} delay={180} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10">
               <h3 className="text-xl font-semibold text-text-primary mb-5">
                 Te acompañamos en todo el proceso
               </h3>
@@ -292,7 +292,7 @@ export default function Contact() {
               </div>
             </Reveal>
 
-            <Reveal delay={320} className="border border-border rounded-2xl p-8 bg-background/60">
+            <Reveal variant="card" delay={260} className="border border-border rounded-2xl p-8 bg-background/60">
               <p className="mb-4 font-semibold text-text-primary">
                 ¿Qué pasa después?
               </p>

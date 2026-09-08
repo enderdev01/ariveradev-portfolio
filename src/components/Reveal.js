@@ -6,7 +6,8 @@ import { useEffect, useRef } from "react";
 // actually visible while scrolling.
 //
 // - `delay` (ms): stagger siblings without blocking layout.
-// - `blur`: adds a soft blur-in for headings / hero-level text.
+// - `variant`: matches duration and distance to the element hierarchy.
+// - `threshold`: lower only for unusually large elements.
 // - Renders any tag via `as`, default `div`.
 //
 // The reveal runs as a one-shot CSS animation. On `animationend` we swap
@@ -15,7 +16,8 @@ import { useEffect, useRef } from "react";
 export default function Reveal({
   as: Tag = "div",
   delay = 0,
-  blur = false,
+  variant = "body",
+  threshold,
   className = "",
   style,
   children,
@@ -32,6 +34,13 @@ export default function Reveal({
       return;
     }
 
+    if (!("IntersectionObserver" in window)) {
+      el.classList.add("revealed");
+      return;
+    }
+
+    el.classList.add("reveal-pending");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -40,13 +49,16 @@ export default function Reveal({
           observer.unobserve(el);
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
+      {
+        threshold: threshold ?? (variant === "card" ? 0.15 : 0.2),
+        rootMargin: "0px 0px -8% 0px",
+      }
     );
 
     const onEnd = (event) => {
       if (event.target !== el) return;
       el.classList.add("revealed");
-      el.classList.remove("visible");
+      el.classList.remove("visible", "reveal-pending");
     };
 
     el.addEventListener("animationend", onEnd);
@@ -56,9 +68,9 @@ export default function Reveal({
       observer.disconnect();
       el.removeEventListener("animationend", onEnd);
     };
-  }, []);
+  }, [threshold, variant]);
 
-  const base = blur ? "reveal reveal-blur" : "reveal";
+  const base = `reveal reveal-${variant}`;
 
   return (
     <Tag

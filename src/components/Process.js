@@ -13,12 +13,12 @@ export default function Process() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10 sm:mb-12">
-          <Reveal blur>
+          <Reveal variant="small">
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Cómo trabajamos
             </p>
           </Reveal>
-          <Reveal blur delay={90}>
+          <Reveal variant="heading" delay={80}>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
               Nuestro Proceso de Trabajo
             </h2>
@@ -30,7 +30,8 @@ export default function Process() {
           {procesosOrdenados.map((item, i) => (
             <Reveal
               key={item.id}
-              delay={i * 90}
+              variant="card"
+              delay={80 + (i % 2) * 80}
               className="group relative bg-background border border-border rounded-2xl p-6 shadow-sm select-none cursor-default hover-lift hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10"
             >
               <div className="absolute -top-4 left-5 w-8 h-8 rounded-full bg-gradient-to-r from-primary to-accent text-white flex items-center justify-center font-bold text-sm shadow-md transition-transform duration-hover-in ease-hover group-hover:scale-[1.08]">
@@ -61,7 +62,8 @@ export default function Process() {
               return (
                 <Reveal
                   key={item.id}
-                  delay={i * 90}
+                  variant="card"
+                  delay={80 + (i % 2) * 80}
                   className={`group flex items-center ${
                     esProcesoi ? "flex-row-reverse" : "flex-row"
                   }`}

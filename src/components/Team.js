@@ -14,12 +14,12 @@ export default function Team() {
     >
       <div className="w-full px-4 sm:px-8 lg:px-16">
         <div className="text-center mb-10 sm:mb-12">
-          <Reveal blur>
+          <Reveal variant="heading">
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 text-text-primary">
               Nuestro Equipo
             </h2>
           </Reveal>
-          <Reveal delay={90}>
+          <Reveal variant="small" delay={110}>
             <div className="w-40 sm:w-64 lg:w-96 h-1 mx-auto bg-gradient-to-r from-primary to-accent rounded-full" />
           </Reveal>
         </div>
@@ -28,7 +28,9 @@ export default function Team() {
           {equipo.map((miembro, i) => (
             <Reveal
               key={miembro.id}
-              delay={i * 110}
+              variant="card"
+              threshold={0.12}
+              delay={100 + i * 80}
               className="
                 group relative bg-background border border-border rounded-3xl
                 p-8 lg:p-20

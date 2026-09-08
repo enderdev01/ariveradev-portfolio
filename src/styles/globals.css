@@ -38,8 +38,11 @@
   --motion-fast: 150ms;
   --motion-base: 250ms;
   --motion-slow: 500ms;
-  --motion-reveal: 800ms;
-  --motion-stagger: 110ms;
+  --motion-small: 550ms;
+  --motion-body: 700ms;
+  --motion-heading: 850ms;
+  --motion-hero: 1000ms;
+  --motion-stagger: 80ms;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-loop: cubic-bezier(0.45, 0, 0.55, 1);
@@ -59,7 +62,10 @@
   --motion-glow-in: 620ms;
   --motion-glow-out: 400ms;
 
-  --distance-reveal: 32px;
+  --distance-text: 18px;
+  --distance-heading: 24px;
+  --distance-card: 28px;
+  --distance-reveal: var(--distance-text);
   --distance-lift: -2px;
   --distance-nudge: 2px;
 
@@ -67,6 +73,15 @@
   --scale-press: 0.97;
   --scale-badge: 1.08;
   --scale-image: 1.05;
+}
+
+@media (min-width: 769px) {
+  :root {
+    --motion-small: 500ms;
+    --motion-body: 600ms;
+    --motion-heading: 750ms;
+    --motion-hero: 900ms;
+  }
 }
 
 html {
@@ -137,7 +152,7 @@ a {
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(var(--distance-reveal));
+    transform: translateY(var(--reveal-distance, var(--distance-reveal)));
   }
   to {
     opacity: 1;
@@ -148,19 +163,6 @@ a {
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-@keyframes reveal-blur {
-  from {
-    opacity: 0;
-    transform: translateY(var(--distance-reveal));
-    filter: blur(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
 }
 
 @keyframes scale-in {
@@ -174,35 +176,23 @@ a {
   }
 }
 
-@keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(8px); }
-}
-
 /* --- One-shot animation classes (Hero entrance, etc.) --- */
 
 .animate-fade-up {
   animation: fade-up var(--motion-slow) var(--ease-out) both;
-  will-change: opacity, transform;
 }
 
 .animate-fade-in {
   animation: fade-in var(--motion-slow) var(--ease-out) both;
-  will-change: opacity;
 }
 
 .animate-scale-in {
   animation: scale-in var(--motion-base) var(--ease-out) both;
-  will-change: opacity, transform;
-}
-
-.animate-scroll-bounce {
-  animation: scroll-bounce 2s var(--ease-loop) infinite;
 }
 
 /* Legacy alias — maps old class name to new keyframe */
 .animate-fade-in-up {
-  animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
+  animation: fade-up var(--motion-body) var(--ease-reveal) both;
 }
 /* --- Stagger delays (80ms intervals, max 5) --- */
 
@@ -212,6 +202,48 @@ a {
 .stagger-4 { animation-delay: calc(var(--motion-stagger) * 4); }
 .stagger-5 { animation-delay: calc(var(--motion-stagger) * 5); }
 
+/* --- Hero sequence --- */
+
+.hero-enter {
+  --reveal-distance: var(--distance-text);
+  animation: fade-up var(--hero-duration, var(--motion-body)) var(--ease-reveal) both;
+  animation-delay: var(--hero-delay, 0ms);
+}
+
+.hero-enter-tagline {
+  --hero-duration: var(--motion-small);
+  --hero-delay: 100ms;
+}
+
+.hero-enter-heading {
+  --hero-duration: var(--motion-hero);
+  --hero-delay: 180ms;
+  --reveal-distance: var(--distance-heading);
+}
+
+.hero-enter-body {
+  --hero-delay: 320ms;
+}
+
+.hero-enter-actions {
+  --hero-duration: var(--motion-small);
+  --hero-delay: 440ms;
+}
+
+.hero-enter-proof {
+  --hero-duration: var(--motion-small);
+  --hero-delay: 560ms;
+  --reveal-distance: 12px;
+}
+
+@media (min-width: 769px) {
+  .hero-enter-tagline { --hero-delay: 80ms; }
+  .hero-enter-heading { --hero-delay: 160ms; }
+  .hero-enter-body { --hero-delay: 280ms; }
+  .hero-enter-actions { --hero-delay: 400ms; }
+  .hero-enter-proof { --hero-delay: 500ms; }
+}
+
 /* --- Scroll reveal (IntersectionObserver driven) ---
    The reveal runs as a one-shot animation (not a transition) so the
    element's own Tailwind `transition-all` stays free for hover effects.
@@ -219,39 +251,46 @@ a {
    which releases the animation fill-mode lock. */
 
 .reveal {
+  --reveal-duration: var(--motion-body);
+  --reveal-distance: var(--distance-text);
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-small {
+  --reveal-duration: var(--motion-small);
+  --reveal-distance: 12px;
+}
+
+.reveal-heading {
+  --reveal-duration: var(--motion-heading);
+  --reveal-distance: var(--distance-heading);
+}
+
+.reveal-card {
+  --reveal-duration: 650ms;
+  --reveal-distance: var(--distance-card);
+}
+
+@media (min-width: 769px) {
+  .reveal-card {
+    --reveal-duration: 600ms;
+  }
+}
+
+.reveal.reveal-pending {
   opacity: 0;
-  transform: translateY(var(--distance-reveal));
-  will-change: opacity, transform;
+  transform: translateY(var(--reveal-distance));
 }
 
 .reveal.visible {
-  animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
+  animation: fade-up var(--reveal-duration) var(--ease-reveal) both;
+  will-change: opacity, transform;
 }
 
 .reveal.revealed {
   opacity: 1;
   transform: none;
-  animation: none;
-  will-change: auto;
-}
-
-/* --- Soft blur variant for headings and hero-level text --- */
-
-.reveal-blur {
-  opacity: 0;
-  transform: translateY(var(--distance-reveal));
-  filter: blur(8px);
-  will-change: opacity, transform, filter;
-}
-
-.reveal-blur.visible {
-  animation: reveal-blur var(--motion-reveal) var(--ease-reveal) both;
-}
-
-.reveal-blur.revealed {
-  opacity: 1;
-  transform: none;
-  filter: none;
   animation: none;
   will-change: auto;
 }
@@ -344,6 +383,48 @@ a {
   transform: scale(var(--scale-press));
 }
 
+/* --- Mobile menu sequence --- */
+
+.mobile-menu {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-12px);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    grid-template-rows 220ms var(--ease-reveal) 180ms,
+    opacity 260ms var(--ease-reveal) 140ms,
+    transform 400ms var(--ease-reveal),
+    visibility 0s linear 400ms;
+}
+
+.mobile-menu.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    grid-template-rows 650ms var(--ease-reveal),
+    opacity 500ms var(--ease-reveal),
+    transform 650ms var(--ease-reveal),
+    visibility 0s linear;
+}
+
+.mobile-menu-item {
+  opacity: 0;
+  transform: translateY(-16px);
+  transition:
+    opacity 200ms var(--ease-reveal) var(--menu-close-delay, 0ms),
+    transform 200ms var(--ease-reveal) var(--menu-close-delay, 0ms);
+}
+
+.mobile-menu.is-open .mobile-menu-item {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: var(--menu-open-delay, 180ms);
+}
+
 /* --- Ambient glow -----------------------------------------------------------
 
    A large, soft light source revealed on hover. Three rules make it read as
@@ -420,29 +501,47 @@ a {
   }
 }
 
-/* --- Reduced motion — everything instant or static --- */
+/* --- Reduced motion — spatial entrances and ambient movement are removed. --- */
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    animation-delay: 0ms !important;
-    transition-duration: 0.01ms !important;
+  .hero-enter,
+  .animate-fade-up,
+  .animate-fade-in-up,
+  .animate-scale-in,
+  .animate-fade-in {
+    animation: fade-in 120ms var(--ease-reveal) both;
+    animation-delay: 0ms;
   }
 
   .reveal,
+  .reveal.reveal-pending,
   .reveal.visible,
-  .reveal.revealed,
-  .reveal-blur,
-  .reveal-blur.visible,
-  .reveal-blur.revealed {
+  .reveal.revealed {
     opacity: 1;
     transform: none;
-    filter: none;
     animation: none;
     transition: none;
+  }
+
+  .mobile-menu {
+    transform: none;
+    transition:
+      grid-template-rows 0ms linear 120ms,
+      opacity 120ms var(--ease-reveal),
+      visibility 0s linear 120ms;
+  }
+
+  .mobile-menu.is-open {
+    transition:
+      grid-template-rows 0ms linear,
+      opacity 120ms var(--ease-reveal),
+      visibility 0s linear;
+  }
+
+  .mobile-menu-item,
+  .mobile-menu.is-open .mobile-menu-item {
+    transform: none;
+    transition: opacity 120ms var(--ease-reveal);
   }
 
   .hover-lift:hover,
@@ -457,6 +556,7 @@ a {
   /* The glow still confirms the hover; it just stops growing. */
   .glow-bloom {
     transform: translateX(-50%);
+    transition: opacity 120ms var(--ease-reveal);
   }
 
   .group:hover .glow-bloom,

@@ -11,6 +11,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import { SITE_URL } from "../lib/site";
+import { getMotionSafeScrollBehavior } from "../lib/motion";
 
 
 const TITLE =
@@ -72,7 +73,10 @@ export default function Home() {
     if (!hash) return;
     const el = document.querySelector(hash);
     if (el) {
-      setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+      setTimeout(
+        () => el.scrollIntoView({ behavior: getMotionSafeScrollBehavior() }),
+        100,
+      );
     }
   }, [router.asPath]);
 

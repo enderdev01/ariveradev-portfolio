@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getMotionSafeScrollBehavior } from "../lib/motion";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,7 +27,7 @@ export default function Navbar() {
     if (router.pathname === "/") {
       e.preventDefault();
       const el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+      if (el) el.scrollIntoView({ behavior: getMotionSafeScrollBehavior() });
     }
     setIsMenuOpen(false);
   };
@@ -44,7 +45,7 @@ export default function Navbar() {
         fixed top-0 w-full z-50
         py-2 px-4 sm:px-6 lg:px-8
         border-b
-        transition-[background-color,border-color,backdrop-filter] duration-base ease-out-expo
+        transition-[background-color,border-color] duration-base ease-out-expo
         ${
           isTransparent
             ? "bg-transparent border-transparent"
@@ -63,7 +64,10 @@ export default function Navbar() {
             onClick={(e) => {
               if (router.pathname === "/") {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                window.scrollTo({
+                  top: 0,
+                  behavior: getMotionSafeScrollBehavior(),
+                });
               }
             }}
           >
@@ -171,26 +175,36 @@ export default function Navbar() {
         {/* Mobile menu with transition */}
         <div
           className={`
-            md:hidden grid
-            transition-[grid-template-rows,opacity] duration-base ease-out-expo
-            ${isMenuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}
+            mobile-menu md:hidden grid
+            ${isMenuOpen ? "is-open" : ""}
           `}
           aria-hidden={!isMenuOpen}
+          inert={isMenuOpen ? undefined : ""}
         >
           <div className="overflow-hidden">
           <div className="py-4 space-y-1 border-t border-border/50">
-            {navLinks.map((link) => (
+            {navLinks.map((link, index) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-hover-in ease-hover font-medium"
+                className="mobile-menu-item block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-hover-in ease-hover font-medium"
+                style={{
+                  "--menu-open-delay": `${180 + index * 75}ms`,
+                  "--menu-close-delay": `${(4 - index) * 40}ms`,
+                }}
                 onClick={(e) => handleNavClick(e, link.href)}
                 tabIndex={isMenuOpen ? 0 : -1}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pt-2 px-4">
+            <div
+              className="mobile-menu-item pt-2 px-4"
+              style={{
+                "--menu-open-delay": "480ms",
+                "--menu-close-delay": "0ms",
+              }}
+            >
               <Link
                 href="/#contactanos"
                 className="
