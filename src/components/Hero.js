@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-black pt-24 pb-16 sm:pt-28 sm:pb-20">
       {/* Background image */}
       <div className="absolute inset-0 z-0 scale-105" aria-hidden="true">
         <Image
@@ -26,7 +26,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 text-center">
         {/* Tagline */}
-        <p className="animate-fade-in-up stagger-1 inline-block text-sm sm:text-base font-semibold tracking-widest uppercase text-cyan-400 mb-6 px-4 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 backdrop-blur-sm">
+        <p className="animate-fade-in-up stagger-1 inline-block text-xs sm:text-base font-semibold tracking-widest uppercase text-cyan-400 mb-5 sm:mb-6 px-4 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 backdrop-blur-sm">
           Laboratorio de programación
         </p>
 
@@ -38,7 +38,7 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="animate-fade-in-up stagger-3 text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+        <p className="animate-fade-in-up stagger-3 text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed font-light">
           Desde microservicios hasta integraciones complejas. Creamos soluciones{" "}
           <span className="text-white font-semibold">
             tecnológicas robustas
@@ -70,7 +70,7 @@ export default function Hero() {
         {/* Nearshore proof: replaces the geography claim the headline used to
             carry. Peru does not observe DST, so the offset against US cities
             shifts by an hour across the year — hence the ranges. */}
-        <div className="animate-fade-in-up stagger-4 mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm text-white/70">
+        <div className="animate-fade-in-up stagger-4 mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs sm:text-sm text-white/70">
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" aria-hidden="true" />
             Equipo nearshore en Perú
@@ -85,7 +85,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-fade-in stagger-4">
+      <div className="hidden sm:block absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-fade-in stagger-4">
         <div className="animate-scroll-bounce flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity duration-hover-in ease-hover">
           <span className="text-white/60 text-xs tracking-widest uppercase">Scroll</span>
           <svg className="w-5 h-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
