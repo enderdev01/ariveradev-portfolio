@@ -574,6 +574,11 @@ a {
   color: #fff;
 }
 
+.mobile-menu__link[data-menu-initial-focus] {
+  outline: none;
+  box-shadow: none;
+}
+
 .mobile-menu__link-number {
   align-self: start;
   padding-top: 0.25rem;

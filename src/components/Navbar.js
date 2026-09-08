@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { smoothScrollToElement } from "../lib/smoothScroll";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,11 +29,22 @@ export default function Navbar() {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const releaseInitialFocus = () => {
+      firstMenuLinkRef.current?.removeAttribute("data-menu-initial-focus");
+    };
+
     const focusFrame = window.requestAnimationFrame(() => {
-      firstMenuLinkRef.current?.focus();
+      const firstLink = firstMenuLinkRef.current;
+      if (!firstLink) return;
+
+      firstLink.setAttribute("data-menu-initial-focus", "true");
+      firstLink.focus({ preventScroll: true });
     });
+    const focusTimeout = window.setTimeout(releaseInitialFocus, 750);
 
     const onKeyDown = (event) => {
+      releaseInitialFocus();
+
       if (event.key === "Escape") {
         event.preventDefault();
         setIsMenuOpen(false);
@@ -64,10 +76,14 @@ export default function Navbar() {
     };
 
     document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", releaseInitialFocus);
 
     return () => {
       window.cancelAnimationFrame(focusFrame);
+      window.clearTimeout(focusTimeout);
       document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", releaseInitialFocus);
+      releaseInitialFocus();
       document.body.style.overflow = previousOverflow;
     };
   }, [isMenuOpen]);
@@ -80,7 +96,9 @@ export default function Navbar() {
 
     if (el) {
       e.preventDefault();
-      el.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false);
+      window.requestAnimationFrame(() => smoothScrollToElement(el));
+      return;
     }
 
     setIsMenuOpen(false);
