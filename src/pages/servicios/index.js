@@ -6,9 +6,9 @@ import { serviciosSeo } from "../../data/servicios-seo";
 import { SITE_URL } from "../../lib/site";
 
 const PAGE_URL = `${SITE_URL}/servicios`;
-const TITLE = "Servicios de Desarrollo de Software en Perú | Onilabs";
+const TITLE = "Servicios de Desarrollo de Software | Onilabs";
 const DESCRIPTION =
-  "Servicios de desarrollo de software en Perú: web, apps móviles, ecommerce WooCommerce, integraciones de APIs, software a medida y mantenimiento.";
+  "Servicios de desarrollo de software para clientes en todo el mundo: web, apps móviles, ecommerce WooCommerce, integraciones de APIs, software a medida y mantenimiento.";
 
 export default function ServiciosPage() {
   const structuredData = {
@@ -57,7 +57,7 @@ export default function ServiciosPage() {
             <nav aria-label="Ruta de navegación" className="mb-8">
               <ol className="flex items-center gap-2 text-sm text-text-secondary">
                 <li>
-                  <Link href="/" className="hover:text-primary transition-colors">
+                  <Link href="/" className="hover:text-primary transition-colors duration-hover-in ease-hover">
                     Inicio
                   </Link>
                 </li>
@@ -67,7 +67,7 @@ export default function ServiciosPage() {
             </nav>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight mb-6">
-              Servicios de desarrollo de software en Perú
+              Servicios de desarrollo de software
             </h1>
 
             <p className="text-lg text-text-secondary leading-relaxed mb-12 max-w-2xl">
@@ -81,7 +81,7 @@ export default function ServiciosPage() {
                 <li key={servicio.slug}>
                   <Link
                     href={`/servicios/${servicio.slug}`}
-                    className="block h-full border border-border rounded-xl p-6 bg-surface hover:border-primary transition-colors"
+                    className="block h-full border border-border rounded-xl p-6 bg-surface hover:border-primary transition-colors duration-hover-in ease-hover"
                   >
                     <h2 className="text-xl font-bold text-text-primary mb-2">
                       {servicio.h1}

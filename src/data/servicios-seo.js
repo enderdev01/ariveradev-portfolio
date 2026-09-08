@@ -5,11 +5,11 @@
 export const serviciosSeo = [
   {
     slug: "desarrollo-web",
-    keyword: "desarrollo web Perú",
-    titulo: "Desarrollo Web en Perú | Onilabs",
-    h1: "Desarrollo web a medida en Perú",
+    keyword: "desarrollo web a medida",
+    titulo: "Desarrollo Web a Medida | Onilabs",
+    h1: "Desarrollo web a medida para equipos en cualquier país",
     descripcion:
-      "Desarrollo web en Perú: sitios corporativos, landing pages, dashboards y aplicaciones SaaS con Next.js y React. Código propio, sin plantillas.",
+      "Desarrollo web a medida: sitios corporativos, landing pages, dashboards y aplicaciones SaaS con Next.js y React. Código propio, sin plantillas.",
     intro:
       "Construimos sitios y aplicaciones web para empresas que necesitan más que una plantilla. Cada proyecto arranca entendiendo el negocio y termina en una plataforma que tu equipo puede mantener y hacer crecer.",
     secciones: [
@@ -37,7 +37,7 @@ export const serviciosSeo = [
       {
         titulo: "Para quién es",
         parrafos: [
-          "Para empresas en Perú que ya tienen un negocio andando y necesitan que la web deje de ser un folleto. Si tu sitio actual no lo puede editar nadie sin llamar a un programador, si carga lento, o si no tenés idea de cuánta gente lo visita, ese es el punto de partida.",
+          "Para empresas que ya tienen un negocio andando y necesitan que la web deje de ser un folleto. Si tu sitio actual no lo puede editar nadie sin llamar a un programador, si carga lento, o si no tenés idea de cuánta gente lo visita, ese es el punto de partida.",
           "También trabajamos con equipos que ya tienen una plataforma y necesitan hacerla crecer sin reescribirla desde cero.",
         ],
       },
@@ -49,9 +49,9 @@ export const serviciosSeo = [
           "Depende del alcance. Una landing page enfocada puede estar en semanas; una plataforma con usuarios, roles e integraciones lleva meses. Lo definimos en la etapa de descubrimiento, antes de comprometernos a una fecha.",
       },
       {
-        pregunta: "¿Trabajan con empresas fuera de Lima?",
+        pregunta: "¿Trabajan con empresas de otros países?",
         respuesta:
-          "Sí. Trabajamos con clientes en todo el Perú y también de forma remota con equipos en Latam.",
+          "Sí. Trabajamos en remoto con clientes de Latinoamérica, Estados Unidos y Europa, en español o inglés, con horarios que se solapan con tu equipo.",
       },
       {
         pregunta: "¿El código queda a nombre nuestro?",
@@ -62,11 +62,11 @@ export const serviciosSeo = [
   },
   {
     slug: "aplicaciones-moviles",
-    keyword: "desarrollo de apps móviles Perú",
-    titulo: "Desarrollo de Apps Móviles en Perú | Onilabs",
-    h1: "Desarrollo de aplicaciones móviles en Perú",
+    keyword: "desarrollo de apps móviles a medida",
+    titulo: "Desarrollo de Apps Móviles a Medida | Onilabs",
+    h1: "Desarrollo de aplicaciones móviles a medida",
     descripcion:
-      "Desarrollo de apps móviles en Perú para Android e iOS con React Native e Ionic. Una sola base de código, notificaciones push e integración con tus sistemas.",
+      "Desarrollo de apps móviles para Android e iOS con React Native e Ionic. Una sola base de código, notificaciones push e integración con tus sistemas.",
     intro:
       "Desarrollamos aplicaciones móviles multiplataforma: una sola base de código que corre en Android y iOS, en vez de mantener dos proyectos separados con dos equipos y dos presupuestos.",
     secciones: [
@@ -107,13 +107,13 @@ export const serviciosSeo = [
   },
   {
     slug: "ecommerce-woocommerce",
-    keyword: "tienda online WooCommerce Perú",
-    titulo: "Tiendas Online y WooCommerce en Perú | Onilabs",
-    h1: "Desarrollo de tiendas online en Perú",
+    keyword: "tienda online WooCommerce a medida",
+    titulo: "Tiendas Online y WooCommerce | Onilabs",
+    h1: "Desarrollo de tiendas online para vender en cualquier mercado",
     descripcion:
-      "Desarrollo de ecommerce en Perú con WooCommerce y plataformas a medida. Pasarelas de pago locales, gestión de inventario y catálogo administrable.",
+      "Desarrollo de ecommerce con WooCommerce y plataformas a medida. Pasarelas de pago locales e internacionales, gestión de inventario y catálogo administrable.",
     intro:
-      "Construimos tiendas online que venden de verdad: catálogo administrable por tu equipo, pagos que funcionan en Perú y un proceso de compra que no pierde gente en el camino.",
+      "Construimos tiendas online que venden de verdad: catálogo administrable por tu equipo, pagos que funcionan en el mercado donde vendés y un proceso de compra que no pierde gente en el camino.",
     secciones: [
       {
         titulo: "WooCommerce o plataforma a medida",
@@ -123,7 +123,7 @@ export const serviciosSeo = [
         ],
       },
       {
-        titulo: "Pagos y envíos en Perú",
+        titulo: "Pagos y envíos locales e internacionales",
         parrafos: [
           "Integramos las pasarelas que se usan acá, con el manejo de webhooks y reconciliación automática que hace falta para que los pedidos no queden colgados cuando un pago se confirma tarde.",
           "Del lado de envíos, configuramos zonas, costos y estados de pedido para que el cliente sepa dónde está su compra sin escribirte por WhatsApp.",
@@ -152,11 +152,11 @@ export const serviciosSeo = [
   },
   {
     slug: "integraciones-api",
-    keyword: "integración de APIs y pasarelas de pago Perú",
-    titulo: "Integraciones y APIs en Perú | Onilabs",
+    keyword: "integración de APIs y pasarelas de pago",
+    titulo: "Integraciones y APIs | Onilabs",
     h1: "Integraciones, APIs y microservicios",
     descripcion:
-      "Integración de APIs, pasarelas de pago, CRMs y webhooks en Perú. Conectamos los sistemas que ya usás para que dejen de trabajar aislados.",
+      "Integración de APIs, pasarelas de pago, CRMs y webhooks. Conectamos los sistemas que ya usás para que dejen de trabajar aislados.",
     intro:
       "La mayoría de las empresas no necesita otro sistema: necesita que los que ya tiene se hablen entre sí. Eso es lo que hacemos acá.",
     secciones: [
@@ -197,11 +197,11 @@ export const serviciosSeo = [
   },
   {
     slug: "software-a-medida",
-    keyword: "desarrollo de software a medida Perú",
-    titulo: "Software a Medida en Perú | Onilabs",
-    h1: "Desarrollo de software a medida en Perú",
+    keyword: "desarrollo de software a medida",
+    titulo: "Software a Medida | Onilabs",
+    h1: "Desarrollo de software a medida para operaciones reales",
     descripcion:
-      "Desarrollo de software a medida en Perú: arquitectura escalable, cloud, CI/CD y sistemas diseñados alrededor de tu operación real.",
+      "Desarrollo de software a medida: arquitectura escalable, cloud, CI/CD y sistemas diseñados alrededor de tu operación real.",
     intro:
       "Cuando ningún producto de estantería encaja con cómo trabaja tu empresa, la alternativa es construir. Pero construir a medida solo se justifica si el software sigue tu operación en vez de obligarte a cambiarla.",
     secciones: [
@@ -242,11 +242,11 @@ export const serviciosSeo = [
   },
   {
     slug: "mantenimiento-web",
-    keyword: "mantenimiento de sitios web Perú",
-    titulo: "Mantenimiento y Soporte Web en Perú | Onilabs",
+    keyword: "mantenimiento de sitios web y aplicaciones",
+    titulo: "Mantenimiento y Soporte Web | Onilabs",
     h1: "Mantenimiento y evolución de aplicaciones",
     descripcion:
-      "Mantenimiento de sitios web y aplicaciones en Perú: soporte continuo, monitoreo, observabilidad y mejoras incrementales basadas en métricas.",
+      "Mantenimiento de sitios web y aplicaciones: soporte continuo, monitoreo, observabilidad y mejoras incrementales basadas en métricas.",
     intro:
       "Un sistema en producción no se termina: se mantiene. Damos soporte continuo, monitoreo y mejoras incrementales, tanto sobre lo que construimos nosotros como sobre plataformas heredadas de otro equipo.",
     secciones: [
