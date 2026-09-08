@@ -31,9 +31,9 @@ export default function Process() {
             <Reveal
               key={item.id}
               delay={i * 90}
-              className="group relative bg-background border border-border rounded-2xl p-6 shadow-sm select-none cursor-default transition-all duration-base ease-out-expo hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-0.5"
+              className="group relative bg-background border border-border rounded-2xl p-6 shadow-sm select-none cursor-default hover-lift hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10"
             >
-              <div className="absolute -top-4 left-5 w-8 h-8 rounded-full bg-gradient-to-r from-primary to-accent text-white flex items-center justify-center font-bold text-sm shadow-md transition-transform duration-base ease-out-expo group-hover:scale-[1.08]">
+              <div className="absolute -top-4 left-5 w-8 h-8 rounded-full bg-gradient-to-r from-primary to-accent text-white flex items-center justify-center font-bold text-sm shadow-md transition-transform duration-hover-in ease-hover group-hover:scale-[1.08]">
                 {item.id}
               </div>
 
@@ -72,10 +72,9 @@ export default function Process() {
                         relative bg-background
                         border border-border rounded-xl p-6
                         shadow-sm select-none cursor-default
-                        transition-all duration-base ease-out-expo
+                        hover-lift-group
                         group-hover:border-primary/40
                         group-hover:shadow-lg group-hover:shadow-primary/10
-                        group-hover:-translate-y-0.5
                         ${esProcesoi ? "text-left" : "text-right"}
                       `}
                     >
@@ -88,7 +87,7 @@ export default function Process() {
                     </div>
                   </div>
 
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-bold text-lg border-4 border-background z-10 shadow-md transition-all duration-base ease-out-expo group-hover:scale-[1.08] group-hover:shadow-lg">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-bold text-lg border-4 border-background z-10 shadow-md transition-all duration-hover-in ease-hover group-hover:scale-[1.08] group-hover:shadow-lg">
                     {item.id}
                   </div>
 

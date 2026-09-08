@@ -181,13 +181,13 @@ export default function Portfolio() {
                 key={index}
                 className="w-[370px] sm:w-[449px] lg:w-[1030px] flex-shrink-0"
               >
-                <div className="group rounded-2xl overflow-hidden border border-border bg-background transition-all duration-base ease-out-expo hover:border-primary/40 hover:shadow-xl hover:shadow-primary/8">
+                <div className="group rounded-2xl overflow-hidden border border-border bg-background hover-lift hover:border-primary/40 hover:shadow-xl hover:shadow-primary/8">
                   {/* Image with hover overlay */}
                   <div className="relative aspect-video w-full overflow-hidden">
                     <ProjectVisual
                       proyecto={proyecto}
                       sizes="(max-width: 768px) 80vw, 780px"
-                      imageClassName="object-cover transition-transform duration-slow ease-out-expo group-hover:scale-[1.05]"
+                      imageClassName="object-cover transition-transform duration-slow ease-hover group-hover:scale-[1.05]"
                       showOverlay={Boolean(proyecto.url && !proyecto.sinSoporte)}
                     />
                   </div>
@@ -203,7 +203,7 @@ export default function Portfolio() {
                           onClick={(e) => {
                             if (hasDragged.current) e.preventDefault();
                           }}
-                          className="link-underline inline-block text-base sm:text-xl font-semibold text-text-primary hover:text-primary transition-colors duration-fast ease-out-expo truncate max-w-full"
+                          className="link-underline inline-block text-base sm:text-xl font-semibold text-text-primary hover:text-primary transition-colors duration-hover-in ease-hover truncate max-w-full"
                         >
                           {proyecto.nombre}
                         </a>
@@ -227,7 +227,7 @@ export default function Portfolio() {
                             e.stopPropagation();
                             if (hasDragged.current) e.preventDefault();
                           }}
-                          className="w-10 h-10 flex items-center justify-center rounded-lg text-text-muted hover:text-primary hover:bg-primary/10 focus-visible:text-primary focus-visible:bg-primary/10 transition-colors duration-fast ease-out-expo"
+                          className="w-10 h-10 flex items-center justify-center rounded-lg text-text-muted hover:text-primary hover:bg-primary/10 focus-visible:text-primary focus-visible:bg-primary/10 transition-colors duration-hover-in ease-hover"
                         >
                           <svg
                             className="w-5 h-5"

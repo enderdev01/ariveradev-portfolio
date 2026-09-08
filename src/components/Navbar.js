@@ -98,7 +98,7 @@ export default function Navbar() {
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`
                   link-underline relative px-4 py-2 text-sm font-semibold
-                  transition-colors duration-fast ease-out-expo
+                  transition-colors duration-hover-in ease-hover
                   rounded-lg
                   ${
                     isTransparent
@@ -117,8 +117,8 @@ export default function Navbar() {
               className="
                 ml-3 bg-primary text-white
                 px-5 py-2.5 rounded-lg font-bold text-sm
+                hover-press
                 hover:bg-primary-dark
-                transition-all duration-fast ease-out-expo
                 hover:shadow-md hover:shadow-primary/20
               "
             >
@@ -134,7 +134,7 @@ export default function Navbar() {
               aria-expanded={isMenuOpen}
               className={`
                 relative w-10 h-10 flex items-center justify-center rounded-lg
-                transition-colors
+                transition-colors duration-hover-in ease-hover
                 ${
                   isTransparent
                     ? "text-white hover:bg-white/10"
@@ -183,7 +183,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-fast ease-out-expo font-medium"
+                className="block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-hover-in ease-hover font-medium"
                 onClick={(e) => handleNavClick(e, link.href)}
                 tabIndex={isMenuOpen ? 0 : -1}
               >
@@ -197,7 +197,7 @@ export default function Navbar() {
                   block
                   bg-primary text-white
                   px-6 py-3 rounded-lg text-center font-bold
-                  hover:bg-primary-dark transition-colors duration-fast ease-out-expo
+                  hover-press hover:bg-primary-dark
                 "
                 onClick={(e) => handleNavClick(e, "/#contactanos")}
                 tabIndex={isMenuOpen ? 0 : -1}

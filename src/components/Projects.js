@@ -17,7 +17,7 @@ export default function Projects() {
           {proyectosEjemplo.map((proyecto) => (
             <div
               key={proyecto.id}
-              className="bg-background border border-border rounded-xl p-6 shadow-sm hover:border-accent hover:shadow-md transition-all transform hover:-translate-y-1 flex flex-col justify-between h-[380px] overflow-hidden"
+              className="bg-background border border-border rounded-xl p-6 shadow-sm hover-lift hover:border-accent hover:shadow-md flex flex-col justify-between h-[380px] overflow-hidden"
             >
               <div>
                 <h3 className="text-xl font-semibold mb-3 text-text-primary">
@@ -56,7 +56,7 @@ export default function Projects() {
                   href={proyecto.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-4 py-2 rounded-lg hover-press"
                 >
                   Ver página
                   <span className="text-lg">→</span>

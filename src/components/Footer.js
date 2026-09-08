@@ -69,7 +69,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="link-underline text-text-secondary hover:text-primary text-sm transition-colors duration-fast ease-out-expo"
+                    className="link-underline text-text-secondary hover:text-primary text-sm transition-colors duration-hover-in ease-hover"
                   >
                     {link.label}
                   </Link>
@@ -91,7 +91,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-alt text-text-secondary hover:text-primary hover:bg-primary/10 transition-all duration-fast ease-out-expo"
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-surface-alt text-text-secondary hover:text-primary hover:bg-primary/10 transition-all duration-hover-in ease-hover"
                 >
                   <social.icon className="text-xl" />
                 </a>

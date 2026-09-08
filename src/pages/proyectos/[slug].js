@@ -87,7 +87,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
             <nav aria-label="Ruta de navegación" className="mb-8">
               <ol className="flex flex-wrap items-center gap-2 text-sm text-text-secondary">
                 <li>
-                  <Link href="/" className="hover:text-primary transition-colors">
+                  <Link href="/" className="hover:text-primary transition-colors duration-hover-in ease-hover">
                     Inicio
                   </Link>
                 </li>
@@ -95,7 +95,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
                 <li>
                   <Link
                     href="/proyectos"
-                    className="hover:text-primary transition-colors"
+                    className="hover:text-primary transition-colors duration-hover-in ease-hover"
                   >
                     Proyectos
                   </Link>
@@ -171,7 +171,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
                   href={proyecto.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                  className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover-press hover:bg-primary-dark"
                 >
                   Ver el proyecto en vivo
                   <span aria-hidden="true">&rarr;</span>
@@ -189,7 +189,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
               </p>
               <Link
                 href="/#contactanos"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover-press hover:bg-primary-dark"
               >
                 Contactanos
               </Link>
@@ -204,7 +204,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
                   <li key={otro.slug}>
                     <Link
                       href={`/proyectos/${otro.slug}`}
-                      className="block border border-border rounded-lg px-4 py-3 hover:border-primary transition-colors"
+                      className="block border border-border rounded-lg px-4 py-3 hover:border-primary transition-colors duration-hover-in ease-hover"
                     >
                       <span className="block font-semibold text-text-primary">
                         {otro.nombre}

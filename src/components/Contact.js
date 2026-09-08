@@ -65,7 +65,7 @@ export default function Contact() {
   };
 
   const inputClasses =
-    "w-full py-3 bg-transparent border-b border-border text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none transition-colors duration-fast ease-out-expo";
+    "w-full py-3 bg-transparent border-b border-border text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none transition-colors duration-hover-in ease-hover";
 
   return (
     <section
@@ -215,7 +215,7 @@ export default function Contact() {
                   type="submit"
                   disabled={status === "loading"}
                   className={`
-                    group w-full py-3.5 rounded-xl text-base font-semibold transition-all duration-base ease-out-expo
+                    group w-full py-3.5 rounded-xl text-base font-semibold hover-press
                     flex items-center justify-center gap-2
                     ${status === "idle" ? "bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25" : ""}
                     ${status === "loading" ? "bg-text-muted text-white cursor-not-allowed" : ""}
@@ -226,7 +226,7 @@ export default function Contact() {
                   {status === "idle" && (
                     <>
                       Enviar mensaje
-                      <svg className="w-5 h-5 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="w-5 h-5 transition-transform duration-hover-in ease-hover group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
                     </>
@@ -257,9 +257,9 @@ export default function Contact() {
                   href="https://wa.me/51993109998"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-fast ease-out-expo group"
+                  className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-hover-in ease-hover group"
                 >
-                  <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#25D366]/10 group-hover:bg-[#25D366]/20 transition-colors duration-fast ease-out-expo">
+                  <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#25D366]/10 group-hover:bg-[#25D366]/20 transition-colors duration-hover-in ease-hover">
                     <FaWhatsapp className="w-5 h-5 text-[#25D366]" />
                   </span>
                   <span>+51 993 109 998</span>
@@ -270,9 +270,9 @@ export default function Contact() {
                   href="https://www.linkedin.com/company/onilabs-dev"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-fast ease-out-expo group"
+                  className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-hover-in ease-hover group"
                 >
-                  <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#0A66C2]/10 group-hover:bg-[#0A66C2]/20 transition-colors duration-fast ease-out-expo">
+                  <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#0A66C2]/10 group-hover:bg-[#0A66C2]/20 transition-colors duration-hover-in ease-hover">
                     <AiOutlineLinkedin className="w-5 h-5 text-[#0A66C2]" />
                   </span>
                   <span>OniLabs</span>
@@ -282,9 +282,9 @@ export default function Contact() {
                   href="mailto:contacto.onilabs@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-fast ease-out-expo group"
+                  className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-hover-in ease-hover group"
                 >
-                  <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-fast ease-out-expo">
+                  <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-hover-in ease-hover">
                     <AiOutlineMail className="w-5 h-5 text-primary" />
                   </span>
                   <span>contacto.onilabs@gmail.com</span>
