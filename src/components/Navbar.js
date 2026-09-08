@@ -55,7 +55,7 @@ export default function Navbar() {
       aria-label="Navegación principal"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center min-h-16">
           <Link
             href="/"
             className="flex-shrink-0 flex items-center gap-3"
@@ -71,9 +71,9 @@ export default function Navbar() {
               src="/logo.png"
               alt="OniLabs logo"
               width={48}
-              height={48}
+              height={72}
               priority
-              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+              className="h-9 w-auto sm:h-11"
             />
             <span
               className={`
@@ -132,8 +132,9 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
               className={`
-                relative w-10 h-10 flex items-center justify-center rounded-lg
+                relative w-11 h-11 flex items-center justify-center rounded-lg
                 transition-colors duration-hover-in ease-hover
                 ${
                   isTransparent
@@ -170,42 +171,43 @@ export default function Navbar() {
 
         {/* Mobile menu with transition */}
         <div
+          id="mobile-navigation"
           className={`
-            md:hidden grid
+            md:hidden grid min-h-0
             transition-[grid-template-rows,opacity] duration-base ease-out-expo
             ${isMenuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}
           `}
           aria-hidden={!isMenuOpen}
         >
-          <div className="overflow-hidden">
-          <div className="py-4 space-y-1 border-t border-border/50">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-hover-in ease-hover font-medium"
-                onClick={(e) => handleNavClick(e, link.href)}
-                tabIndex={isMenuOpen ? 0 : -1}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-2 px-4">
-              <Link
-                href="/#contactanos"
-                className="
-                  block
-                  bg-primary text-white
-                  px-6 py-3 rounded-lg text-center font-bold
-                  hover-press hover:bg-primary-dark
-                "
-                onClick={(e) => handleNavClick(e, "/#contactanos")}
-                tabIndex={isMenuOpen ? 0 : -1}
-              >
-                Contáctanos
-              </Link>
+          <div className="min-h-0 overflow-hidden">
+            <div className="py-4 space-y-1 border-t border-border/50">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block px-4 py-3 text-text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-colors duration-hover-in ease-hover font-medium"
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  tabIndex={isMenuOpen ? 0 : -1}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="pt-2 px-4">
+                <Link
+                  href="/#contactanos"
+                  className="
+                    block
+                    bg-primary text-white
+                    px-6 py-3 rounded-lg text-center font-bold
+                    hover-press hover:bg-primary-dark
+                  "
+                  onClick={(e) => handleNavClick(e, "/#contactanos")}
+                  tabIndex={isMenuOpen ? 0 : -1}
+                >
+                  Contáctanos
+                </Link>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
