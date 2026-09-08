@@ -46,8 +46,8 @@ export default function Footer() {
                 src="/logo.png"
                 alt="OniLabs logo"
                 width={48}
-                height={48}
-                className="h-12 w-12 object-contain"
+                height={72}
+                className="h-12 w-auto"
               />
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 OniLabs

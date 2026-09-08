@@ -71,9 +71,9 @@ export default function Navbar() {
               src="/logo.png"
               alt="OniLabs logo"
               width={48}
-              height={48}
+              height={72}
               priority
-              className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+              className="h-9 w-auto sm:h-11"
             />
             <span
               className={`
@@ -133,7 +133,7 @@ export default function Navbar() {
               aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={isMenuOpen}
               className={`
-                relative w-10 h-10 flex items-center justify-center rounded-lg
+                relative w-11 h-11 flex items-center justify-center rounded-lg
                 transition-colors duration-hover-in ease-hover
                 ${
                   isTransparent
@@ -143,7 +143,7 @@ export default function Navbar() {
               `}
             >
               <svg
-                className="w-6 h-6"
+                className="w-7 h-7"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
