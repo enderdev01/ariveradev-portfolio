@@ -14,9 +14,9 @@ import { SITE_URL } from "../lib/site";
 
 
 const TITLE =
-  "Desarrollo de Software a Medida en Perú | Onilabs";
+  "Desarrollo de Software a Medida | Onilabs";
 const DESCRIPTION =
-  "Desarrollo de software a medida en Perú: web, apps móviles, ecommerce WooCommerce, integraciones de APIs y microservicios. Propuesta clara de alcance y tiempos.";
+  "Desarrollo de software a medida para clientes en cualquier país: web, apps móviles, ecommerce WooCommerce, integraciones de APIs y microservicios. Propuesta clara de alcance y tiempos.";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -35,7 +35,7 @@ const structuredData = {
         "@type": "ContactPoint",
         email: "contacto.onilabs@gmail.com",
         contactType: "customer service",
-        availableLanguage: "Spanish",
+        availableLanguage: ["Spanish", "English"],
       },
       sameAs: [
         "https://www.linkedin.com/company/onilabs-dev",

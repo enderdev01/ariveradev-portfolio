@@ -17,7 +17,7 @@ export default function ServicioPage({ servicio }) {
         name: servicio.h1,
         description: servicio.descripcion,
         serviceType: servicio.keyword,
-        areaServed: { "@type": "Country", name: "Perú" },
+        areaServed: { "@type": "Place", name: "Worldwide" },
         provider: { "@id": `${SITE_URL}/#organization` },
       },
       {
@@ -83,7 +83,7 @@ export default function ServicioPage({ servicio }) {
             <nav aria-label="Ruta de navegación" className="mb-8">
               <ol className="flex flex-wrap items-center gap-2 text-sm text-text-secondary">
                 <li>
-                  <Link href="/" className="hover:text-primary transition-colors">
+                  <Link href="/" className="hover:text-primary transition-colors duration-hover-in ease-hover">
                     Inicio
                   </Link>
                 </li>
@@ -91,7 +91,7 @@ export default function ServicioPage({ servicio }) {
                 <li>
                   <Link
                     href="/servicios"
-                    className="hover:text-primary transition-colors"
+                    className="hover:text-primary transition-colors duration-hover-in ease-hover"
                   >
                     Servicios
                   </Link>
@@ -156,7 +156,7 @@ export default function ServicioPage({ servicio }) {
               </p>
               <Link
                 href="/#contactanos"
-                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary-dark transition-colors"
+                className="inline-block bg-primary text-white px-6 py-3 rounded-lg font-bold hover-press hover:bg-primary-dark"
               >
                 Contactanos
               </Link>
@@ -173,7 +173,7 @@ export default function ServicioPage({ servicio }) {
                     <li key={otro.slug}>
                       <Link
                         href={`/servicios/${otro.slug}`}
-                        className="block border border-border rounded-lg px-4 py-3 text-text-secondary hover:text-primary hover:border-primary transition-colors"
+                        className="block border border-border rounded-lg px-4 py-3 text-text-secondary hover:text-primary hover:border-primary transition-colors duration-hover-in ease-hover"
                       >
                         {otro.h1}
                       </Link>
