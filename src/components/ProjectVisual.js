@@ -19,8 +19,8 @@ export default function ProjectVisual({
           className={imageClassName}
         />
         {showOverlay && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-base ease-out-expo flex items-end p-6">
-            <span className="text-white font-semibold text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-base ease-out-expo">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-hover-in ease-hover flex items-end p-6">
+            <span className="text-white font-semibold text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-hover-in ease-hover">
               Ver proyecto
             </span>
           </div>

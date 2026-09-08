@@ -67,7 +67,7 @@ export default function AllProjects() {
               <button
                 key={cat.value}
                 onClick={() => setActiva(cat.value)}
-                className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-fast ease-out-expo"
+                className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-hover-in ease-hover"
                 style={{
                   border: cat.featured
                     ? activa === cat.value
@@ -104,14 +104,14 @@ export default function AllProjects() {
           {proyectosFiltrados.map((proyecto) => (
             <article
               key={proyecto.id}
-              className="bg-white rounded-xl border border-border overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-base ease-out-expo"
+              className="bg-white rounded-xl border border-border overflow-hidden flex flex-col hover-lift"
               style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
               {/* Image */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
                 <ProjectVisual
                   proyecto={proyecto}
-                  imageClassName="object-cover transition-transform duration-slow ease-out-expo hover:scale-[1.03]"
+                  imageClassName="object-cover transition-transform duration-slow ease-hover hover:scale-[1.03]"
                 />
               </div>
 
@@ -121,7 +121,7 @@ export default function AllProjects() {
                   {proyectosSeo[proyecto.id] ? (
                     <Link
                       href={`/proyectos/${proyectosSeo[proyecto.id].slug}`}
-                      className="hover:text-primary transition-colors"
+                      className="hover:text-primary transition-colors duration-hover-in ease-hover"
                     >
                       {proyecto.nombre}
                     </Link>
@@ -149,7 +149,7 @@ export default function AllProjects() {
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-fast ease-out-expo"
+                      className="inline-flex items-center gap-2 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-hover-in ease-hover"
                       style={{ background: "#2563EB" }}
                       onMouseEnter={(e) => (e.currentTarget.style.background = "#1E40AF")}
                       onMouseLeave={(e) => (e.currentTarget.style.background = "#2563EB")}

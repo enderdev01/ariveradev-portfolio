@@ -49,11 +49,11 @@ export default function Hero() {
         <div className="animate-fade-in-up stagger-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
           <a
             href="#contactanos"
-            className="group relative px-8 py-4 bg-blue-600 text-white rounded-full font-bold text-lg overflow-hidden transition-all duration-base ease-out-expo hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] active:scale-[0.97] shadow-[0_0_20px_rgba(37,99,235,0.4)] focus-visible:outline-white"
+            className="group relative px-8 py-4 bg-blue-600 text-white rounded-full font-bold text-lg overflow-hidden hover-press hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] shadow-[0_0_20px_rgba(37,99,235,0.4)] focus-visible:outline-white"
           >
             <span className="relative z-10 flex items-center gap-2">
               Agenda una llamada
-              <svg className="w-5 h-5 transition-transform duration-base ease-out-expo group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-5 h-5 transition-transform duration-hover-in ease-hover group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </span>
@@ -61,7 +61,7 @@ export default function Hero() {
 
           <Link
             href="/#proyectos"
-            className="px-8 py-4 bg-white/5 border border-white/20 text-white rounded-full font-bold text-lg backdrop-blur-md hover:bg-white/10 transition-all duration-fast ease-out-expo hover:border-white/40 focus-visible:outline-white"
+            className="px-8 py-4 bg-white/5 border border-white/20 text-white rounded-full font-bold text-lg backdrop-blur-md hover-press hover:bg-white/10 hover:border-white/40 focus-visible:outline-white"
           >
             Ver repositorio
           </Link>
@@ -86,7 +86,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-fade-in stagger-4">
-        <div className="animate-scroll-bounce flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
+        <div className="animate-scroll-bounce flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity duration-hover-in ease-hover">
           <span className="text-white/60 text-xs tracking-widest uppercase">Scroll</span>
           <svg className="w-5 h-5 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7" />

@@ -46,10 +46,16 @@ module.exports = {
         fast: "150ms",
         base: "250ms",
         slow: "500ms",
+        /* Hover enters faster than it leaves — see globals.css. */
+        "hover-in": "170ms",
+        "hover-out": "260ms",
       },
       transitionTimingFunction: {
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
         loop: "cubic-bezier(0.45, 0, 0.55, 1)",
+        /* Leaves rest at zero velocity, decelerates long. Use for anything a
+           pointer drives; out-expo is for entrances only. */
+        hover: "cubic-bezier(0.2, 0, 0, 1)",
       },
       animation: {
         "fade-up": "fade-up 500ms cubic-bezier(0.16,1,0.3,1) both",

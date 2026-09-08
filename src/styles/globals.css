@@ -45,6 +45,20 @@
   --ease-loop: cubic-bezier(0.45, 0, 0.55, 1);
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* Hover/interaction motion.
+     --ease-out is an *entrance* curve: it spends 80% of the distance in the
+     first 20% of the time, which reads as a snap followed by a drag when a
+     pointer drives it. --ease-hover leaves rest with zero velocity and
+     decelerates long into the target, so a hover reads as one continuous
+     movement. Enter is quicker than leave: the pointer arriving is a
+     deliberate act, the pointer leaving is not. */
+  --ease-hover: cubic-bezier(0.2, 0, 0, 1);
+  --motion-hover-in: 170ms;
+  --motion-hover-out: 260ms;
+  /* Large diffuse light is expected to move slowly — see .glow-bloom. */
+  --motion-glow-in: 620ms;
+  --motion-glow-out: 400ms;
+
   --distance-reveal: 32px;
   --distance-lift: -2px;
   --distance-nudge: 2px;
@@ -266,16 +280,113 @@ a {
   transform: scaleX(1);
 }
 
-/* --- Hover lift utility (cards, interactive items) --- */
+/* --- Interaction utilities -------------------------------------------------
+
+   Both classes declare the transition on the *base* state, which is what the
+   browser plays on pointer-out, and shorten it inside :hover, which is what it
+   plays on pointer-in. That asymmetry is impossible to express with Tailwind
+   state utilities, which is why these live here.
+
+   Properties are listed explicitly instead of `all`: `all` also animates
+   whatever a future edit adds, and box-shadow repaints, so it should only ever
+   run where it was actually asked for.
+
+   The :hover rules sit behind `(hover: hover)` so a tap on a touch screen does
+   not leave a card stuck in its hovered state until the next tap elsewhere. */
 
 .hover-lift {
   transition:
-    transform var(--motion-base) var(--ease-out),
-    box-shadow var(--motion-base) var(--ease-out);
+    transform var(--motion-hover-out) var(--ease-hover),
+    box-shadow var(--motion-hover-out) var(--ease-hover),
+    border-color var(--motion-hover-out) var(--ease-hover);
 }
 
-.hover-lift:hover {
-  transform: translateY(var(--distance-lift));
+.hover-press {
+  transition:
+    transform var(--motion-hover-out) var(--ease-hover),
+    box-shadow var(--motion-hover-out) var(--ease-hover),
+    background-color var(--motion-hover-out) var(--ease-hover),
+    border-color var(--motion-hover-out) var(--ease-hover),
+    color var(--motion-hover-out) var(--ease-hover);
+}
+
+/* Same contract, but driven by an ancestor carrying Tailwind's `group`
+   marker class — for a card whose hover target is a wrapper, not itself. */
+.hover-lift-group {
+  transition:
+    transform var(--motion-hover-out) var(--ease-hover),
+    box-shadow var(--motion-hover-out) var(--ease-hover),
+    border-color var(--motion-hover-out) var(--ease-hover);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-lift:hover,
+  .hover-lift:focus-within {
+    transition-duration: var(--motion-hover-in);
+    transform: translateY(var(--distance-lift));
+  }
+
+  .group:hover .hover-lift-group,
+  .group:focus-within .hover-lift-group {
+    transition-duration: var(--motion-hover-in);
+    transform: translateY(var(--distance-lift));
+  }
+
+  .hover-press:hover {
+    transition-duration: var(--motion-hover-in);
+  }
+}
+
+/* Press feedback is the one state that must not wait: the transform lands in
+   half the enter duration so the control feels physically connected. */
+.hover-press:active {
+  transition-duration: 90ms;
+  transform: scale(var(--scale-press));
+}
+
+/* --- Ambient glow -----------------------------------------------------------
+
+   A large, soft light source revealed on hover. Three rules make it read as
+   light instead of as a blue disc being switched on:
+
+   1. It is a radial gradient with a long alpha falloff, not a solid fill under
+      a blur filter. A flat circle plus `blur()` has a uniform core and a hard
+      shoulder — the eye reads a smudge. A gradient that ramps to transparent
+      has no edge to find. It also skips the filter, so scaling it does not
+      force the layer to re-rasterize every frame.
+   2. It blooms: opacity and scale move together. Light that only fades is a
+      switch; light that grows and brightens is a source arriving.
+   3. It enters SLOWER than it leaves — the inverse of .hover-lift, on purpose.
+      Big diffuse things are expected to move slowly; a 288px glow arriving in
+      under 200ms is what reads as "fast" and cheap. It leaves a little quicker
+      so it does not ghost behind the pointer.
+
+   The element it sits on is horizontally centered, so the centering translate
+   lives here: a `transform` in this class would otherwise clobber Tailwind's
+   `-translate-x-1/2`. */
+
+.glow-bloom {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(37 99 235 / 0.16) 0%,
+    rgb(14 165 233 / 0.12) 30%,
+    rgb(37 99 235 / 0.05) 56%,
+    transparent 74%
+  );
+  opacity: 0;
+  transform: translateX(-50%) scale(0.82);
+  transition:
+    opacity var(--motion-glow-out) var(--ease-hover),
+    transform var(--motion-glow-out) var(--ease-hover);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .glow-bloom,
+  .group:focus-within .glow-bloom {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    transition-duration: var(--motion-glow-in);
+  }
 }
 
 /* ===== Performance: content-visibility deshabilitado — causaba que secciones
@@ -334,8 +445,23 @@ a {
     transition: none;
   }
 
-  .hover-lift:hover {
+  .hover-lift:hover,
+  .hover-lift:focus-within,
+  .group:hover .hover-lift-group,
+  .group:focus-within .hover-lift-group,
+  .hover-press:hover,
+  .hover-press:active {
     transform: none;
+  }
+
+  /* The glow still confirms the hover; it just stops growing. */
+  .glow-bloom {
+    transform: translateX(-50%);
+  }
+
+  .group:hover .glow-bloom,
+  .group:focus-within .glow-bloom {
+    transform: translateX(-50%);
   }
 
   .link-underline::after {

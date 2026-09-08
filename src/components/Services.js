@@ -29,7 +29,7 @@ export default function Services() {
             <Reveal
               key={servicio.id}
               delay={i * 90}
-              className="group relative bg-background text-center border border-border rounded-2xl p-6 sm:p-8 transition-all duration-base ease-out-expo hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 hover:-translate-y-0.5"
+              className="group relative bg-background text-center border border-border rounded-2xl p-6 sm:p-8 hover-lift hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30"
             >
               <div className="text-4xl mb-5" aria-hidden="true">
                 {servicio.icono}
@@ -45,7 +45,7 @@ export default function Services() {
 
               <Link
                 href={`/servicios/${servicio.slug}`}
-                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-all"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-[gap,color] duration-hover-in ease-hover"
               >
                 Ver más
                 <span aria-hidden="true">&rarr;</span>
@@ -58,7 +58,7 @@ export default function Services() {
           <Reveal delay={120}>
             <Link
               href="/servicios"
-              className="inline-flex items-center gap-2 border border-border rounded-lg px-6 py-3 font-semibold text-text-primary hover:border-primary hover:text-primary transition-colors"
+              className="inline-flex items-center gap-2 border border-border rounded-lg px-6 py-3 font-semibold text-text-primary hover-press hover:border-primary hover:text-primary"
             >
               Ver todos los servicios
               <span aria-hidden="true">&rarr;</span>
