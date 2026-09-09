@@ -3,6 +3,8 @@ import Reveal from "./Reveal";
 import { servicios } from "../data/onilabs";
 
 export default function Services() {
+  const serviciosPrioritarios = servicios.filter(({ id }) => [1, 2, 4].includes(id));
+
   return (
     <section id="servicios" className="py-16 sm:py-20 bg-baseEsp">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +26,25 @@ export default function Services() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        <Reveal className="sm:hidden divide-y divide-border border-y border-border">
+          {serviciosPrioritarios.map((servicio) => (
+            <Link
+              key={servicio.id}
+              href={`/servicios/${servicio.slug}`}
+              className="group flex min-h-[56px] items-center justify-between gap-4 py-3 text-left text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-baseEsp"
+            >
+              <span className="font-semibold leading-tight">{servicio.titulo}</span>
+              <span
+                aria-hidden="true"
+                className="shrink-0 text-xl text-primary transition-transform duration-hover-in ease-hover group-hover:translate-x-1"
+              >
+                &rarr;
+              </span>
+            </Link>
+          ))}
+        </Reveal>
+
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {servicios.map((servicio, i) => (
             <Reveal
               key={servicio.id}
