@@ -24,7 +24,38 @@ export default function Team() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+        <Reveal className="sm:hidden space-y-3">
+          {equipo.map((miembro) => (
+            <article
+              key={miembro.id}
+              className="flex items-start gap-4 rounded-xl border border-border bg-background p-4 transition-[border-color,box-shadow,transform] duration-hover-in ease-hover hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none"
+            >
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full bg-surface shadow-sm">
+                <Image
+                  src={miembro.imagen}
+                  alt={miembro.nombre}
+                  loading="lazy"
+                  fill
+                  sizes="80px"
+                  className="object-cover object-center"
+                />
+              </div>
+              <div className="min-w-0 flex-1 pt-1 text-left">
+                <h3 className="font-bold leading-tight text-text-primary">
+                  {miembro.nombre}
+                </h3>
+                <p className="mt-1 text-sm font-semibold text-accent-strong">
+                  {miembro.rol}
+                </p>
+                <p className="mt-2 text-sm font-medium leading-relaxed text-text-secondary">
+                  {miembro.bio}
+                </p>
+              </div>
+            </article>
+          ))}
+        </Reveal>
+
+        <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {equipo.map((miembro, i) => (
             <Reveal
               key={miembro.id}

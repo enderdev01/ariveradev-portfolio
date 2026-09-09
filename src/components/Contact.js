@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AiOutlineLinkedin, AiOutlineMail } from "react-icons/ai";
+import AnimatedDisclosure from "./AnimatedDisclosure";
 import Reveal from "./Reveal";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
@@ -15,6 +16,7 @@ export default function Contact() {
 
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
+  const [acompanamientoAbierto, setAcompanamientoAbierto] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,10 +72,10 @@ export default function Contact() {
   return (
     <section
       id="contactanos"
-      className="py-16 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
+      className="py-12 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Hablemos
@@ -86,10 +88,10 @@ export default function Contact() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-14">
           {/* Form */}
-          <Reveal delay={120} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10 shadow-sm">
-            <h3 className="text-xl font-semibold text-text-primary mb-8">
+          <Reveal delay={120} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-5 sm:p-10 shadow-sm">
+            <h3 className="text-xl font-semibold text-text-primary mb-6 sm:mb-8">
               Cuéntanos qué tienes en mente
             </h3>
 
@@ -107,7 +109,7 @@ export default function Contact() {
 
             <form
               onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8"
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 sm:gap-y-8"
             >
               <div>
                 <label htmlFor="nombre" className="text-sm text-text-muted font-medium">
@@ -239,8 +241,53 @@ export default function Contact() {
             </form>
           </Reveal>
 
+          <Reveal className="sm:hidden">
+            <AnimatedDisclosure
+              id="contacto-acompanamiento-contenido"
+              open={acompanamientoAbierto}
+              onToggle={() => setAcompanamientoAbierto((actual) => !actual)}
+              label={<span>Cómo te acompañamos</span>}
+              className="rounded-xl border border-border bg-background/70"
+              buttonClassName="flex min-h-[52px] w-full items-center justify-between gap-4 px-4 py-3 text-left font-semibold text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+              contentClassName="space-y-5 border-t border-border px-4 py-4 text-sm text-text-secondary"
+            >
+              <p className="leading-relaxed">
+                No necesitas saber de tecnología ni tener todo claro. Te
+                ayudamos a ordenar tu idea y convertirla en algo real.
+              </p>
+
+              <div className="space-y-2">
+                <a
+                  href="https://www.linkedin.com/company/onilabs-dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-h-[44px] items-center gap-3 font-medium hover:text-primary"
+                >
+                  <AiOutlineLinkedin className="h-5 w-5 text-[#0A66C2]" />
+                  OniLabs en LinkedIn
+                </a>
+                <a
+                  href="mailto:contacto.onilabs@gmail.com"
+                  className="flex min-h-[44px] items-center gap-3 break-all font-medium hover:text-primary"
+                >
+                  <AiOutlineMail className="h-5 w-5 shrink-0 text-primary" />
+                  contacto.onilabs@gmail.com
+                </a>
+              </div>
+
+              <div>
+                <p className="mb-2 font-semibold text-text-primary">¿Qué pasa después?</p>
+                <ol className="space-y-2">
+                  <li>1. Leemos tu mensaje.</li>
+                  <li>2. Respondemos en 24–48 horas hábiles (UTC−5).</li>
+                  <li>3. Te proponemos la mejor opción.</li>
+                </ol>
+              </div>
+            </AnimatedDisclosure>
+          </Reveal>
+
           {/* Contact info */}
-          <div className="flex flex-col gap-8">
+          <div className="hidden sm:flex flex-col gap-8">
             <Reveal delay={220} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10">
               <h3 className="text-xl font-semibold text-text-primary mb-5">
                 Te acompañamos en todo el proceso

@@ -10,6 +10,7 @@ export default function FeaturedProjects() {
   const proyectosDestacados = proyectosReales
     .filter((proyecto) => proyecto.estado !== "proximamente" && !proyecto.sinSoporte)
     .slice(0, 3);
+  const proyectosMoviles = proyectosDestacados.slice(0, 2);
 
   return (
     <section id="proyectos" className="w-full bg-background py-16 sm:py-20">
@@ -33,8 +34,39 @@ export default function FeaturedProjects() {
           </Reveal>
         </div>
 
+        <Reveal className="sm:hidden space-y-5">
+          {proyectosMoviles.map((proyecto) => (
+            <a
+              key={proyecto.id}
+              href={proyecto.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block overflow-hidden rounded-xl border border-border bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-surface">
+                <ProjectVisual
+                  proyecto={proyecto}
+                  sizes="(max-width: 639px) calc(100vw - 3rem), 1px"
+                  showBadges={false}
+                />
+              </div>
+              <div className="flex min-h-[52px] items-center justify-between gap-4 px-4 py-3">
+                <h3 className="font-bold leading-tight text-text-primary">
+                  {proyecto.nombre}
+                </h3>
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 text-xl text-primary transition-transform duration-hover-in ease-hover group-hover:translate-x-1"
+                >
+                  &rarr;
+                </span>
+              </div>
+            </a>
+          ))}
+        </Reveal>
+
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {proyectosDestacados.map((proyecto, i) => (
             <Reveal
               key={proyecto.id}

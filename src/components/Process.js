@@ -1,7 +1,10 @@
+import { useState } from "react";
+import AnimatedDisclosure from "./AnimatedDisclosure";
 import Reveal from "./Reveal";
 import { procesoi, procesop } from "../data/onilabs";
 
 export default function Process() {
+  const [procesoAbierto, setProcesoAbierto] = useState(null);
   const procesosOrdenados = [...procesoi, ...procesop].sort(
     (a, b) => a.id - b.id,
   );
@@ -25,8 +28,35 @@ export default function Process() {
           </Reveal>
         </div>
 
-        {/* Mobile cards */}
-        <div className="lg:hidden space-y-6">
+        <Reveal className="sm:hidden divide-y divide-border border-y border-border">
+          {procesosOrdenados.map((item) => (
+            <AnimatedDisclosure
+              key={item.id}
+              id={`proceso-${item.id}-contenido`}
+              open={procesoAbierto === item.id}
+              onToggle={() =>
+                setProcesoAbierto((actual) => (actual === item.id ? null : item.id))
+              }
+              buttonClassName="flex min-h-[56px] w-full items-center gap-3 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+              contentClassName="pb-4 pl-10 pr-8 text-sm leading-relaxed text-text-secondary"
+              label={
+                <>
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                    {item.id}
+                  </span>
+                  <span className="flex-1 font-semibold text-text-primary">
+                    {item.paso}
+                  </span>
+                </>
+              }
+            >
+              <p>{item.descripcion}</p>
+            </AnimatedDisclosure>
+          ))}
+        </Reveal>
+
+        {/* Tablet cards */}
+        <div className="hidden sm:block lg:hidden space-y-6">
           {procesosOrdenados.map((item, i) => (
             <Reveal
               key={item.id}
