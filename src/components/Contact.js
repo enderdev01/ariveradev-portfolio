@@ -72,10 +72,10 @@ export default function Contact() {
   return (
     <section
       id="contactanos"
-      className="py-12 sm:py-20 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
+      className="py-12 sm:py-20 lg:py-16 px-4 sm:px-8 bg-gradient-to-b from-surface to-surface-alt"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-8">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Hablemos
@@ -88,10 +88,10 @@ export default function Contact() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-14">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 lg:gap-8">
           {/* Form */}
-          <Reveal delay={120} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-5 sm:p-10 shadow-sm">
-            <h3 className="text-xl font-semibold text-text-primary mb-6 sm:mb-8">
+          <Reveal delay={120} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-5 sm:p-10 lg:p-8 shadow-sm">
+            <h3 className="text-xl font-semibold text-text-primary mb-6 sm:mb-8 lg:mb-6">
               Cuéntanos qué tienes en mente
             </h3>
 
@@ -109,7 +109,7 @@ export default function Contact() {
 
             <form
               onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 sm:gap-y-8"
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-6 gap-y-6 sm:gap-y-8 lg:gap-y-6"
             >
               <div>
                 <label htmlFor="nombre" className="text-sm text-text-muted font-medium">
@@ -287,18 +287,18 @@ export default function Contact() {
           </Reveal>
 
           {/* Contact info */}
-          <div className="hidden sm:flex flex-col gap-8">
-            <Reveal delay={220} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10">
+          <div className="hidden sm:flex flex-col gap-8 lg:gap-6">
+            <Reveal delay={220} className="bg-background/80 backdrop-blur border border-border rounded-2xl p-8 sm:p-10 lg:p-8">
               <h3 className="text-xl font-semibold text-text-primary mb-5">
                 Te acompañamos en todo el proceso
               </h3>
 
-              <p className="text-base text-text-secondary mb-8 leading-relaxed">
+              <p className="text-base text-text-secondary mb-8 lg:mb-6 leading-relaxed">
                 No necesitas saber de tecnología ni tener todo claro. Te
                 ayudamos a ordenar tu idea y convertirla en algo real.
               </p>
 
-              <div className="space-y-5 text-base">
+              <div className="space-y-5 lg:space-y-4 text-base">
                 {/* WhatsApp - comentado para uso futuro
                 <a
                   href="https://wa.me/51993109998"
@@ -339,11 +339,11 @@ export default function Contact() {
               </div>
             </Reveal>
 
-            <Reveal delay={320} className="border border-border rounded-2xl p-8 bg-background/60">
+            <Reveal delay={320} className="border border-border rounded-2xl p-8 lg:p-6 bg-background/60">
               <p className="mb-4 font-semibold text-text-primary">
                 ¿Qué pasa después?
               </p>
-              <ul className="space-y-3 text-text-secondary">
+              <ul className="space-y-3 lg:space-y-2 text-text-secondary">
                 <li className="flex items-center gap-3">
                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex-shrink-0">1</span>
                   Leemos tu mensaje

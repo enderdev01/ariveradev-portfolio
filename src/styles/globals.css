@@ -179,6 +179,11 @@ a {
   50% { transform: translateY(8px); }
 }
 
+@keyframes timeline-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+
 /* --- One-shot animation classes (Hero entrance, etc.) --- */
 
 .animate-fade-up {
@@ -231,6 +236,21 @@ a {
 .reveal.revealed {
   opacity: 1;
   transform: none;
+  animation: none;
+  will-change: auto;
+}
+
+.timeline-track {
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path;
+}
+
+.timeline-reveal.visible .timeline-track {
+  animation: timeline-draw 800ms var(--ease-reveal) both;
+}
+
+.timeline-reveal.revealed .timeline-track {
+  clip-path: inset(0);
   animation: none;
   will-change: auto;
 }
@@ -710,6 +730,10 @@ a {
     filter: none;
     animation: none;
     transition: none;
+  }
+
+  .timeline-track {
+    clip-path: inset(0);
   }
 
   .hover-lift:hover,

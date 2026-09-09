@@ -12,17 +12,17 @@ export default function Process() {
   return (
     <section
       id="proceso"
-      className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-background"
+      className="relative py-16 sm:py-20 lg:py-16 px-4 sm:px-6 lg:px-8 bg-background"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center lg:text-left mb-10 sm:mb-12 lg:mb-8">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Cómo trabajamos
             </p>
           </Reveal>
           <Reveal blur delay={90}>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-4xl font-bold text-text-primary">
               Nuestro Proceso de Trabajo
             </h2>
           </Reveal>
@@ -78,54 +78,51 @@ export default function Process() {
         </div>
 
         {/* Desktop timeline */}
-        <div className="hidden lg:block relative">
-          <div
-            className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-primary -translate-x-1/2"
+        <div className="relative hidden lg:block">
+          <Reveal
             aria-hidden="true"
-          />
+            className="timeline-reveal absolute left-[10%] right-[4%] top-[5px] h-6"
+          >
+            <div className="timeline-track absolute inset-0">
+              <span className="absolute left-0 right-3 top-[11px] h-0.5 bg-gradient-to-r from-primary via-primary to-accent" />
+              <svg
+                className="absolute right-0 top-0 h-6 w-6 bg-background text-accent"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 13V2l8 4-8 4" />
+                <path d="M20.561 10.222a9 9 0 1 1-12.55-5.29" />
+                <path d="M8.002 9.997a5 5 0 1 0 8.9 2.02" />
+              </svg>
+            </div>
+          </Reveal>
 
-          <div className="space-y-0">
-            {procesosOrdenados.map((item, i) => {
-              const esProcesoi = procesoi.some((p) => p.id === item.id);
-
-              return (
-                <Reveal
-                  key={item.id}
-                  delay={i * 90}
-                  className={`group flex items-center ${
-                    esProcesoi ? "flex-row-reverse" : "flex-row"
-                  }`}
-                >
-                  <div className={`flex-1 ${esProcesoi ? "pl-12" : "pr-12"}`}>
-                    <div
-                      className={`
-                        relative bg-background
-                        border border-border rounded-xl p-6
-                        shadow-sm select-none cursor-default
-                        hover-lift-group
-                        group-hover:border-primary/40
-                        group-hover:shadow-lg group-hover:shadow-primary/10
-                        ${esProcesoi ? "text-left" : "text-right"}
-                      `}
-                    >
-                      <h3 className="text-xl font-semibold mb-2 text-text-primary">
-                        {item.paso}
-                      </h3>
-                      <p className="text-text-secondary leading-relaxed">
-                        {item.descripcion}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white font-bold text-lg border-4 border-background z-10 shadow-md transition-all duration-hover-in ease-hover group-hover:scale-[1.08] group-hover:shadow-lg">
-                    {item.id}
-                  </div>
-
-                  <div className="flex-1" />
-                </Reveal>
-              );
-            })}
-          </div>
+          <ol className="relative grid grid-cols-5 gap-4">
+            {procesosOrdenados.map((item, i) => (
+              <Reveal
+                as="li"
+                key={item.id}
+                delay={i * 120}
+                className="group min-w-0 text-center"
+              >
+                <span className="relative z-10 mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-primary to-accent text-sm font-bold text-white ring-8 ring-background shadow-sm transition-transform duration-hover-in ease-hover group-hover:scale-110">
+                  {item.id}
+                </span>
+                <div className="mt-5 px-2">
+                  <h3 className="min-w-0 break-words text-base font-semibold leading-tight text-text-primary transition-colors duration-hover-in ease-hover group-hover:text-primary">
+                    {item.paso}
+                  </h3>
+                  <p className="mt-2 break-words text-sm leading-relaxed text-text-secondary">
+                    {item.descripcion}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
