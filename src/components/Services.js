@@ -6,21 +6,21 @@ export default function Services() {
   const serviciosPrioritarios = servicios.filter(({ id }) => [1, 2, 4].includes(id));
 
   return (
-    <section id="servicios" className="py-16 sm:py-20 bg-baseEsp">
+    <section id="servicios" className="py-16 sm:py-20 lg:py-16 bg-baseEsp">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center lg:text-left mb-10 sm:mb-12 lg:mb-8">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Lo que hacemos
             </p>
           </Reveal>
           <Reveal blur delay={90}>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-5 text-text-primary">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-4xl font-bold mb-5 text-text-primary">
               Nuestras Especialidades
             </h2>
           </Reveal>
           <Reveal delay={180}>
-            <p className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+            <p className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               Ofrecemos soluciones tecnológicas completas para impulsar tu negocio digital
             </p>
           </Reveal>
@@ -44,12 +44,16 @@ export default function Services() {
           ))}
         </Reveal>
 
-        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-4">
           {servicios.map((servicio, i) => (
             <Reveal
               key={servicio.id}
               delay={i * 90}
-              className="group relative bg-background text-center border border-border rounded-2xl p-6 sm:p-8 hover-lift hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30"
+              className={`group relative bg-background text-center border border-border rounded-2xl p-6 sm:p-8 lg:p-6 hover-lift hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 ${
+                serviciosPrioritarios.some(({ id }) => id === servicio.id)
+                  ? ""
+                  : "lg:hidden"
+              }`}
             >
               <div className="text-4xl mb-5" aria-hidden="true">
                 {servicio.icono}
@@ -74,7 +78,7 @@ export default function Services() {
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-12 lg:mt-8 text-center">
           <Reveal delay={120}>
             <Link
               href="/servicios"

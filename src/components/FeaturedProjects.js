@@ -13,17 +13,17 @@ export default function FeaturedProjects() {
   const proyectosMoviles = proyectosDestacados.slice(0, 2);
 
   return (
-    <section id="proyectos" className="w-full bg-background py-16 sm:py-20">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="proyectos" className="w-full bg-background py-16 sm:py-20 lg:py-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section header */}
-        <div className="text-center mb-10 sm:mb-12">
+        <div className="text-center mb-10 sm:mb-12 lg:mb-8">
           <Reveal blur>
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               Nuestro trabajo
             </p>
           </Reveal>
           <Reveal blur delay={90}>
-            <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
+            <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl lg:text-4xl font-bold text-text-primary">
               Repositorio
             </h2>
           </Reveal>
@@ -66,7 +66,7 @@ export default function FeaturedProjects() {
         </Reveal>
 
         {/* Grid */}
-        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
           {proyectosDestacados.map((proyecto, i) => (
             <Reveal
               key={proyecto.id}
@@ -75,7 +75,7 @@ export default function FeaturedProjects() {
               style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
               {/* Image */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-border">
+              <div className="relative aspect-[4/3] lg:aspect-video w-full overflow-hidden bg-surface border-b border-border">
                 <ProjectVisual
                   proyecto={proyecto}
                   showBadges={false}
@@ -83,12 +83,12 @@ export default function FeaturedProjects() {
               </div>
 
               {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-6 lg:p-5 flex flex-col flex-grow">
                 <ProjectBadges proyecto={proyecto} />
                 <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
                   {proyecto.nombre}
                 </h3>
-                <p className="text-text-secondary text-sm mb-6 flex-grow leading-relaxed">
+                <p className="text-text-secondary text-sm mb-6 lg:mb-4 flex-grow leading-relaxed">
                   {proyecto.descripcion}
                 </p>
                 <div>
@@ -116,7 +116,7 @@ export default function FeaturedProjects() {
         </div>
 
         {/* Footer CTA */}
-        <div className="mt-10 sm:mt-12 flex justify-center">
+        <div className="mt-10 sm:mt-12 lg:mt-8 flex justify-center">
           <Reveal delay={150}>
             <Link
               href="/proyectos"
