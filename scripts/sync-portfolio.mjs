@@ -24,10 +24,54 @@
 //
 // No source code is ever inspected: only repository metadata and the public
 // production HTML are fetched.
+//
+// Visual stability: before staging, each newly composed PNG is compared against
+// the committed thumbnail at the decoded-pixel level. If the only differences
+// fit the documented rasterization-noise budget, the committed bytes are reused
+// so consecutive syncs never open noisy PRs. Dimension changes or any visual
+// difference beyond the budget publish the new image normally.
 
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { loadSources, fetchRepoMetadata, fetchProductionHtml, buildRecord } from "./lib/portfolio-source.mjs";
-import { captureAndCompose } from "./lib/portfolio-thumbnail.mjs";
+import {
+  captureAndCompose,
+  diffDecodedPixels,
+  isWithinNoiseBudget,
+} from "./lib/portfolio-thumbnail.mjs";
 import { stageAndInstall } from "./lib/portfolio-artifacts.mjs";
+
+// Mirrors the published path used by scripts/lib/portfolio-artifacts.mjs.
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const committedThumbnailPath = (id) => path.join(repoRoot, "public", "portfolio", `${id}.png`);
+
+// Returns the committed bytes when they exist and the new capture differs from
+// them only within the documented visual-equivalence noise budget; otherwise
+// returns the new bytes for normal publication.
+async function preserveCommittedBytesWhenEquivalent(browser, id, png) {
+  const committedPath = committedThumbnailPath(id);
+  if (!fs.existsSync(committedPath)) {
+    return png;
+  }
+  const committed = fs.readFileSync(committedPath);
+  if (committed.equals(png)) {
+    return committed;
+  }
+  const stats = await diffDecodedPixels(browser, committed, png);
+  if (!isWithinNoiseBudget(stats)) {
+    console.log(
+      `${id}.png: visual difference beyond noise budget ` +
+      `(dimensionsMatch=${stats.dimensionsMatch}, differingPixels=${stats.differingPixels}, maxChannelDelta=${stats.maxChannelDelta}); publishing new image`
+    );
+    return png;
+  }
+  console.log(
+    `${id}.png: rasterization noise only ` +
+    `(${stats.differingPixels} differing px, max channel delta ${stats.maxChannelDelta}); preserving committed bytes`
+  );
+  return committed;
+}
 
 function fail(message) {
   throw new Error(message);
@@ -57,7 +101,11 @@ async function main() {
       }
       const record = buildRecord(source, fetchedMeta);
       generated.push(record);
-      const png = await captureAndCompose(browser, source);
+      const png = await preserveCommittedBytesWhenEquivalent(
+        browser,
+        source.id,
+        await captureAndCompose(browser, source)
+      );
       thumbnails.push({ id: source.id, png });
       console.log(`Captured ${source.id}: "${fetchedMeta.title}"`);
     }
