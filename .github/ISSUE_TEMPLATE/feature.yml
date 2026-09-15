@@ -1,0 +1,51 @@
+name: Feature request
+description: Propose a new feature or improvement. Requires prior approval before a PR can be merged.
+labels:
+  - type:feature
+  - status:needs-review
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this feature solve? What is the current behavior or gap?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-outcome
+    attributes:
+      label: Proposed outcome
+      description: What should exist after this feature ships? Describe the end state, not the implementation steps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Measurable conditions that must hold before this is considered done.
+      value: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: non-goals
+    attributes:
+      label: Non-goals
+      description: Explicitly out of scope for this feature, to keep review focus narrow.
+      placeholder: |
+        - Not changing ...
+        - Does not cover ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: review-notes
+    attributes:
+      label: Review notes
+      description: Optional context for reviewers — affected areas, risks, prior art, or open questions.
+    validations:
+      required: false
