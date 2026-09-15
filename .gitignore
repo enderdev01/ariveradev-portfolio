@@ -43,3 +43,6 @@ analytics/.env
 # local tooling
 .codegraph/
 .atl/
+
+# portfolio private sources (never commit private repo identities)
+scripts/portfolio-sources.local.json
