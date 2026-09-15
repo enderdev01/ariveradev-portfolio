@@ -66,7 +66,7 @@ export default function Hero() {
             href="/#proyectos"
             className="hidden sm:block ml-4 px-8 py-4 bg-white/5 border border-white/20 text-white rounded-full font-bold text-lg backdrop-blur-md hover-press hover:bg-white/10 hover:border-white/40 focus-visible:outline-white"
           >
-            Ver repositorio
+            Ver portfolio
           </Link>
         </div>
 

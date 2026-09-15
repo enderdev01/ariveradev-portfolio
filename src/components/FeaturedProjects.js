@@ -24,7 +24,7 @@ export default function FeaturedProjects() {
           </Reveal>
           <Reveal blur delay={90}>
             <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl lg:text-4xl font-bold text-text-primary">
-              Repositorio
+              Portfolio
             </h2>
           </Reveal>
           <Reveal delay={180}>

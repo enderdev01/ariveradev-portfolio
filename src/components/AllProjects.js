@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
-import { proyectosSeo } from "../data/proyectos-seo";
+import { getProyectoSeo } from "../data/proyectos-seo";
 import ProjectVisual from "./ProjectVisual";
 
 const CATEGORIAS = [
@@ -16,24 +16,27 @@ const CATEGORIAS = [
   { label: "Próximamente", value: "proximamente", featured: true },
 ];
 
-const categoriasPorProyecto = {
-  1: "ecommerce",
-  2: "landing",
-  3: "ecommerce",
-  4: "landing",
-  5: "landing",
-  6: "ecommerce",
-  7: "landing",
-  8: "app",
-  9: "ecommerce",
-  10: "landing",
-  11: "platform",
-  12: "platform",
-  13: "ecommerce",
-  14: "platform",
-  15: "game",
-  16: "ecommerce",
-  17: "platform",
+// Cada proyecto hereda su filtro de la categoría SEO del catálogo
+// (getProyectoSeo). Los proyectos sin entrada SEO quedan sin categoría:
+// se muestran bajo Todos pero no en un filtro específico.
+const FILTRO_POR_CATEGORIA = {
+  "Ecommerce": "ecommerce",
+  "Marketplace": "ecommerce",
+  "Landing y ecommerce": "ecommerce",
+  "Sitio corporativo": "landing",
+  "Landing inmobiliaria": "landing",
+  "Landing de producto": "landing",
+  "Landing corporativa": "landing",
+  "Plataforma web": "landing",
+  "App móvil": "app",
+  "Plataforma": "platform",
+  "Plataforma cívica": "platform",
+  "Juego online": "game",
+};
+
+const filtroDeProyecto = (proyecto) => {
+  const seo = getProyectoSeo(proyecto.id);
+  return (seo && FILTRO_POR_CATEGORIA[seo.categoria]) || "otros";
 };
 
 export default function AllProjects() {
@@ -46,7 +49,7 @@ export default function AllProjects() {
     if (esProximamente) return false;
     if (activa === "all") return true;
 
-    return categoriasPorProyecto[proyecto.id] === activa;
+    return filtroDeProyecto(proyecto) === activa;
   });
 
   return (
@@ -58,7 +61,7 @@ export default function AllProjects() {
             Nuestro trabajo
           </p>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-text-primary mb-8">
-            Repositorio
+            Portfolio
           </h1>
 
           {/* Filtros */}
@@ -118,16 +121,19 @@ export default function AllProjects() {
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
                 <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
-                  {proyectosSeo[proyecto.id] ? (
-                    <Link
-                      href={`/proyectos/${proyectosSeo[proyecto.id].slug}`}
-                      className="hover:text-primary transition-colors duration-hover-in ease-hover"
-                    >
-                      {proyecto.nombre}
-                    </Link>
-                  ) : (
-                    proyecto.nombre
-                  )}
+                  {(() => {
+                    const seo = getProyectoSeo(proyecto.id);
+                    return seo ? (
+                      <Link
+                        href={`/proyectos/${seo.slug}`}
+                        className="hover:text-primary transition-colors duration-hover-in ease-hover"
+                      >
+                        {proyecto.nombre}
+                      </Link>
+                    ) : (
+                      proyecto.nombre
+                    );
+                  })()}
                 </h3>
                 <p className="text-text-secondary text-sm mb-4 flex-grow leading-relaxed">
                   {proyecto.descripcion}

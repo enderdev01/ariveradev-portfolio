@@ -2,10 +2,12 @@
 // id used in proyectosReales. Only projects listed here get an indexable page,
 // which keeps unreleased work out of the index.
 //
+import portfolioGenerado from "./portfolio.generated.json";
+
 // Rule for this file: describe the problem and the technical approach only.
 // Never state client metrics or outcomes that the team has not provided.
 
-export const proyectosSeo = {
+const proyectosSeoBase = {
   1: {
     slug: "taffe-regalos",
     categoria: "Ecommerce",
@@ -134,7 +136,29 @@ export const proyectosSeo = {
     enfoque:
       "Tienda construida con Next.js junto a un panel administrativo propio para gestionar catálogo y pedidos. Desarrollar el panel a medida, en lugar de adaptar uno genérico, permitió que refleje cómo trabaja realmente el negocio.",
   },
+  19: {
+    slug: "hakui-medical",
+    categoria: "Landing de producto",
+    desafio:
+      "Un sitio de salud tiene que generar confianza en la primera pantalla: el paciente necesita entender qué especialidades existen y cómo conseguir una cita sin leer un catálogo clínico completo. El desafío fue lograrlo dentro de una demo comercial con marca y datos ficticios.",
+    enfoque:
+      "Demo construida con Astro y React, con Sass para el sistema de estilos y Vitest para las pruebas. La estructura ordena las especialidades y el flujo de síntomas a cita; todo el contenido es ficticio y el sitio funciona como muestra comercial, no como una clínica en operación.",
+  },
 };
+
+// Campos generados (scripts/sync-portfolio.mjs): el registro generado aporta
+// slug, categoría y los metadatos públicos del sitio deployado; la narrativa
+// desafío/enfoque sigue siendo autoría editorial en este archivo.
+const seoGenerado = Object.fromEntries(
+  (portfolioGenerado.projects ?? [])
+    .filter((p) => p.seo)
+    .map((p) => [String(p.id), p.seo])
+);
+
+export const proyectosSeo = { ...proyectosSeoBase };
+for (const [id, generado] of Object.entries(seoGenerado)) {
+  proyectosSeo[id] = { ...proyectosSeo[id], ...generado };
+}
 
 export const getProyectoSeo = (id) => proyectosSeo[id] || null;
 

@@ -1,3 +1,5 @@
+import portfolioGenerado from "./portfolio.generated.json";
+
 export const servicios = [
   {
     id: 1,
@@ -169,7 +171,7 @@ export const procesop = [
   },
 ];
 
-export const proyectosReales = [
+const proyectosBaseSinGenerar = [
   {
     id: 1,
     nombre: "Taffe Regalos",
@@ -309,7 +311,23 @@ export const proyectosReales = [
     stack: ["Marketplace", "Turismo", "MVP"],
     estado: "proximamente",
   },
-].sort((a, b) => {
+];
+
+// Los proyectos generados por scripts/sync-portfolio.mjs se combinan con la
+// lista base: los ids existentes reciben sus campos de tarjeta y los ids
+// nuevos se agregan completos. El orden final lo define el sort de siempre.
+const projectsGenerados = portfolioGenerado.projects ?? [];
+const proyectosBase = proyectosBaseSinGenerar.map((proyecto) => {
+  const generado = projectsGenerados.find((p) => p.id === proyecto.id);
+  return generado ? { ...proyecto, ...generado.card } : proyecto;
+});
+for (const generado of projectsGenerados) {
+  if (!proyectosBase.some((proyecto) => proyecto.id === generado.id)) {
+    proyectosBase.push({ id: generado.id, ...generado.card });
+  }
+}
+
+export const proyectosReales = proyectosBase.sort((a, b) => {
   if (a.sinSoporte !== b.sinSoporte) return a.sinSoporte ? 1 : -1;
   return b.id - a.id;
 });
