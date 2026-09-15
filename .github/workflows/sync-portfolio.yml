@@ -22,13 +22,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7.0.0
         with:
-          node-version: 20
+          node-version: 24
 
       # package-lock.json is gitignored in this repo, so npm ci is not available.
       - name: Install dependencies
@@ -46,7 +46,7 @@ jobs:
         run: node scripts/sync-portfolio.mjs
 
       - name: Open or update portfolio sync PR
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8.1.1
         with:
           # Least-privileged token: the ephemeral workflow token is enough to open
           # a PR; the (possibly broader-scoped) portfolio sync secret is not used
