@@ -56,8 +56,12 @@ jobs:
           base: main
           title: "chore: sync portfolio generated data"
           commit-message: "chore: sync portfolio generated data"
+          labels: |
+            type:chore
           body: |
-            Automated portfolio sync (scripts/sync-portfolio.mjs).
+            Closes #11
+
+            Automated portfolio sync (`scripts/sync-portfolio.mjs`).
 
             - Updates `src/data/portfolio.generated.json` from approved sources.
             - Refreshes `public/portfolio/*.png` thumbnails when the public
