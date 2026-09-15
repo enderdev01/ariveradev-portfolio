@@ -1,0 +1,67 @@
+# Portfolio sync: regenerates src/data/portfolio.generated.json and the
+# public/portfolio thumbnails from approved sources, then opens/updates a PR
+# instead of pushing to the default branch.
+name: Portfolio sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly, Mondays 06:00 UTC.
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: portfolio-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # package-lock.json is gitignored in this repo, so npm ci is not available.
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run portfolio sync
+        env:
+          # Authenticated GitHub API fetches when available (required for private
+          # source definitions); exposed only to this step, never to the PR action.
+          # The workflow-token fallback is only consumed by this public pilot source.
+          PORTFOLIO_GITHUB_TOKEN: ${{ secrets.PORTFOLIO_GITHUB_TOKEN || github.token }}
+        run: node scripts/sync-portfolio.mjs
+
+      - name: Open or update portfolio sync PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          # Least-privileged token: the ephemeral workflow token is enough to open
+          # a PR; the (possibly broader-scoped) portfolio sync secret is not used
+          # for publication.
+          token: ${{ github.token }}
+          branch: portfolio-sync
+          base: main
+          title: "chore: sync portfolio generated data"
+          commit-message: "chore: sync portfolio generated data"
+          body: |
+            Automated portfolio sync (scripts/sync-portfolio.mjs).
+
+            - Updates `src/data/portfolio.generated.json` from approved sources.
+            - Refreshes `public/portfolio/*.png` thumbnails when the public
+              content changed.
+          add-paths: |
+            src/data/portfolio.generated.json
+            public/portfolio/**
