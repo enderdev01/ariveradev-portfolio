@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    {
+      "id": 19,
+      "card": {
+        "nombre": "Hakui Medical",
+        "url": "https://hakui-medical.vercel.app",
+        "imagen": "/portfolio/hakui-medical.png",
+        "stack": [
+          "Astro",
+          "React",
+          "Sass",
+          "Vitest"
+        ],
+        "descripcion": "Demo comercial de una clínica ambulatoria ficticia: seis especialidades, laboratorio propio y un asistente que convierte la descripción de síntomas en una cita concreta. Marca y datos inventados; no es una clínica en operación."
+      },
+      "seo": {
+        "slug": "hakui-medical",
+        "categoria": "Landing de producto",
+        "tituloSeo": "Hakui Medical — describe lo que sientes y te decimos a qué consulta ir",
+        "descripcionSeo": "Clínica ambulatoria con seis especialidades, laboratorio propio y un asistente que traduce tus síntomas en una cita concreta."
+      }
+    }
+  ]
+}

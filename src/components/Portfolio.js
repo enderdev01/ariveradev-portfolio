@@ -153,7 +153,7 @@ export default function Portfolio() {
             Nuestro trabajo
           </p>
           <h2 className="mb-4 text-2xl sm:text-4xl md:text-5xl font-bold text-text-primary">
-            Repositorio
+            Portfolio
           </h2>
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-text-secondary leading-relaxed">
             Proyectos reales que hemos desarrollado para nuestros clientes
