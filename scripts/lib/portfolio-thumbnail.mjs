@@ -8,6 +8,9 @@
 //   - Strict interpolation safety: the composed page interpolates only
 //     HTML-escaped values and strictly validated gradient stops (plain hex
 //     colors only; named colors, css functions, url(), commas rejected).
+//   - Bounded visual equivalence: a newly composed PNG that differs from the
+//     committed one only within a tiny, documented rasterization noise budget
+//     is reported as equivalent so the committed bytes can be preserved.
 
 // Keeps captured pages deterministic: no animations, no caret, no transitions,
 // and a frozen clock so time-driven UI (tickers, "próxima cita", etc.) always
@@ -188,4 +191,84 @@ export async function captureAndCompose(browser, source) {
   const composed = await compositionPage.screenshot({ type: "png" });
   await compositionContext.close();
   return composed;
+}
+
+// ---------------------------------------------------------------------------
+// Visual-equivalence guard: decoded-pixel comparison, never compressed bytes.
+//
+// Budget (documented, deliberately strict):
+//   - NOISE_CHANNEL_DELTA = 2: a pixel differs only when at least one RGBA
+//     channel changes by more than 2; sub-perceptual rasterization and
+//     antialiasing jitter stay at or below this.
+//   - MAX_NOISE_PIXELS = 512: hard cap of differing pixels (~0.025% of the
+//     1920x1080 canvas). Observed real-world instability was 51 pixels in an
+//     11x23 glyph-shaped region. Meaningful content, text, or layout changes
+//     alter thousands of pixels with large channel deltas and never qualify.
+//   - Dimensions must match exactly; any size difference is never equivalent.
+
+const NOISE_CHANNEL_DELTA = 2;
+const MAX_NOISE_PIXELS = 512;
+
+export const VISUAL_EQUIVALENCE_BUDGET = Object.freeze({
+  noiseChannelDelta: NOISE_CHANNEL_DELTA,
+  maxNoisePixels: MAX_NOISE_PIXELS,
+});
+
+// Decodes both PNG buffers in a browser canvas and returns diff statistics
+// computed on decoded pixels: whether dimensions match, how many pixels exceed
+// the per-channel noise delta, and the largest per-channel delta observed.
+export async function diffDecodedPixels(browser, existingPng, newPng) {
+  const context = await browser.newContext({ viewport: { width: 640, height: 480 } });
+  try {
+    const page = await context.newPage();
+    return await page.evaluate(async ({ existingUrl, newUrl, noiseChannelDelta }) => {
+      async function decode(dataUrl) {
+        const image = new Image();
+        await new Promise((resolve, reject) => {
+          image.onload = resolve;
+          image.onerror = () => reject(new Error("PNG decode failed"));
+          image.src = dataUrl;
+        });
+        const canvas = document.createElement("canvas");
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        ctx.drawImage(image, 0, 0);
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        return { width: canvas.width, height: canvas.height, data };
+      }
+      const [existing, next] = await Promise.all([decode(existingUrl), decode(newUrl)]);
+      if (existing.width !== next.width || existing.height !== next.height) {
+        return { dimensionsMatch: false, differingPixels: -1, maxChannelDelta: -1 };
+      }
+      let differingPixels = 0;
+      let maxChannelDelta = 0;
+      for (let i = 0; i < existing.data.length; i += 4) {
+        let pixelDelta = 0;
+        for (let channel = 0; channel < 4; channel += 1) {
+          const delta = Math.abs(existing.data[i + channel] - next.data[i + channel]);
+          if (delta > pixelDelta) pixelDelta = delta;
+        }
+        if (pixelDelta > maxChannelDelta) maxChannelDelta = pixelDelta;
+        if (pixelDelta > noiseChannelDelta) differingPixels += 1;
+      }
+      return { dimensionsMatch: true, differingPixels, maxChannelDelta };
+    }, {
+      existingUrl: `data:image/png;base64,${existingPng.toString("base64")}`,
+      newUrl: `data:image/png;base64,${newPng.toString("base64")}`,
+      noiseChannelDelta: NOISE_CHANNEL_DELTA,
+    });
+  } finally {
+    await context.close();
+  }
+}
+
+// Equivalent only when dimensions match and the count of pixels exceeding the
+// per-channel noise delta stays inside the strict budget.
+export function isWithinNoiseBudget(stats) {
+  return stats.dimensionsMatch && stats.differingPixels <= MAX_NOISE_PIXELS;
+}
+
+export async function isVisuallyEquivalent(browser, existingPng, newPng) {
+  return isWithinNoiseBudget(await diffDecodedPixels(browser, existingPng, newPng));
 }
