@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "sync:portfolio": "node scripts/sync-portfolio.mjs"
+    "sync:portfolio": "node scripts/sync-portfolio.mjs",
+    "test:portfolio": "node --test scripts/tests/*.test.mjs"
   },
   "dependencies": {
     "@next/font": "13.1.6",
