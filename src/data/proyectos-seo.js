@@ -3,6 +3,8 @@
 // which keeps unreleased work out of the index.
 //
 import portfolioGenerado from "./portfolio.generated.json";
+import { productionHostKey } from "../lib/productionHost";
+import { catalogoCuradoHosts } from "./onilabs";
 
 // Rule for this file: describe the problem and the technical approach only.
 // Never state client metrics or outcomes that the team has not provided.
@@ -152,6 +154,13 @@ const proyectosSeoBase = {
 const seoGenerado = Object.fromEntries(
   (portfolioGenerado.projects ?? [])
     .filter((p) => p.seo)
+    // A generated entry whose production host a hand-curated entry already covers
+    // is the same project under a different id. Its SEO is not merged: the curated
+    // slug stays authoritative and the sitemap keeps one URL per site.
+    .filter((p) => {
+      const host = productionHostKey(p.card?.url);
+      return !(host && catalogoCuradoHosts.has(host));
+    })
     .map((p) => [String(p.id), p.seo])
 );
 

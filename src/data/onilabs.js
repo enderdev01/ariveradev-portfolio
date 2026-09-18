@@ -1,4 +1,5 @@
 import portfolioGenerado from "./portfolio.generated.json";
+import { productionHostKey, productionHostKeys } from "../lib/productionHost";
 
 export const servicios = [
   {
@@ -317,11 +318,23 @@ const proyectosBaseSinGenerar = [
 // lista base: los ids existentes reciben sus campos de tarjeta y los ids
 // nuevos se agregan completos. El orden final lo define el sort de siempre.
 const projectsGenerados = portfolioGenerado.projects ?? [];
+
+// Hosts a hand-curated entry already covers. A generated project resolving to one
+// of them is the same project under a different id — a hand-assigned id against a
+// GitHub repository id — so the curated entry wins and the generated duplicate is
+// never appended. Exported so the SEO registry applies the same rule: otherwise
+// the sitemap emits two URLs for one site.
+export const catalogoCuradoHosts = productionHostKeys(
+  proyectosBaseSinGenerar.map((proyecto) => proyecto.url)
+);
+
 const proyectosBase = proyectosBaseSinGenerar.map((proyecto) => {
   const generado = projectsGenerados.find((p) => p.id === proyecto.id);
   return generado ? { ...proyecto, ...generado.card } : proyecto;
 });
 for (const generado of projectsGenerados) {
+  const host = productionHostKey(generado.card?.url);
+  if (host && catalogoCuradoHosts.has(host)) continue;
   if (!proyectosBase.some((proyecto) => proyecto.id === generado.id)) {
     proyectosBase.push({ id: generado.id, ...generado.card });
   }
