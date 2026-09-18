@@ -39,10 +39,22 @@ jobs:
 
       - name: Run portfolio sync
         env:
-          # Authenticated GitHub API fetches when available (required for private
-          # source definitions); exposed only to this step, never to the PR action.
-          # The workflow-token fallback is only consumed by this public pilot source.
-          PORTFOLIO_GITHUB_TOKEN: ${{ secrets.PORTFOLIO_GITHUB_TOKEN || github.token }}
+          # Explicit GitHub token for portfolio discovery (required when
+          # VERCEL_TOKEN is configured; the sync aborts safely without it).
+          # No workflow-token fallback: github.token is reserved for PR
+          # publication only. Exposed only to this step, never to the PR
+          # action.
+          PORTFOLIO_GITHUB_TOKEN: ${{ secrets.PORTFOLIO_GITHUB_TOKEN }}
+          # Topic-based portfolio auto-discovery (one-time setup). VERCEL_TOKEN
+          # enables discovery of topic-selected repositories with READY Vercel
+          # production deployments. Fail-closed: once VERCEL_TOKEN is set, a
+          # discovery/API/HTML failure aborts the sync before any write (it
+          # never falls back to a manual-only JSON). Without VERCEL_TOKEN the
+          # sync runs in migration mode with the manual registry only. These
+          # credentials are exposed only to this step, never to the PR action.
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          PORTFOLIO_TOPIC: ${{ vars.PORTFOLIO_TOPIC }}
         run: node scripts/sync-portfolio.mjs
 
       - name: Open or update portfolio sync PR

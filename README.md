@@ -43,6 +43,49 @@ npm run dev      # http://localhost:3000
 > | `EMAIL_PASS` | Contraseña / app password |
 > | `NEXT_PUBLIC_SITE_URL` | URL pública del sitio |
 
+## Sincronización automática del portfolio
+
+Los datos públicos de proyectos (`src/data/portfolio.generated.json` y `public/portfolio/*.png`) se regeneran con:
+
+```bash
+npm run sync:portfolio   # también corre semanalmente vía GitHub Actions
+```
+
+El workflow (`.github/workflows/sync-portfolio.yml`) corre el sync y abre un PR; nunca pushea a `main`.
+
+### Modos de origen
+
+1. **Auto-discovery (camino normal).** Con `VERCEL_TOKEN` configurado, el sync descubre los repositorios de GitHub que tienen el topic del portfolio y un deploy de producción READY en Vercel, y los agrega como fuentes aprobadas. La narrativa y los textos SEO se derivan del HTML deployado. **Fail-closed:** con `VERCEL_TOKEN` configurado, cualquier error de discovery (API, auth, formato o HTML de producción) aborta el sync antes de escribir un solo archivo — nunca regenera un JSON solo-manual que borre temporalmente proyectos ya publicados. Además, si un proyecto que **ya está publicado** en `src/data/portfolio.generated.json` queda salteado en discovery (deploy no-READY, link de Vercel faltante o URL de producción no disponible), el sync también aborta antes del capture/staging: un proyecto publicado nunca sale del portfolio por un problema transitorio. Un repositorio recién taggeado que nunca se publicó puede quedar salteado hasta tener su deploy READY.
+2. **Registro manual (fallback / override, solo migración).** Las entradas de `scripts/portfolio-sources.json` (más el registro local gitignored y la variable `PORTFOLIO_SOURCES_EXTRA`) siguen funcionando y ganan sobre las descubiertas ante cualquier colisión de identidad (owner/repo de GitHub, id, slug o projectId). El fallback solo-manual es válido **únicamente cuando `VERCEL_TOKEN` no está configurado**: en ese caso el sync avisa y usa solo el registro manual, así que `main` queda verde hasta configurar el secreto una única vez.
+
+### Configuración única (secrets del repo)
+
+| Variable | Dónde | Uso |
+|----------|-------|-----|
+| `VERCEL_TOKEN` | Secrets | Habilita el auto-discovery (requerido) |
+| `PORTFOLIO_GITHUB_TOKEN` | Secrets | **Requerido para discovery:** token de GitHub explícito; el sync aborta de forma segura si falta con `VERCEL_TOKEN` configurado. El `github.token` del workflow no se usa para discovery — solo para publicar el PR |
+| `VERCEL_TEAM_ID` | Secrets | Opcional, para cuentas con team |
+| `PORTFOLIO_TOPIC` | Variables | Opcional; default `onilabs-portfolio` |
+
+Los tokens solo se exponen al paso de sync del workflow, nunca a la acción que abre el PR.
+
+### Flujo por proyecto (cero JSON)
+
+Para publicar un proyecto nuevo no hace falta editar ningún JSON:
+
+1. Agregar el topic `onilabs-portfolio` al repositorio del proyecto en GitHub.
+2. Hacer deploy del proyecto en Vercel con un deploy de producción READY (dominio propio o `*.vercel.app`).
+
+En la próxima corrida semanal (o manual del workflow), el proyecto entra al portfolio solo.
+
+Si un proyecto descubierto necesita textos a mano, se agrega al registro manual con la misma identidad y esa entrada manual gana.
+
+### Pruebas
+
+```bash
+npm run test:portfolio   # suite offline de discovery + integración (node --test)
+```
+
 ## Tecnologías
 
 | Capa | Stack |
