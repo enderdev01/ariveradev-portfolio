@@ -8,10 +8,14 @@
 //   - Approval: selecting the onilabs-portfolio topic is the explicit approval
 //     signal; discovered sources emit clientApproved: true and satisfy the
 //     portfolio-source validation shape.
-//   - Abort vs skip: API/auth/invalid-shape failures and production-HTML
-//     failures (network/5xx/invalid response for a matched READY deployment)
-//     throw a DiscoveryError before anything is returned; missing/non-READY
-//     deployments skip with a stable reason code.
+//   - Abort vs skip: API/auth/invalid-shape failures throw a DiscoveryError
+//     before anything is returned. Deployment-level problems skip with a stable
+//     reason code instead: missing/non-READY deployments, and also a matched
+//     READY deployment whose production page cannot be read (network, non-OK,
+//     cross-origin redirect, or no <title>). Skips are safe because the
+//     published-skip guard aborts the run whenever a skipped projectId is
+//     already published, so an already published project is still protected
+//     while an unpublished one no longer takes the whole sync down.
 //   - Published-project protection: the skip guard lives in
 //     portfolio-deployed-meta.mjs and must run before browser capture/staging
 //     so the sync aborts with zero writes.
@@ -148,12 +152,23 @@ export async function discoverPortfolio({
       continue;
     }
     const expectedOrigin = new URL(productionUrl).origin;
-    // fetchDeployedMeta aborts on network/5xx/invalid-response failures for
-    // a matched READY deployment; it never silently drops a repository. A
-    // null/empty result from an injected htmlFetchImpl aborts too.
-    const meta = await fetchDeployedMeta({ fetchImpl, htmlFetchImpl, productionUrl, expectedOrigin });
+    // A matched READY deployment whose production page cannot be read is a skip,
+    // not an abort. fetchDeployedMeta aborts on network/5xx/cross-origin-redirect
+    // failures and on a missing <title>; swallowing that here keeps the rest of
+    // the run alive. The published-skip guard still aborts when this projectId is
+    // already published, so the previous protection is unchanged.
+    let meta;
+    try {
+      meta = await fetchDeployedMeta({ fetchImpl, htmlFetchImpl, productionUrl, expectedOrigin });
+    } catch {
+      skipped.push(skipEntry(repo, "deployed-html-unavailable"));
+      continue;
+    }
+    // A null/empty result from an injected htmlFetchImpl is the same outcome and
+    // must not be mistaken for a usable page.
     if (!meta || !meta.title) {
-      throw new DiscoveryError(`Production HTML for ${productionUrl} has no usable metadata`);
+      skipped.push(skipEntry(repo, "deployed-html-unavailable"));
+      continue;
     }
     if (usedProjectIds.has(repo.id)) {
       throw new DiscoveryError(`projectId collision for GitHub repository id ${repo.id}`);

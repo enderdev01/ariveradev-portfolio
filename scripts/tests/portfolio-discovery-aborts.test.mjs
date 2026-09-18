@@ -1,13 +1,15 @@
 // Offline node:test suite for discovery abort semantics at the run level:
-// production-HTML failures flowing through discoverPortfolio, API/shape
-// failures and slug collision aborts. Every failure path must abort without
-// exposing tokens or repository identity. The deployed-HTML unit contract and
-// the published-skip guard are covered in portfolio-deployed-meta.test.mjs.
+// deployment-level failures flowing through discoverPortfolio (which must skip,
+// not abort), API/shape failures and slug collision aborts (which must abort
+// without exposing tokens or repository identity), and the published-skip guard
+// that still protects an already published project. The deployed-HTML unit
+// contract and the guard itself are covered in portfolio-deployed-meta.test.mjs.
 
 import test from "node:test";
 import assert from "node:assert/strict";
 import { assignSlug, discoverPortfolio } from "../lib/portfolio-discovery.mjs";
 import { DiscoveryError } from "../lib/github-discovery.mjs";
+import { assertNoPublishedProjectSkipped } from "../lib/portfolio-deployed-meta.mjs";
 import { fixture, makeRouter } from "./fixtures/discovery-router.mjs";
 
 function runDiscovery(routerOptions = {}) {
@@ -21,26 +23,60 @@ function runDiscovery(routerOptions = {}) {
   return { router, result };
 }
 
-// --- Production HTML failures (run level) -----------------------------------------
+// --- Production HTML failures (run level): skip, never drop the whole run -------
 
-test("production HTML 5xx, network error and missing title abort the run", async () => {
-  await assert.rejects(
-    runDiscovery({
-      htmlOverrides: { "https://clinica-nova.example.com": { body: "", status: 500, ok: false } },
-    }).result,
-    (error) => error instanceof DiscoveryError && /HTTP 500/.test(error.message)
+const UNAVAILABLE_URL = "https://clinica-nova.example.com";
+// onilabs/clinica-nova (repo id 101) resolves to this custom-domain production URL.
+const UNAVAILABLE_PROJECT_ID = 101;
+
+function skippedUnavailable(discovery) {
+  return discovery.skipped.some(
+    (entry) => entry.projectId === UNAVAILABLE_PROJECT_ID && entry.reason === "deployed-html-unavailable"
   );
-  await assert.rejects(
-    runDiscovery({
-      htmlThrowOnUrls: ["https://clinica-nova.example.com"],
-    }).result,
-    (error) => error instanceof DiscoveryError && /Production HTML fetch failed/.test(error.message)
+}
+
+test("production HTML 5xx, network error and missing title skip instead of aborting the run", async () => {
+  const cases = [
+    { htmlOverrides: { [UNAVAILABLE_URL]: { body: "", status: 500, ok: false } } },
+    { htmlThrowOnUrls: [UNAVAILABLE_URL] },
+    { htmlOverrides: { [UNAVAILABLE_URL]: { body: "<html><body></body></html>" } } },
+  ];
+  for (const options of cases) {
+    const { result } = runDiscovery(options);
+    const discovery = await result;
+    assert.equal(skippedUnavailable(discovery), true, `expected a skip for ${JSON.stringify(options)}`);
+    assert.equal(
+      discovery.sources.some((source) => source.projectId === UNAVAILABLE_PROJECT_ID),
+      false,
+      "an unreadable production page must not produce a source"
+    );
+    assert.equal(discovery.sources.length > 0, true, "the remaining repositories must still resolve");
+  }
+});
+
+test("an unreadable production page for a published projectId still aborts fail-closed", async () => {
+  const { result } = runDiscovery({
+    htmlOverrides: { [UNAVAILABLE_URL]: { body: "", status: 500, ok: false } },
+  });
+  const discovery = await result;
+  assert.equal(skippedUnavailable(discovery), true);
+  assert.throws(
+    () =>
+      assertNoPublishedProjectSkipped({
+        skipped: discovery.skipped,
+        committedProjectIds: [UNAVAILABLE_PROJECT_ID],
+      }),
+    /already published in the committed generated JSON/
   );
-  await assert.rejects(
-    runDiscovery({
-      htmlOverrides: { "https://clinica-nova.example.com": { body: "<html><body></body></html>" } },
-    }).result,
-    (error) => error instanceof DiscoveryError && /no <title>/.test(error.message)
+});
+
+test("an unreadable production page for an unpublished projectId does not abort", async () => {
+  const { result } = runDiscovery({
+    htmlOverrides: { [UNAVAILABLE_URL]: { body: "", status: 500, ok: false } },
+  });
+  const discovery = await result;
+  assert.doesNotThrow(() =>
+    assertNoPublishedProjectSkipped({ skipped: discovery.skipped, committedProjectIds: [19] })
   );
 });
 
