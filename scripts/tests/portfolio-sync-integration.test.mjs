@@ -67,8 +67,25 @@ test("sync module import does not execute main() as a side effect", () => {
 // --- Sync seam: discovery result -> published-skip guard ----------------------------
 
 test("sync seam: discovery result shape reaches the published-skip guard", async () => {
-  // Real committed generated JSON is read by the sync module itself.
-  assert.deepEqual(readCommittedProjectIds(), [19]);
+  // Real committed generated JSON is read by the sync module itself. Assert the
+  // invariants, not a literal list: the automated sync is designed to append
+  // projects to this file, so hardcoding its contents makes every successful sync
+  // leave the suite red.
+  const committedIds = readCommittedProjectIds();
+  assert.ok(Array.isArray(committedIds), "reads the committed project ids");
+  assert.ok(
+    committedIds.every((id) => Number.isInteger(id) && id > 0),
+    "every committed project id is a positive integer"
+  );
+  assert.ok(
+    committedIds.includes(19),
+    "the published hakui-medical entry is among the committed ids"
+  );
+  assert.equal(
+    new Set(committedIds).size,
+    committedIds.length,
+    "committed project ids are unique"
+  );
 
   // Seam shape: runDiscovery returns { sources, skipped } exactly as the guard
   // and the main() caller expect.
