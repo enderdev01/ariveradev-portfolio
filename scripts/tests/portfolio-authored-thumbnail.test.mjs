@@ -15,6 +15,7 @@ import {
   assertAuthoredThumbnail,
   committedThumbnailPath,
 } from "../lib/portfolio-artifacts.mjs";
+import { loadAuthoredAssets } from "../lib/portfolio-authored-assets.mjs";
 
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
@@ -99,4 +100,21 @@ test("committedThumbnailPath keeps the published /portfolio/<id>.png contract", 
   const filePath = committedThumbnailPath("butacas-libres");
   assert.equal(path.basename(filePath), "butacas-libres.png");
   assert.equal(path.basename(path.dirname(filePath)), "portfolio");
+});
+
+// --- Committed registry invariant ----------------------------------------------------
+
+test("every committed authored thumbnail is present and matches the canvas", () => {
+  // Invariant, not a hardcoded id list: it grows with the registry, so declaring
+  // `thumbnail: { authored: true }` without committing a valid image fails here
+  // instead of failing later inside a sync run that has already written files.
+  const conImagen = loadAuthoredAssets().filter((asset) => asset.thumbnail?.authored === true);
+  assert.ok(conImagen.length > 0, "the registry declares at least one authored thumbnail");
+  for (const asset of conImagen) {
+    assert.deepEqual(
+      assertAuthoredThumbnail({ id: asset.id }),
+      { width: 1920, height: 1080 },
+      `${asset.id} has a committed 1920x1080 thumbnail`
+    );
+  }
 });
