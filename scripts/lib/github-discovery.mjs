@@ -112,6 +112,7 @@ export function normalizeRepository(raw) {
     fullName: typeof raw.full_name === "string" && raw.full_name ? raw.full_name : `${owner}/${raw.name}`,
     description: typeof raw.description === "string" && raw.description ? raw.description : null,
     homepage: typeof raw.homepage === "string" && raw.homepage ? raw.homepage : null,
+    hasPages: raw.has_pages === true,
     language: typeof raw.language === "string" && raw.language ? raw.language : null,
     // Sorted copy: downstream derivation must not depend on GitHub's ordering.
     topics: Array.isArray(raw.topics)

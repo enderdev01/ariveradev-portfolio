@@ -33,6 +33,7 @@ const REASON_TEXT = {
   "vercel-project-not-found": "no Vercel project is linked to this repository",
   "vercel-production-url-unavailable": "the production deployment has no usable URL",
   "deployed-html-unavailable": "the production page could not be read (network, non-OK, cross-origin redirect or missing <title>)",
+  "no-public-deployment": "the repository declares no public deployment, not even a repository URL",
 };
 const REASON_PREFIX = {
   "vercel-production-not-ready": "the production deployment is not READY yet",

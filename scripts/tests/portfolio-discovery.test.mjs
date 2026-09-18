@@ -7,7 +7,7 @@
 
 import test from "node:test";
 import assert from "node:assert/strict";
-import { discoverPortfolio } from "../lib/portfolio-discovery.mjs";
+import { discoverPortfolio, deriveRepoCardName, resolveNonVercelOrigin } from "../lib/portfolio-discovery.mjs";
 import { stripPrivateIdentity } from "../lib/portfolio-deployed-meta.mjs";
 import { deriveGradient } from "../lib/portfolio-classify.mjs";
 import { fixture, makeRouter } from "./fixtures/discovery-router.mjs";
@@ -22,6 +22,60 @@ function runDiscovery(routerOptions = {}) {
   });
   return { router, result };
 }
+
+// --- Non-Vercel origins --------------------------------------------------------
+
+const repoWith = (overrides) => ({
+  id: 1,
+  name: "butacas-libres",
+  fullName: "enderdev01/butacas-libres",
+  owner: "enderdev01",
+  description: "d",
+  homepage: null,
+  hasPages: false,
+  htmlUrl: "https://github.com/enderdev01/butacas-libres",
+  ...overrides,
+});
+
+test("resolveNonVercelOrigin prefers the declared homepage", () => {
+  const origin = resolveNonVercelOrigin(
+    repoWith({ homepage: "https://www.ecoshipperu.com/productos", hasPages: true })
+  );
+  assert.equal(origin.kind, "homepage");
+  assert.equal(origin.productionUrl, "https://www.ecoshipperu.com/productos");
+  assert.deepEqual(origin.allowedOrigins, ["https://www.ecoshipperu.com"]);
+  assert.equal(origin.fetchDeployedPage, true);
+});
+
+test("resolveNonVercelOrigin falls back to GitHub Pages", () => {
+  const origin = resolveNonVercelOrigin(repoWith({ hasPages: true }));
+  assert.equal(origin.kind, "github-pages");
+  assert.equal(origin.productionUrl, "https://enderdev01.github.io/butacas-libres/");
+  assert.equal(origin.fetchDeployedPage, true);
+});
+
+test("resolveNonVercelOrigin falls back to the repository itself when nothing is deployed", () => {
+  // Choosing not to deploy is a legitimate decision: the card links to the project.
+  const origin = resolveNonVercelOrigin(repoWith({}));
+  assert.equal(origin.kind, "repository");
+  assert.equal(origin.productionUrl, "https://github.com/enderdev01/butacas-libres");
+  // There is no deployed page to read, so the card is derived from the repository.
+  assert.equal(origin.fetchDeployedPage, false);
+});
+
+test("resolveNonVercelOrigin never trusts a malformed homepage", () => {
+  for (const homepage of ["not a url", "javascript:alert(1)", "ftp://x.example.com", "https://"]) {
+    assert.equal(resolveNonVercelOrigin(repoWith({ homepage })).kind, "repository", homepage);
+  }
+  assert.equal(resolveNonVercelOrigin(repoWith({ htmlUrl: null })), null);
+});
+
+test("deriveRepoCardName makes the repository name readable", () => {
+  assert.equal(deriveRepoCardName({ name: "butacas-libres" }), "Butacas Libres");
+  assert.equal(deriveRepoCardName({ name: "ecoshipperu_landing" }), "Ecoshipperu Landing");
+  assert.equal(deriveRepoCardName({ name: "selnote.web" }), "Selnote Web");
+  assert.equal(deriveRepoCardName({}), "Proyecto");
+});
 
 // --- Full fixture discovery ---------------------------------------------------
 
