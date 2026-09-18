@@ -25,6 +25,34 @@ function runDiscovery(routerOptions = {}) {
 
 // --- Full fixture discovery ---------------------------------------------------
 
+test("a production page redirecting between the project's own origins still resolves", async () => {
+  // labouno/clinica-nova resolves to its custom domain, whose Vercel project also
+  // declares the .vercel.app alias. An apex -> www style redirect between the
+  // project's own origins is normal and must not skip the project.
+  const { result } = runDiscovery({
+    htmlOverrides: {
+      "https://clinica-nova.alt.example.com": {
+        body: "<title>Clínica Nova — salud digital con agendamiento</title>",
+        finalUrl: "https://clinica-nova-lab.vercel.app/",
+      },
+    },
+  });
+  const { sources, skipped } = await result;
+
+  assert.equal(
+    skipped.some((entry) => entry.projectId === 201),
+    false,
+    "a redirect inside the project's own origins must not skip it"
+  );
+  const redirected = sources.find((source) => source.projectId === 201);
+  assert.ok(redirected, "the redirected project resolves into a source");
+  assert.equal(redirected.productionUrl, "https://clinica-nova.alt.example.com");
+  assert.ok(
+    redirected.allowedOrigins.includes("https://clinica-nova-lab.vercel.app"),
+    "the redirect target is one of the project's own origins"
+  );
+});
+
 test("discovery follows GitHub pagination and derives every ready deployment", async () => {
   const { router, result } = runDiscovery();
   const { sources, skipped } = await result;

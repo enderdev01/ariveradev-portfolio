@@ -43,11 +43,26 @@ export function deriveCardTitle(deployedTitle) {
 }
 
 // Fetches the deployed public HTML metadata (title + meta description).
-// Aborts on failure: a network error, non-OK response, redirect to another
-// origin, or missing <title> for a matched READY deployment throws a
-// DiscoveryError instead of silently dropping a previously published project.
+// Aborts on failure: a network error, non-OK response, redirect outside the
+// project's own production origins, or missing <title> for a matched READY
+// deployment throws a DiscoveryError instead of silently dropping a previously
+// published project.
+//
+// `allowedOrigins` are the project's own production origins: its aliases plus the
+// deployment URL, exactly the set the published record carries. A redirect between
+// them is normal — an apex host routinely 307s to its www form — and must be
+// followed rather than read as a cross-origin escape. This is the same check
+// `fetchProductionHtml` applies when the sync fetches a published source, so
+// discovery is no longer stricter than the sync it feeds.
+//
 // Injectable via htmlFetchImpl (offline tests) or fetchImpl (default fetch).
-export async function fetchDeployedMeta({ fetchImpl, htmlFetchImpl, productionUrl, expectedOrigin }) {
+export async function fetchDeployedMeta({
+  fetchImpl,
+  htmlFetchImpl,
+  productionUrl,
+  expectedOrigin,
+  allowedOrigins = [],
+}) {
   if (htmlFetchImpl) {
     try {
       return await htmlFetchImpl(productionUrl, expectedOrigin);
@@ -73,9 +88,13 @@ export async function fetchDeployedMeta({ fetchImpl, htmlFetchImpl, productionUr
   let html;
   try {
     const finalOrigin = new URL(response.url).origin;
-    if (finalOrigin !== new URL(expectedOrigin).origin) {
+    const allowed = new Set([
+      new URL(expectedOrigin).origin,
+      ...(Array.isArray(allowedOrigins) ? allowedOrigins : []),
+    ]);
+    if (!allowed.has(finalOrigin)) {
       throw new DiscoveryError(
-        `Production HTML redirect landed on ${finalOrigin}, expected ${expectedOrigin}`
+        `Production HTML redirect landed on ${finalOrigin}, expected one of ${[...allowed].sort().join(", ")}`
       );
     }
     html = await response.text();

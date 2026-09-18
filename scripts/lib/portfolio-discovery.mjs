@@ -152,6 +152,14 @@ export async function discoverPortfolio({
       continue;
     }
     const expectedOrigin = new URL(productionUrl).origin;
+    // The project's own production origins, derived before the fetch so the same
+    // set both validates the redirect and lands in the published record. A
+    // redirect between them (apex -> www) is normal and must be followed.
+    const allowedOrigins = deriveAllowedOrigins({
+      productionUrl,
+      aliases: project.production?.aliases ?? [],
+      url: resolved.url ?? project.production?.url ?? null,
+    });
     // A matched READY deployment whose production page cannot be read is a skip,
     // not an abort. fetchDeployedMeta aborts on network/5xx/cross-origin-redirect
     // failures and on a missing <title>; swallowing that here keeps the rest of
@@ -159,7 +167,13 @@ export async function discoverPortfolio({
     // already published, so the previous protection is unchanged.
     let meta;
     try {
-      meta = await fetchDeployedMeta({ fetchImpl, htmlFetchImpl, productionUrl, expectedOrigin });
+      meta = await fetchDeployedMeta({
+        fetchImpl,
+        htmlFetchImpl,
+        productionUrl,
+        expectedOrigin,
+        allowedOrigins,
+      });
     } catch {
       skipped.push(skipEntry(repo, "deployed-html-unavailable"));
       continue;
@@ -198,11 +212,7 @@ export async function discoverPortfolio({
       clientApproved: true,
       productionUrl,
       expectedOrigin,
-      allowedOrigins: deriveAllowedOrigins({
-        productionUrl,
-        aliases: project.production?.aliases ?? [],
-        url: resolved.url ?? project.production?.url ?? null,
-      }),
+      allowedOrigins,
       github: { owner: repo.owner, repo: repo.name },
       stack,
       thumbnail: { gradient: deriveGradient(slug) },
