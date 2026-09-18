@@ -76,6 +76,27 @@ export function mergeSources({ manual = [], discovered = [] } = {}) {
   return merged;
 }
 
+// Ids of the discovered sources that actually produced a published record.
+//
+// A discovered source dropped by the manual override is NOT included, even though
+// discovery did fetch and validate its deployed page. Its metadata was derived for
+// a record that was never published, so it must not suppress the deployed-metadata
+// fetch for the manual entry that replaced it: that entry may declare no SEO texts
+// at all, and suppressing the fetch would blank its previously published copy
+// instead of falling back to the deployed page.
+//
+// Identity is by object reference: mergeSources returns the surviving discovered
+// objects themselves, so membership in `sources` is exactly "this source was
+// published".
+export function discoveredProvidedIds({ discoveredSources = null, sources = [] } = {}) {
+  const published = new Set(Array.isArray(sources) ? sources : []);
+  return new Set(
+    (discoveredSources ?? [])
+      .filter((source) => published.has(source))
+      .map((source) => source.id)
+  );
+}
+
 // Decides the discovery mode of a sync run from the configured credentials:
 //   - VERCEL_TOKEN absent -> { discoveryEnabled: false }: migration mode, the
 //     manual registry is the only source provider (allowed fallback).

@@ -13,6 +13,7 @@
 export { loadSources } from "./portfolio-registry.mjs";
 export {
   mergeSources,
+  discoveredProvidedIds,
   resolveSyncSources,
   resolveDiscoveryGate,
 } from "./portfolio-source-resolution.mjs";

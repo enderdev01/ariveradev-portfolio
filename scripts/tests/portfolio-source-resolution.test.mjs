@@ -6,11 +6,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  discoveredProvidedIds,
   mergeSources,
   resolveDiscoveryGate,
   resolveSyncSources,
 } from "../lib/portfolio-source-resolution.mjs";
 import { loadSources } from "../lib/portfolio-registry.mjs";
+import { buildRecord } from "../lib/portfolio-record.mjs";
 
 // Shaped exactly like the committed manual registry entry.
 const manualSource = {
@@ -68,6 +70,55 @@ function discoveredVariant(overrides) {
     seo: { ...discoveredSource.seo, ...(overrides.seo ?? {}) },
   };
 }
+
+// A discovered source that collides with the manual registry entry for the same
+// project: same published slug, different GitHub id.
+const discoveredHakui = discoveredVariant({
+  id: "hakui-medical",
+  projectId: 1366664326,
+  github: { owner: "enderdev01", repo: "hakui-medical" },
+  seo: { slug: "hakui-medical" },
+});
+
+test("discoveredProvidedIds keeps only the discovered sources that reached the published list", () => {
+  const merged = mergeSources({ manual: [manualSource], discovered: [discoveredHakui, discoveredSource] });
+  const ids = discoveredProvidedIds({ discoveredSources: [discoveredHakui, discoveredSource], sources: merged });
+
+  assert.deepEqual([...ids], ["clinica-nova"], "the surviving discovered source keeps its derived metadata");
+  assert.equal(ids.has("hakui-medical"), false, "the one dropped by the manual override does not");
+  assert.equal(merged.includes(manualSource), true, "the manual entry is what gets published");
+});
+
+test("discoveredProvidedIds is empty without discovery", () => {
+  assert.equal(discoveredProvidedIds({ discoveredSources: null, sources: [manualSource] }).size, 0);
+  assert.equal(discoveredProvidedIds().size, 0);
+});
+
+test("regression: a discovered source dropped by the manual override does not blank the published copy", () => {
+  const merged = mergeSources({ manual: [manualSource], discovered: [discoveredHakui] });
+  const published = merged.find((source) => source.seo.slug === "hakui-medical");
+  assert.equal(published, manualSource, "the manual entry is published, and it declares no SEO texts");
+
+  // This is the decision the sync makes before fetching the deployed page.
+  const ids = discoveredProvidedIds({ discoveredSources: [discoveredHakui], sources: merged });
+  assert.equal(
+    ids.has("hakui-medical"),
+    false,
+    "the dropped discovered source must not suppress the fetch"
+  );
+
+  // Deriving it from the pre-merge discovery list instead is exactly the bug:
+  // the fetch is skipped, and the record falls through to the empty fallback.
+  const preMergeIds = new Set([discoveredHakui].map((source) => source.id));
+  assert.equal(preMergeIds.has("hakui-medical"), true);
+  assert.equal(buildRecord(manualSource, null).seo.tituloSeo, "");
+  assert.equal(buildRecord(manualSource, null).seo.descripcionSeo, "");
+
+  // With the fetch performed, the deployed copy is what gets published.
+  const deployedMeta = { title: "Hakui Medical — copy from the deployed page", description: "Descripción deployada" };
+  assert.equal(buildRecord(manualSource, deployedMeta).seo.tituloSeo, deployedMeta.title);
+  assert.equal(buildRecord(manualSource, deployedMeta).seo.descripcionSeo, deployedMeta.description);
+});
 
 // --- Fail-closed discovery gate -------------------------------------------------------
 

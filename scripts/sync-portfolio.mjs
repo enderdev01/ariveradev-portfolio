@@ -69,6 +69,7 @@ import {
   fetchRepoMetadata,
   fetchProductionHtml,
   buildRecord,
+  discoveredProvidedIds,
   resolveSyncSources,
   resolveDiscoveryGate,
 } from "./lib/portfolio-source.mjs";
@@ -308,8 +309,11 @@ export async function main() {
 
   // Discovered sources already fetched and validated their deployed production
   // HTML inside discoverPortfolio; reuse those derived SEO texts instead of
-  // fetching the same production page a second time.
-  const discoveredIds = new Set((discoveredSources ?? []).map((source) => source.id));
+  // fetching the same production page a second time. Only a discovered source
+  // that produced a published record counts: one that lost the identity collision
+  // to a manual registry entry must still be fetched, otherwise that manual entry
+  // loses its deployed SEO texts and publishes empty strings.
+  const discoveredIds = discoveredProvidedIds({ discoveredSources, sources });
 
   let playwright;
   try {
