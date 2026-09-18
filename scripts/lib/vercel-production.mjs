@@ -92,15 +92,25 @@ export async function resolveProductionDeployment({ fetchImpl, token, teamId = n
 }
 
 // Picks the production URL with custom-domain preference: sorted custom
-// domains first, then sorted *.vercel.app aliases, then the deployment url.
+// domains first, then the canonical *.vercel.app alias, then the deployment url.
 // Returns "https://<host>" or null when nothing usable is present.
+//
+// Among *.vercel.app aliases the canonical `<project>.vercel.app` is preferred
+// over the scope-suffixed `<project>-<scope>.vercel.app`. The scope-suffixed host
+// is the one Vercel Deployment Protection guards, which answers with a redirect
+// to vercel.com instead of the deployed page. A plain alphabetical tiebreak
+// selects it, because "-" (0x2D) sorts before "." (0x2E), so the two hosts are
+// compared by length first — the canonical host is always the shorter one — and
+// equal-length ties stay deterministic by falling back to alphabetical order.
 export function pickProductionUrl({ aliases = [], url = null } = {}) {
   const sortedAliases = aliases
     .filter((alias) => isValidHostname(alias))
     .map((alias) => alias.toLowerCase())
     .sort();
   const custom = sortedAliases.find((alias) => !isVercelAppDomain(alias));
-  const vercelApp = sortedAliases.find((alias) => isVercelAppDomain(alias));
+  const vercelApp = sortedAliases
+    .filter((alias) => isVercelAppDomain(alias))
+    .sort((a, b) => a.length - b.length || a.localeCompare(b))[0];
   const host = custom ?? vercelApp ?? (isValidHostname(url) ? url.toLowerCase() : null);
   if (!host) return null;
   return `https://${host}`;
