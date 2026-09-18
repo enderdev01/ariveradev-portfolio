@@ -46,3 +46,6 @@ analytics/.env
 
 # portfolio private sources (never commit private repo identities)
 scripts/portfolio-sources.local.json
+
+# portfolio discovery alert state (workflow cache only, never committed)
+.portfolio-discovery-alert-state.json

@@ -1,7 +1,8 @@
 // Offline node:test suite for the discovery tokens' confinement in the sync
 // workflow (.github/workflows/sync-portfolio.yml): discovery credentials reach
 // only the sync step, the PR step keeps the least-privileged workflow token,
-// and there is no implicit github.token fallback for the discovery token.
+// the alert credentials stay confined the same way, and there is no implicit
+// github.token fallback for the discovery token.
 
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -21,11 +22,21 @@ test("workflow passes discovery tokens only to the sync step", () => {
   const syncStep = workflow.slice(0, prStepIndex);
   const prStep = workflow.slice(prStepIndex);
 
-  // Discovery credentials reach only the sync step.
-  for (const name of ["VERCEL_TOKEN", "VERCEL_TEAM_ID", "PORTFOLIO_TOPIC", "PORTFOLIO_GITHUB_TOKEN"]) {
+  // Discovery credentials reach only the sync step. The alert credentials are
+  // private too: they carry the repository names that skip records omit.
+  for (const name of [
+    "VERCEL_TOKEN",
+    "VERCEL_TEAM_ID",
+    "PORTFOLIO_TOPIC",
+    "PORTFOLIO_GITHUB_TOKEN",
+    "RESEND_API_KEY",
+    "PORTFOLIO_ALERT_FROM",
+    "PORTFOLIO_ALERT_TO",
+  ]) {
     assert.ok(syncStep.includes(name), `${name} is provided to the sync step`);
     assert.equal(prStep.includes(name), false, `${name} never reaches the PR step`);
   }
+  assert.equal(prStep.includes("RESEND"), false, "no alert credential reaches the PR step");
   assert.equal(
     syncStep.split("secrets.VERCEL_TOKEN").length - 1,
     1,
@@ -52,6 +63,11 @@ test("workflow passes discovery tokens only to the sync step", () => {
 
   // The PR action keeps using the least-privileged workflow token.
   assert.match(prStep, /token: \$\{\{ github\.token \}\}/);
+
+  // The alert state is persisted between runs by a pinned cache action, so an
+  // unchanged skipped set does not email on every scheduled run.
+  assert.match(workflow, /uses: actions\/cache@v\d+\.\d+\.\d+/);
+  assert.match(workflow, /path: \.portfolio-discovery-alert-state\.json/);
 
   // Behavior guards that must not regress with the integration.
   assert.match(workflow, /node-version: 24/);
