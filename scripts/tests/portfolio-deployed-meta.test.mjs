@@ -52,8 +52,40 @@ test("fetchDeployedMeta aborts on non-OK and origin mismatch", async () => {
   );
 });
 
-test("fetchDeployedMeta honors htmlFetchImpl injection", async () => {
+test("fetchDeployedMeta follows a redirect that stays inside the project's own origins", async () => {
+  const router = makeRouter({
+    htmlOverrides: {
+      "https://versus.example.com": {
+        body: "<title>Versus — compará candidatos</title>",
+        finalUrl: "https://www.versus.example.com/",
+      },
+    },
+  });
+
+  // An apex host that 307s to its www form is normal. Both origins belong to the
+  // project, so the deployed metadata must be accepted instead of skipped.
   const meta = await fetchDeployedMeta({
+    fetchImpl: router.fetchImpl,
+    productionUrl: "https://versus.example.com",
+    expectedOrigin: "https://versus.example.com",
+    allowedOrigins: ["https://versus.example.com", "https://www.versus.example.com"],
+  });
+  assert.match(meta.title, /Versus/);
+
+  // The same redirect with only an unrelated origin allowed still aborts: the
+  // relaxation is limited to the project's own production origins.
+  await assert.rejects(
+    fetchDeployedMeta({
+      fetchImpl: router.fetchImpl,
+      productionUrl: "https://versus.example.com",
+      expectedOrigin: "https://versus.example.com",
+      allowedOrigins: ["https://otro.example.com"],
+    }),
+    (error) => error instanceof DiscoveryError && /redirect landed on/.test(error.message)
+  );
+});
+
+test("fetchDeployedMeta honors htmlFetchImpl injection", async () => {  const meta = await fetchDeployedMeta({
     htmlFetchImpl: async (url) => ({ title: "Injected", description: "d", html: "" }),
     productionUrl: "https://cualquiera.example.com",
     expectedOrigin: "https://cualquiera.example.com",
