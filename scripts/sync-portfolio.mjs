@@ -83,6 +83,15 @@ import {
   isWithinNoiseBudget,
 } from "./lib/portfolio-thumbnail.mjs";
 import { stageAndInstall } from "./lib/portfolio-artifacts.mjs";
+import {
+  ALERT_STATE_FILE,
+  buildAlertHtml,
+  buildAlertSubject,
+  resolveRepositoryNames,
+  sendAlertEmail,
+  shouldNotify,
+  skipSignature,
+} from "./lib/portfolio-alert.mjs";
 
 // Mirrors the published paths used by scripts/lib/portfolio-artifacts.mjs.
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -190,6 +199,69 @@ export async function runDiscoveryWithPublishedGuard({
   return discovery;
 }
 
+// Notifies the maintainer by email when discovery skipped tagged repositories, but
+// only when the skipped set changed since the last run. Never throws: a mail
+// outage must not fail a sync that otherwise succeeded.
+async function notifySkippedProjects({ skipped, githubToken }) {
+  const signature = skipSignature(skipped);
+  const statePath = path.join(repoRoot, ALERT_STATE_FILE);
+  let previousSignature = null;
+  try {
+    const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+    if (typeof state?.signature === "string") previousSignature = state.signature;
+  } catch {
+    // Missing or unreadable state is treated as "never alerted yet".
+  }
+
+  const persist = () => {
+    try {
+      fs.writeFileSync(statePath, `${JSON.stringify({ signature }, null, 2)}\n`);
+    } catch {
+      // Best-effort: a failure here risks one repeated email, never a failed sync.
+    }
+  };
+
+  if (!shouldNotify({ signature, previousSignature })) {
+    // Persisting the empty signature re-arms the alert for a later repeat of the
+    // same skipped set, instead of staying silent forever.
+    persist();
+    return;
+  }
+
+  const apiKey = process.env.RESEND_API_KEY || "";
+  const from = process.env.PORTFOLIO_ALERT_FROM || "";
+  const to = process.env.PORTFOLIO_ALERT_TO || "";
+  if (!apiKey || !from || !to) {
+    console.warn(
+      "Discovery skipped tagged projects but the alert is not configured " +
+        "(RESEND_API_KEY, PORTFOLIO_ALERT_FROM, PORTFOLIO_ALERT_TO); no email sent"
+    );
+    return;
+  }
+
+  // Repository names are resolved here, in the private channel only. The skip
+  // records themselves stay identity-safe everywhere else.
+  const ids = [...new Set(skipped.map((entry) => entry.projectId))];
+  const names = await resolveRepositoryNames({ fetchImpl: globalThis.fetch, token: githubToken, ids });
+  const result = await sendAlertEmail({
+    fetchImpl: globalThis.fetch,
+    apiKey,
+    from,
+    to,
+    subject: buildAlertSubject(skipped),
+    html: buildAlertHtml({ skipped, names }),
+  });
+  if (result.ok) {
+    console.log(`Skipped-project alert sent for ${skipped.length} skip(s)`);
+    persist();
+    return;
+  }
+  // Not persisted, so the next run retries instead of losing the notification.
+  console.warn(
+    `Skipped-project alert could not be sent (status ${result.status ?? "n/a"}); the sync continues`
+  );
+}
+
 export async function main() {
   const manualSources = loadSources({ allowEmpty: true });
 
@@ -222,6 +294,8 @@ export async function main() {
     discoveredSources = discovery.sources;
     discoveryAttempted = true;
     console.log(`Discovery found ${discoveredSources.length} source(s)`);
+    // After the guard, so only the skips that did not abort the run are reported.
+    await notifySkippedProjects({ skipped: discovery.skipped, githubToken });
   }
 
   const sources = resolveSyncSources({

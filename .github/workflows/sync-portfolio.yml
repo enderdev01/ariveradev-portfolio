@@ -37,6 +37,17 @@ jobs:
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
+      # Persists the skipped-project alert signature between runs, so an unchanged
+      # skipped set does not email on every scheduled run. A cache miss only risks
+      # one extra email; it never affects the sync.
+      - name: Restore discovery alert state
+        uses: actions/cache@v6.1.0
+        with:
+          path: .portfolio-discovery-alert-state.json
+          key: portfolio-discovery-alert-state-${{ github.run_id }}
+          restore-keys: |
+            portfolio-discovery-alert-state-
+
       - name: Run portfolio sync
         env:
           # Explicit GitHub token for portfolio discovery (required when
@@ -55,6 +66,12 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
           PORTFOLIO_TOPIC: ${{ vars.PORTFOLIO_TOPIC }}
+          # Skipped-project alert. Email is the private channel: skip records are
+          # identity-safe, so only this channel may name a repository. Missing
+          # values merely disable the email; they never fail the sync.
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          PORTFOLIO_ALERT_FROM: ${{ secrets.PORTFOLIO_ALERT_FROM }}
+          PORTFOLIO_ALERT_TO: ${{ secrets.PORTFOLIO_ALERT_TO }}
         run: node scripts/sync-portfolio.mjs
 
       - name: Open or update portfolio sync PR
