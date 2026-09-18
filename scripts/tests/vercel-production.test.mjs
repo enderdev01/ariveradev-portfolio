@@ -122,6 +122,25 @@ test("pickProductionUrl prefers custom domains deterministically", () => {
   assert.equal(pickProductionUrl({ aliases: [], url: null }), null);
 });
 
+test("pickProductionUrl prefers the canonical *.vercel.app alias over the scope-suffixed one", () => {
+  // Regression: Vercel Deployment Protection guards <project>-<scope>.vercel.app,
+  // and a plain alphabetical tiebreak selects it because "-" sorts before ".".
+  const suffixed = "hakui-medical-anthonirivs-projects.vercel.app";
+  const canonical = "hakui-medical.vercel.app";
+  assert.equal(pickProductionUrl({ aliases: [suffixed, canonical] }), `https://${canonical}`);
+  assert.equal(pickProductionUrl({ aliases: [canonical, suffixed] }), `https://${canonical}`);
+  // A custom domain still wins over every *.vercel.app alias.
+  assert.equal(
+    pickProductionUrl({ aliases: [suffixed, canonical, "app.example.com"] }),
+    "https://app.example.com"
+  );
+  // The choice does not depend on the input order.
+  assert.equal(
+    pickProductionUrl({ aliases: [suffixed, canonical] }),
+    pickProductionUrl({ aliases: [canonical, suffixed] })
+  );
+});
+
 test("deriveAllowedOrigins dedupes and sorts", () => {
   assert.deepEqual(
     deriveAllowedOrigins({
