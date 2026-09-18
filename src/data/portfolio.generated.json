@@ -63,6 +63,27 @@
         "desafio": "El punto de partida de Versus Electoral Perú es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
         "enfoque": "El sitio de Versus Electoral Perú se construyó con TypeScript, Next.js. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
       }
+    },
+    {
+      "id": 1315746384,
+      "card": {
+        "nombre": "Butacas Libres",
+        "url": "https://github.com/enderdev01/butacas-libres",
+        "imagen": "/portfolio/butacas-libres.png",
+        "stack": [
+          "JavaScript",
+          "Node.js"
+        ],
+        "descripcion": "Cuántos asientos quedan en cada función de cine, por sede y por película. Lee en vivo Cineplanet, Cinemark y Cinépolis. Sin dependencias, sin base de datos."
+      },
+      "seo": {
+        "slug": "butacas-libres",
+        "categoria": "Proyecto web",
+        "tituloSeo": "Butacas Libres — Proyecto web",
+        "descripcionSeo": "Cuántos asientos quedan en cada función de cine, por sede y por película. Lee en vivo Cineplanet, Cinemark y Cinépolis. Sin dependencias, sin base de datos.",
+        "desafio": "El punto de partida de Butacas Libres es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
+        "enfoque": "El sitio de Butacas Libres se construyó con JavaScript, Node.js. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+      }
     }
   ]
 }
