@@ -21,6 +21,48 @@
         "tituloSeo": "Hakui Medical — describe lo que sientes y te decimos a qué consulta ir",
         "descripcionSeo": "Clínica ambulatoria con seis especialidades, laboratorio propio y un asistente que traduce tus síntomas en una cita concreta."
       }
+    },
+    {
+      "id": 1144308850,
+      "card": {
+        "nombre": "Ecoship",
+        "url": "https://ecoshipperu.com",
+        "imagen": "/portfolio/ecoshipperu-landing.png",
+        "stack": [
+          "TypeScript",
+          "Next.js"
+        ],
+        "descripcion": "Transformamos la complejidad del comercio internacional en soluciones transparentes y eficientes. Conectamos su empresa con mercados globales."
+      },
+      "seo": {
+        "slug": "ecoshipperu-landing",
+        "categoria": "Proyecto web",
+        "tituloSeo": "Ecoship - Su Aliado Estratégico en Comercio Exterior",
+        "descripcionSeo": "Transformamos la complejidad del comercio internacional en soluciones transparentes y eficientes. Conectamos su empresa con mercados globales.",
+        "desafio": "El punto de partida de Ecoship es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
+        "enfoque": "El sitio de Ecoship se construyó con TypeScript, Next.js. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+      }
+    },
+    {
+      "id": 1180191843,
+      "card": {
+        "nombre": "Versus Electoral Perú",
+        "url": "https://versuselectoral.com",
+        "imagen": "/portfolio/versus-electoral-pe.png",
+        "stack": [
+          "TypeScript",
+          "Next.js"
+        ],
+        "descripcion": "Compara candidaturas municipales de Lima, sus propuestas y noticias de fuentes periodísticas."
+      },
+      "seo": {
+        "slug": "versus-electoral-pe",
+        "categoria": "Proyecto web",
+        "tituloSeo": "Versus Electoral Perú — Candidatos a Alcalde de Lima 2026",
+        "descripcionSeo": "Compara candidatos a las alcaldías de Lima 2026, sus planes de gobierno y noticias verificadas de fuentes oficiales y periodísticas.",
+        "desafio": "El punto de partida de Versus Electoral Perú es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
+        "enfoque": "El sitio de Versus Electoral Perú se construyó con TypeScript, Next.js. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+      }
     }
   ]
 }
