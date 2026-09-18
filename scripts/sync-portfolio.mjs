@@ -74,6 +74,10 @@ import {
   resolveDiscoveryGate,
 } from "./lib/portfolio-source.mjs";
 import {
+  applyAuthoredAssets,
+  loadAuthoredAssets,
+} from "./lib/portfolio-authored-assets.mjs";
+import {
   DEFAULT_TOPIC,
   discoverPortfolio,
 } from "./lib/portfolio-discovery.mjs";
@@ -128,6 +132,31 @@ async function preserveCommittedBytesWhenEquivalent(browser, id, png) {
 
 function fail(message) {
   throw new Error(message);
+}
+
+// Applies the committed authored assets to the resolved source list and reports
+// which discovered sources actually produced a published record.
+//
+// The order here is load-bearing: discoveredProvidedIds() tracks published
+// discovered sources by object identity, while decoration returns new objects for
+// decorated sources. It therefore runs BEFORE applyAuthoredAssets, so an authored
+// project is still recognised as a published discovered source and the sync keeps
+// reusing the deployed metadata discovery already fetched instead of fetching the
+// same production page a second time.
+//
+// Only a discovered source that produced a published record counts: one that lost
+// the identity collision to a manual registry entry must still be fetched,
+// otherwise that manual entry loses its deployed SEO texts and publishes empty
+// strings.
+export function resolveAuthoredSources({
+  merged = [],
+  discoveredSources = null,
+  manualSources = [],
+  assets = [],
+} = {}) {
+  const discoveredIds = discoveredProvidedIds({ discoveredSources, sources: merged });
+  const sources = applyAuthoredAssets({ sources: merged, manualSources, assets });
+  return { sources, discoveredIds };
 }
 
 // Numeric ids of the projects currently published in the committed generated
@@ -299,21 +328,28 @@ export async function main() {
     await notifySkippedProjects({ skipped: discovery.skipped, githubToken });
   }
 
-  const sources = resolveSyncSources({
+  const merged = resolveSyncSources({
     manualSources,
     discoveredSources,
     discoveryAttempted,
     vercelEnabled: gate.discoveryEnabled,
   });
+  const authoredAssets = loadAuthoredAssets();
+  const { sources, discoveredIds } = resolveAuthoredSources({
+    merged,
+    discoveredSources,
+    manualSources,
+    assets: authoredAssets,
+  });
   console.log(`Syncing ${sources.length} approved source(s): ${sources.map((s) => s.id).join(", ")}`);
+  for (const [index, source] of sources.entries()) {
+    if (source !== merged[index]) console.log(`Authored asset applied: ${source.id}`);
+  }
 
   // Discovered sources already fetched and validated their deployed production
   // HTML inside discoverPortfolio; reuse those derived SEO texts instead of
-  // fetching the same production page a second time. Only a discovered source
-  // that produced a published record counts: one that lost the identity collision
-  // to a manual registry entry must still be fetched, otherwise that manual entry
-  // loses its deployed SEO texts and publishes empty strings.
-  const discoveredIds = discoveredProvidedIds({ discoveredSources, sources });
+  // fetching the same production page a second time (resolved by
+  // resolveAuthoredSources above, before the authored assets decorated the list).
 
   let playwright;
   try {

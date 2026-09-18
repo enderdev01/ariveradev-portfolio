@@ -21,6 +21,7 @@ import { assertNoPublishedProjectSkipped } from "../lib/portfolio-deployed-meta.
 import {
   runDiscovery,
   runDiscoveryWithPublishedGuard,
+  resolveAuthoredSources,
   readCommittedProjectIds,
 } from "../sync-portfolio.mjs";
 
@@ -210,4 +211,72 @@ test("PORTFOLIO_TOPIC default matches the configured portfolio topic", () => {
 
 test("published-skip guard remains exported from the discovery pipeline for the sync seam", () => {
   assert.equal(typeof assertNoPublishedProjectSkipped, "function");
+});
+
+// --- Authored assets at the sync seam -----------------------------------------------------
+
+// A source that carries the authored copy and the authored thumbnail slot, as
+// applyAuthoredAssets produces it from the committed registry.
+const authoredAsset = {
+  id: "clinica-nova",
+  github: { owner: "onilabs", repo: "clinica-nova" },
+  seo: { categoria: "Plataforma de salud", desafio: "Desafío de autoría.", enfoque: "Enfoque de autoría." },
+  thumbnail: { authored: true },
+};
+
+test("sync seam: an authored discovered source stays a published discovered source", () => {
+  // Regression guard for the ordering contract: decorating first would return a
+  // new object and discoveredProvidedIds() would stop recognising this source,
+  // silently re-fetching a production page the sync already has.
+  const discovered = { ...discoveredSource, id: "clinica-nova" };
+  const merged = [discovered];
+  const { sources, discoveredIds } = resolveAuthoredSources({
+    merged,
+    discoveredSources: [discovered],
+    manualSources: [],
+    assets: [authoredAsset],
+  });
+
+  assert.equal(sources[0] === merged[0], false, "the authored source is decorated");
+  assert.equal(sources[0].seo.desafio, "Desafío de autoría.");
+  assert.equal(sources[0].thumbnail.authored, true);
+  assert.deepEqual([...discoveredIds], ["clinica-nova"], "still recognised as published");
+});
+
+test("sync seam: an undecorated source keeps its identity and its discovered metadata", () => {
+  const discovered = { ...discoveredSource };
+  const { sources, discoveredIds } = resolveAuthoredSources({
+    merged: [discovered],
+    discoveredSources: [discovered],
+    manualSources: [],
+    assets: [],
+  });
+
+  assert.equal(sources[0], discovered, "no asset means no copy");
+  assert.deepEqual([...discoveredIds], ["clinica-nova"]);
+});
+
+test("sync seam: a source that lost the collision to the manual registry is still fetched", () => {
+  // mergeSources() drops the discovered source and returns the manual entry, so
+  // the manual entry has to be fetched even though discovery ran. This is the
+  // behaviour the authored-asset decoration must not change.
+  const manual = { ...discoveredSource, id: "clinica-nova" };
+  const { sources, discoveredIds } = resolveAuthoredSources({
+    merged: [manual],
+    discoveredSources: [discoveredSource],
+    manualSources: [manual],
+    assets: [],
+  });
+
+  assert.equal(discoveredIds.size, 0, "the dropped discovered source is not published");
+  assert.equal(sources[0], manual);
+});
+
+test("sync seam: main() resolves authored sources before any browser work", () => {
+  const source = readFileSync(path.join(here, "..", "sync-portfolio.mjs"), "utf8");
+  const authoredIndex = source.indexOf("resolveAuthoredSources({");
+  const playwrightIndex = source.indexOf('await import("playwright")');
+  assert.ok(authoredIndex > 0, "main() resolves authored sources");
+  assert.ok(authoredIndex < playwrightIndex, "authored assets resolve before Playwright");
+  assert.ok(source.includes("loadAuthoredAssets()"), "the committed registry is loaded");
 });
