@@ -84,6 +84,26 @@
         "desafio": "El punto de partida de Butacas Libres es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
         "enfoque": "El sitio de Butacas Libres se construyó con JavaScript, Node.js. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
       }
+    },
+    {
+      "id": 1316688308,
+      "card": {
+        "nombre": "Selnote",
+        "url": "https://enderdev01.github.io/selnote-web/",
+        "imagen": "/portfolio/selnote-web.png",
+        "stack": [
+          "HTML"
+        ],
+        "descripcion": "Selnote: notas cifradas localmente y sincronizadas entre dispositivos, sin cuentas ni backend central."
+      },
+      "seo": {
+        "slug": "selnote-web",
+        "categoria": "Proyecto web",
+        "tituloSeo": "Selnote",
+        "descripcionSeo": "Selnote: notas cifradas localmente y sincronizadas entre dispositivos, sin cuentas ni backend central.",
+        "desafio": "El punto de partida de Selnote es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
+        "enfoque": "El sitio de Selnote se construyó con HTML. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+      }
     }
   ]
 }
