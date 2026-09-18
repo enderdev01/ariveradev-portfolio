@@ -56,6 +56,7 @@ import {
   pickProductionUrl,
   resolveProductionDeployment,
 } from "./vercel-production.mjs";
+import { isValidHostname } from "./vercel-project-match.mjs";
 import {
   deriveCategory,
   deriveGradient,
@@ -91,6 +92,74 @@ export function assignSlug(repo, usedSlugs) {
 // reason code. No repository name/full name/owner leaves this module.
 function skipEntry(repo, reason) {
   return { projectId: repo.id, reason };
+}
+
+// Accepts only an absolute http(s) URL with a valid host. Anything else is treated
+// as absent rather than trusted, so a malformed homepage never becomes an origin.
+function publicUrl(value) {
+  if (typeof value !== "string" || !value.trim()) return null;
+  try {
+    const url = new URL(value.trim());
+    if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+    if (!isValidHostname(url.hostname)) return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
+// Origin for a repository that has no Vercel project. The portfolio is not
+// Vercel-only: choosing not to deploy on Vercel is a legitimate decision, so a
+// project may live on GitHub Pages or on any host the repository declares — and a
+// project may have no deployment at all.
+//
+// Order: the declared homepage, then GitHub Pages, then the repository itself. A
+// repository with no deployment still becomes a portfolio source whose public URL
+// is the repository, so the card links to the project instead of the project
+// silently disappearing from the portfolio.
+//
+// `fetchDeployedPage` is false for the repository-only case: there is no deployed
+// page to read, so the card is derived from the repository metadata alone.
+export function resolveNonVercelOrigin(repo) {
+  const homepage = publicUrl(repo.homepage);
+  if (homepage) {
+    return {
+      productionUrl: homepage,
+      allowedOrigins: [new URL(homepage).origin],
+      fetchDeployedPage: true,
+      kind: "homepage",
+    };
+  }
+  if (repo.hasPages && repo.owner && repo.name) {
+    const pages = `https://${String(repo.owner).toLowerCase()}.github.io/${repo.name}/`;
+    return {
+      productionUrl: pages,
+      allowedOrigins: [new URL(pages).origin],
+      fetchDeployedPage: true,
+      kind: "github-pages",
+    };
+  }
+  const repository = publicUrl(repo.htmlUrl);
+  if (repository) {
+    return {
+      productionUrl: repository,
+      allowedOrigins: [new URL(repository).origin],
+      fetchDeployedPage: false,
+      kind: "repository",
+    };
+  }
+  return null;
+}
+
+// Card name for a source with no deployed page to read a title from: the
+// repository name, made readable ("butacas-libres" -> "Butacas Libres").
+export function deriveRepoCardName(repo) {
+  const base = String(repo?.name || repo?.fullName || "proyecto");
+  const words = base
+    .split(/[-_.\s]+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1));
+  return words.length > 0 ? words.join(" ") : "Proyecto";
 }
 
 // Runs the full offline-testable discovery flow:
@@ -134,55 +203,71 @@ export async function discoverPortfolio({
 
   for (const repo of repos) {
     const project = matchVercelProject(projects, repo);
-    if (!project) {
-      skipped.push(skipEntry(repo, "vercel-project-not-found"));
-      continue;
+    let productionUrl = null;
+    let allowedOrigins = null;
+    let fetchDeployedPage = true;
+
+    if (project) {
+      const resolved = await resolveProductionDeployment({ fetchImpl, token: vercelToken, teamId: vercelTeamId, project });
+      if (!resolved.ok) {
+        skipped.push(skipEntry(repo, resolved.reason));
+        continue;
+      }
+      productionUrl = pickProductionUrl({
+        aliases: project.production?.aliases ?? [],
+        url: resolved.url ?? project.production?.url ?? null,
+      });
+      if (!productionUrl) {
+        skipped.push(skipEntry(repo, "vercel-production-url-unavailable"));
+        continue;
+      }
+      // The project's own production origins, derived before the fetch so the same
+      // set both validates the redirect and lands in the published record. A
+      // redirect between them (apex -> www) is normal and must be followed.
+      allowedOrigins = deriveAllowedOrigins({
+        productionUrl,
+        aliases: project.production?.aliases ?? [],
+        url: resolved.url ?? project.production?.url ?? null,
+      });
+    } else {
+      // Not every portfolio project is on Vercel. Fall back to the repository's own
+      // public origin, and to the repository itself when it declares none.
+      const origin = resolveNonVercelOrigin(repo);
+      if (!origin) {
+        skipped.push(skipEntry(repo, "no-public-deployment"));
+        continue;
+      }
+      productionUrl = origin.productionUrl;
+      allowedOrigins = origin.allowedOrigins;
+      fetchDeployedPage = origin.fetchDeployedPage;
     }
-    const resolved = await resolveProductionDeployment({ fetchImpl, token: vercelToken, teamId: vercelTeamId, project });
-    if (!resolved.ok) {
-      skipped.push(skipEntry(repo, resolved.reason));
-      continue;
-    }
-    const productionUrl = pickProductionUrl({
-      aliases: project.production?.aliases ?? [],
-      url: resolved.url ?? project.production?.url ?? null,
-    });
-    if (!productionUrl) {
-      skipped.push(skipEntry(repo, "vercel-production-url-unavailable"));
-      continue;
-    }
+
     const expectedOrigin = new URL(productionUrl).origin;
-    // The project's own production origins, derived before the fetch so the same
-    // set both validates the redirect and lands in the published record. A
-    // redirect between them (apex -> www) is normal and must be followed.
-    const allowedOrigins = deriveAllowedOrigins({
-      productionUrl,
-      aliases: project.production?.aliases ?? [],
-      url: resolved.url ?? project.production?.url ?? null,
-    });
     // A matched READY deployment whose production page cannot be read is a skip,
     // not an abort. fetchDeployedMeta aborts on network/5xx/cross-origin-redirect
     // failures and on a missing <title>; swallowing that here keeps the rest of
     // the run alive. The published-skip guard still aborts when this projectId is
     // already published, so the previous protection is unchanged.
-    let meta;
-    try {
-      meta = await fetchDeployedMeta({
-        fetchImpl,
-        htmlFetchImpl,
-        productionUrl,
-        expectedOrigin,
-        allowedOrigins,
-      });
-    } catch {
-      skipped.push(skipEntry(repo, "deployed-html-unavailable"));
-      continue;
-    }
-    // A null/empty result from an injected htmlFetchImpl is the same outcome and
-    // must not be mistaken for a usable page.
-    if (!meta || !meta.title) {
-      skipped.push(skipEntry(repo, "deployed-html-unavailable"));
-      continue;
+    let meta = null;
+    if (fetchDeployedPage) {
+      try {
+        meta = await fetchDeployedMeta({
+          fetchImpl,
+          htmlFetchImpl,
+          productionUrl,
+          expectedOrigin,
+          allowedOrigins,
+        });
+      } catch {
+        skipped.push(skipEntry(repo, "deployed-html-unavailable"));
+        continue;
+      }
+      // A null/empty result from an injected htmlFetchImpl is the same outcome and
+      // must not be mistaken for a usable page.
+      if (!meta || !meta.title) {
+        skipped.push(skipEntry(repo, "deployed-html-unavailable"));
+        continue;
+      }
     }
     if (usedProjectIds.has(repo.id)) {
       throw new DiscoveryError(`projectId collision for GitHub repository id ${repo.id}`);
@@ -191,16 +276,18 @@ export async function discoverPortfolio({
     const slug = assignSlug(repo, usedSlugs);
 
     const categoria = deriveCategory({ topics: repo.topics, language: repo.language });
-    const stack = deriveStack({ language: repo.language, topics: repo.topics, html: meta.html });
-    const nombre = deriveCardTitle(meta.title);
+    const stack = deriveStack({ language: repo.language, topics: repo.topics, html: meta?.html ?? null });
+    // With no deployed page there is no <title> to read, so the card name comes
+    // from the repository itself.
+    const nombre = meta ? deriveCardTitle(meta.title) : deriveRepoCardName(repo);
     const cardDescripcion =
-      repo.description ?? (meta.description && meta.description.trim() ? meta.description : null);
+      repo.description ?? (meta?.description && meta.description.trim() ? meta.description : null);
     const narrative = deriveNarrative({ nombre, categoria, stack });
     const seo = deriveSeoTexts({
       nombre,
       categoria,
-      deployedTitle: meta.title,
-      deployedDescription: meta.description,
+      deployedTitle: meta?.title ?? null,
+      deployedDescription: meta?.description ?? null,
       repoDescription: repo.description,
     });
 
