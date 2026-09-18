@@ -13,12 +13,35 @@ import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
+import { fail } from "./portfolio-registry.mjs";
+import { AUTHORED_THUMBNAIL_SIZE, readPngSize } from "./portfolio-thumbnail.mjs";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, "..", "..");
 
 const GENERATED_JSON_PATH = path.join(repoRoot, "src", "data", "portfolio.generated.json");
-const PUBLIC_PORTFOLIO_DIR = path.join(repoRoot, "public", "portfolio");
+export const PUBLIC_PORTFOLIO_DIR = path.join(repoRoot, "public", "portfolio");
+
+// Committed path of a project thumbnail, generated or authored. The generated JSON
+// always points at /portfolio/<id>.png, so an authored image needs no schema change.
+export const committedThumbnailPath = (id) => path.join(PUBLIC_PORTFOLIO_DIR, `${id}.png`);
+
+// Validates a hand-authored, committed thumbnail. The sync never captures or
+// installs these, so nothing else in the pipeline would notice a missing file, a
+// file that is not a PNG, or a size that drifted from the compositor canvas.
+export function assertAuthoredThumbnail({ id, filePath = committedThumbnailPath(id) } = {}) {
+  if (!fs.existsSync(filePath)) {
+    fail(`authored thumbnail for ${id} is missing at ${path.relative(repoRoot, filePath)}`);
+  }
+  const { width, height } = readPngSize(fs.readFileSync(filePath), `authored thumbnail ${id}`);
+  if (width !== AUTHORED_THUMBNAIL_SIZE.width || height !== AUTHORED_THUMBNAIL_SIZE.height) {
+    fail(
+      `authored thumbnail for ${id} is ${width}x${height}; ` +
+        `every portfolio thumbnail must be ${AUTHORED_THUMBNAIL_SIZE.width}x${AUTHORED_THUMBNAIL_SIZE.height}`
+    );
+  }
+  return { width, height };
+}
 
 // Installs a staged file into its final location atomically (temp copy in the
 // target directory + rename), skipping the write when content is unchanged.

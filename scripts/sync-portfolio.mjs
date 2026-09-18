@@ -87,7 +87,7 @@ import {
   diffDecodedPixels,
   isWithinNoiseBudget,
 } from "./lib/portfolio-thumbnail.mjs";
-import { stageAndInstall } from "./lib/portfolio-artifacts.mjs";
+import { stageAndInstall, assertAuthoredThumbnail, committedThumbnailPath } from "./lib/portfolio-artifacts.mjs";
 import {
   ALERT_STATE_FILE,
   buildAlertHtml,
@@ -100,7 +100,6 @@ import {
 
 // Mirrors the published paths used by scripts/lib/portfolio-artifacts.mjs.
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const committedThumbnailPath = (id) => path.join(repoRoot, "public", "portfolio", `${id}.png`);
 const committedGeneratedJsonPath = path.join(repoRoot, "src", "data", "portfolio.generated.json");
 
 // Returns the committed bytes when they exist and the new capture differs from
@@ -374,13 +373,23 @@ export async function main() {
       }
       const record = buildRecord(source, fetchedMeta);
       generated.push(record);
-      const png = await preserveCommittedBytesWhenEquivalent(
-        browser,
-        source.id,
-        await captureAndCompose(browser, source)
-      );
-      thumbnails.push({ id: source.id, png });
-      console.log(`Captured ${source.id}: "${fetchedMeta?.title ?? source.seo.tituloSeo}"`);
+      // A hand-authored thumbnail is committed by hand and never regenerated: the
+      // sync must not capture over it nor install over it, and it proves the
+      // committed file still matches the compositor canvas before publishing the
+      // JSON that points at it.
+      const titulo = fetchedMeta?.title ?? source.seo.tituloSeo;
+      if (source.thumbnail?.authored === true) {
+        assertAuthoredThumbnail({ id: source.id });
+        console.log(`Published ${source.id}: "${titulo}" (authored thumbnail kept)`);
+      } else {
+        const png = await preserveCommittedBytesWhenEquivalent(
+          browser,
+          source.id,
+          await captureAndCompose(browser, source)
+        );
+        thumbnails.push({ id: source.id, png });
+        console.log(`Captured ${source.id}: "${titulo}"`);
+      }
     }
 
     // Phase 2: stage and install. Thumbnails are installed first and the JSON
