@@ -69,6 +69,32 @@ El workflow (`.github/workflows/sync-portfolio.yml`) corre el sync y abre un PR;
 
 Los tokens solo se exponen al paso de sync del workflow, nunca a la acción que abre el PR.
 
+### Assets de autoría (copy e imagen escritos a mano)
+
+La derivación automática es determinista y por diseño no puede ser específica de cada proyecto: cae al fallback genérico cuando los topics y el lenguaje no encajan en ningún bucket conocido, y arma la narrativa variando solo por nombre y categoría. Un proyecto que no despliega nada tampoco tiene página deployada de la que sacar un título o una captura. Para eso existe `scripts/portfolio-authored-assets.json`: copy e imágenes escritos una vez, revisados a mano y commiteados, que el sync **lee** pero nunca regenera.
+
+El sync tiene que seguir siendo determinista —entradas idénticas producen salidas byte-idénticas, y por eso no abre un PR si no hay cambios—, así que generar copy con un modelo en cada corrida queda descartado: abriría un PR por semana, para siempre.
+
+**Precedencia**, de mayor a menor:
+
+1. **Registro manual** (`scripts/portfolio-sources.json` y compañía). Ya está escrito a mano, así que un asset de autoría que apunte a una de sus entradas **aborta** la corrida en vez de perder en silencio: el copy vive en un solo lugar.
+2. **Asset de autoría** (`scripts/portfolio-authored-assets.json`).
+3. **Valor derivado** (discovery).
+
+Cada asset se identifica por `id` (el slug) y, opcionalmente, por `github: { owner, repo }`, que sobrevive un rename del repositorio. Campos admitidos: `card.{nombre,descripcion}`, `seo.{categoria,tituloSeo,descripcionSeo,desafio,enfoque}` y `thumbnail: { authored: true }`. `seo.slug` **no** es autorable: el slug es la URL pública y cambiarlo es una migración con redirects.
+
+Campos desconocidos, identidades duplicadas, JSON inválido y assets que no matchean ninguna fuente **abortan** la corrida antes de escribir: un typo no puede terminar publicando el boilerplate derivado.
+
+Una miniatura con `thumbnail: { authored: true }` no se captura ni se instala: el sync conserva el PNG commiteado en `public/portfolio/<id>.png` y valida que exista, que sea un PNG y que mida 1920x1080 (el canvas del compositor) antes de publicar el JSON que lo referencia. El contrato del JSON no cambia: sigue apuntando a `/portfolio/<id>.png`.
+
+Para diseñar una de esas portadas:
+
+```bash
+node scripts/author-portfolio-thumbnail.mjs butacas-libres   # manual: el sync y CI nunca lo corren
+```
+
+Las cifras de una portada tienen que salir del propio proyecto (su README o su salida real). Inventarlas repetiría, en una imagen, el mismo defecto que este mecanismo saca de la narrativa.
+
 ### Flujo por proyecto (cero JSON)
 
 Para publicar un proyecto nuevo no hace falta editar ningún JSON:
@@ -78,7 +104,11 @@ Para publicar un proyecto nuevo no hace falta editar ningún JSON:
 
 En la próxima corrida semanal (o manual del workflow), el proyecto entra al portfolio solo.
 
-Si un proyecto descubierto necesita textos a mano, se agrega al registro manual con la misma identidad y esa entrada manual gana.
+Si un proyecto descubierto necesita textos a mano, se agrega al registro manual con la misma identidad y esa entrada manual gana. Si necesita copy vendible propio o una portada diseñada en lugar de una captura, va en `scripts/portfolio-authored-assets.json`.
+
+### Filtros de categoría del listado
+
+Cada proyecto aparece en los filtros de `/proyectos` según su `categoria`, y el mapeo vive en `src/lib/projectFilters.mjs`. Tiene que ser **total**: una categoría renderizada sin entrada deja al proyecto fuera de todos los chips menos "Todos", que es invisible para quien navega por categoría. Un test de invariante falla cuando aparece una categoría sin mapear, así que una categoría nueva se arregla mapeándola, no descubriéndola en producción.
 
 ### Pruebas
 
