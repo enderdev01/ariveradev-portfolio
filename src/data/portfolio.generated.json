@@ -78,11 +78,11 @@
       },
       "seo": {
         "slug": "butacas-libres",
-        "categoria": "Proyecto web",
+        "categoria": "Herramienta de datos",
         "tituloSeo": "Butacas Libres — Proyecto web",
         "descripcionSeo": "Cuántos asientos quedan en cada función de cine, por sede y por película. Lee en vivo Cineplanet, Cinemark y Cinépolis. Sin dependencias, sin base de datos.",
-        "desafio": "El punto de partida de Butacas Libres es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
-        "enfoque": "El sitio de Butacas Libres se construyó con JavaScript, Node.js. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+        "desafio": "Elegir función a ciegas es lo normal: nadie sabe si la sala de las siete está llena hasta llegar. Los tres cines que operan en Perú publican esa información, cada uno a su manera y ninguno con una API, así que compararla obliga a abrir tres sitios y sumar a mano.",
+        "enfoque": "Butacas Libres cruza Cineplanet, Cinemark y Cinépolis en vivo y muestra las butacas libres de cada función por sede, con su porcentaje de ocupación y, en Cineplanet, el plano de asientos real con precios actualizados. Está hecho en Node.js sin dependencias ni base de datos: no guarda nada. Y consulta con moderación —sin sondeos en segundo plano, con un ritmo que cada cadena tolera—, que es la razón por la que las tres siguen respondiendo."
       }
     },
     {
@@ -92,17 +92,22 @@
         "url": "https://enderdev01.github.io/selnote-web/",
         "imagen": "/portfolio/selnote-web.png",
         "stack": [
-          "HTML"
+          "JavaScript",
+          "Web Crypto",
+          "WebRTC P2P",
+          "IndexedDB",
+          "Service Worker",
+          "Three.js"
         ],
         "descripcion": "Selnote: notas cifradas localmente y sincronizadas entre dispositivos, sin cuentas ni backend central."
       },
       "seo": {
         "slug": "selnote-web",
-        "categoria": "Proyecto web",
+        "categoria": "Herramienta de privacidad",
         "tituloSeo": "Selnote",
         "descripcionSeo": "Selnote: notas cifradas localmente y sincronizadas entre dispositivos, sin cuentas ni backend central.",
-        "desafio": "El punto de partida de Selnote es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
-        "enfoque": "El sitio de Selnote se construyó con HTML. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+        "desafio": "Anotar algo privado tiene un costo que casi nadie nota: la nota termina en el servidor de otra empresa, atada a una cuenta que hay que mantener. Guardarla solo en el teléfono arregla la privacidad y rompe lo útil, que es tenerla también en la computadora.",
+        "enfoque": "Selnote cifra las notas en el navegador y las replica directo entre tus dispositivos. No hay cuentas ni un servidor que almacene contenido: la llave viaja en el enlace secreto y la red solo ayuda a que los dispositivos se encuentren. Los adjuntos —hasta 2 GB por archivo— se cifran por fragmentos y se reparten entre los equipos conectados, y una nota con sus archivos puede cruzar de una pantalla a una cámara por códigos QR —hasta 2 MB— cuando no hay red de ningún tipo. Está hecha en JavaScript, sin proceso de compilación ni dependencias de ejecución, y funciona instalada y sin internet."
       }
     }
   ]
