@@ -25,9 +25,20 @@ const FREEZE_CSS = `
 `;
 const FROZEN_CLOCK_TIME = new Date("2025-01-06T12:00:00Z");
 
-// Deployment capture viewport (pass 1). The composition canvas is 1920x1080.
-const CAPTURE_VIEWPORT = { width: 1600, height: 1000 };
-const COMPOSITION_VIEWPORT = { width: 1920, height: 1080 };
+// Deployment capture viewport (pass 1) and composition canvas (pass 2).
+//
+// Both are 4:3 because that is the geometry the rest of the portfolio already uses:
+// every hand-curated project image is 4:3 (1920x1440 or 960x720) and both the grid
+// card and the project page render into an `aspect-[4/3]` box with `object-cover`.
+// A 16:9 capture in a 4:3 box loses the bottom 28% of the image, which is why the
+// capture viewport is 4:3 too: it fills the frame without cropping the sides.
+const CAPTURE_VIEWPORT = { width: 1600, height: 1200 };
+const COMPOSITION_VIEWPORT = { width: 1920, height: 1440 };
+
+// Browser frame inside the composition canvas: 1620 wide, and 1215px of viewport
+// below the 52px chrome, so the frame's own open area is exactly 4:3 and the 4:3
+// capture scales to it without cropping either axis.
+const COMPOSITION_FRAME = { width: 1620, chromeHeight: 52, viewportHeight: 1215 };
 
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
@@ -91,15 +102,15 @@ function composePageHtml(shotPng, source, gradientStops) {
     <style>
       html, body {
         margin: 0;
-        width: 1920px;
-        height: 1080px;
+        width: ${COMPOSITION_VIEWPORT.width}px;
+        height: ${COMPOSITION_VIEWPORT.height}px;
         overflow: hidden;
         font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       }
       .stage {
         position: relative;
-        width: 1920px;
-        height: 1080px;
+        width: ${COMPOSITION_VIEWPORT.width}px;
+        height: ${COMPOSITION_VIEWPORT.height}px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -109,8 +120,8 @@ function composePageHtml(shotPng, source, gradientStops) {
           linear-gradient(160deg, ${stops});
       }
       .frame {
-        width: 1620px;
-        height: 940px;
+        width: ${COMPOSITION_FRAME.width}px;
+        height: ${COMPOSITION_FRAME.chromeHeight + COMPOSITION_FRAME.viewportHeight}px;
         border-radius: 18px;
         overflow: hidden;
         background: rgba(255, 255, 255, 0.06);
@@ -118,7 +129,7 @@ function composePageHtml(shotPng, source, gradientStops) {
         box-shadow: 0 40px 120px rgba(2, 8, 23, 0.55);
       }
       .chrome {
-        height: 52px;
+        height: ${COMPOSITION_FRAME.chromeHeight}px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -139,7 +150,7 @@ function composePageHtml(shotPng, source, gradientStops) {
         font-size: 14px;
         letter-spacing: 0.01em;
       }
-      .viewport { position: relative; height: calc(100% - 53px); }
+      .viewport { position: relative; height: ${COMPOSITION_FRAME.viewportHeight}px; }
       img {
         display: block;
         width: 100%;
@@ -222,14 +233,16 @@ export async function captureAndCompose(browser, source) {
 //   - NOISE_CHANNEL_DELTA = 2: a pixel differs only when at least one RGBA
 //     channel changes by more than 2; sub-perceptual rasterization and
 //     antialiasing jitter stay at or below this.
-//   - MAX_NOISE_PIXELS = 512: hard cap of differing pixels (~0.025% of the
-//     1920x1080 canvas). Observed real-world instability was 51 pixels in an
-//     11x23 glyph-shaped region. Meaningful content, text, or layout changes
-//     alter thousands of pixels with large channel deltas and never qualify.
+//   - MAX_NOISE_PIXELS = 683: hard cap of differing pixels. The original budget was
+//     512 pixels on the former 1920x1080 canvas, i.e. ~0.025% of it; 683 keeps that
+//     same ratio on the 1920x1440 canvas instead of silently tightening it.
+//     Observed real-world instability was 51 pixels in an 11x23 glyph-shaped region;
+//     meaningful content, text or layout changes alter thousands of pixels with large
+//     channel deltas and never qualify.
 //   - Dimensions must match exactly; any size difference is never equivalent.
 
 const NOISE_CHANNEL_DELTA = 2;
-const MAX_NOISE_PIXELS = 512;
+const MAX_NOISE_PIXELS = 683;
 
 export const VISUAL_EQUIVALENCE_BUDGET = Object.freeze({
   noiseChannelDelta: NOISE_CHANNEL_DELTA,
