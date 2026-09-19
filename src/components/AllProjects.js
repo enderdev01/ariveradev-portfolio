@@ -4,53 +4,19 @@ import { useState } from "react";
 import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
 import { getProyectoSeo } from "../data/proyectos-seo";
+import { CATEGORIAS, coincideConFiltro } from "../lib/projectFilters.mjs";
 import ProjectVisual from "./ProjectVisual";
 
-const CATEGORIAS = [
-  { label: "Todos", value: "all" },
-  { label: "Ecommerce", value: "ecommerce" },
-  { label: "Landing", value: "landing" },
-  { label: "App Móvil", value: "app" },
-  { label: "Plataformas", value: "platform" },
-  { label: "Juegos", value: "game" },
-  { label: "Próximamente", value: "proximamente", featured: true },
-];
-
-// Cada proyecto hereda su filtro de la categoría SEO del catálogo
-// (getProyectoSeo). Los proyectos sin entrada SEO quedan sin categoría:
-// se muestran bajo Todos pero no en un filtro específico.
-const FILTRO_POR_CATEGORIA = {
-  "Ecommerce": "ecommerce",
-  "Marketplace": "ecommerce",
-  "Landing y ecommerce": "ecommerce",
-  "Sitio corporativo": "landing",
-  "Landing inmobiliaria": "landing",
-  "Landing de producto": "landing",
-  "Landing corporativa": "landing",
-  "Plataforma web": "landing",
-  "App móvil": "app",
-  "Plataforma": "platform",
-  "Plataforma cívica": "platform",
-  "Juego online": "game",
-};
-
-const filtroDeProyecto = (proyecto) => {
-  const seo = getProyectoSeo(proyecto.id);
-  return (seo && FILTRO_POR_CATEGORIA[seo.categoria]) || "otros";
-};
+// Cada proyecto hereda su filtro del catálogo. La regla —categoría SEO más el
+// estado "proximamente"— vive en src/lib/projectFilters.mjs, junto con el mapeo
+// total que impide que una categoría renderizada quede fuera de todo filtro.
 
 export default function AllProjects() {
   const [activa, setActiva] = useState("all");
 
-  const proyectosFiltrados = proyectosReales.filter((proyecto) => {
-    const esProximamente = proyecto.estado === "proximamente";
-
-    if (activa === "proximamente") return esProximamente;
-    if (esProximamente) return false;
-    if (activa === "all") return true;
-
-    return filtroDeProyecto(proyecto) === activa;
-  });
+  const proyectosFiltrados = proyectosReales.filter((proyecto) =>
+    coincideConFiltro({ proyecto, seo: getProyectoSeo(proyecto.id), activa })
+  );
 
   return (
     <section className="w-full bg-background min-h-screen py-20 sm:py-28">

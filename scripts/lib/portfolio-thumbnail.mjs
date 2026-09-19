@@ -29,6 +29,28 @@ const FROZEN_CLOCK_TIME = new Date("2025-01-06T12:00:00Z");
 const CAPTURE_VIEWPORT = { width: 1600, height: 1000 };
 const COMPOSITION_VIEWPORT = { width: 1920, height: 1080 };
 
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+// Hand-authored thumbnails are committed by hand instead of composed, so they must
+// match this canvas exactly: a different size would shift one card relative to
+// every generated one in the grid and on the project page.
+export const AUTHORED_THUMBNAIL_SIZE = Object.freeze({
+  width: COMPOSITION_VIEWPORT.width,
+  height: COMPOSITION_VIEWPORT.height,
+});
+
+// Reads the PNG signature and IHDR header only, so an authored file can be
+// validated without a browser and without decoding the image.
+export function readPngSize(bytes, label) {
+  if (!Buffer.isBuffer(bytes) || bytes.length < 24 || !bytes.subarray(0, 8).equals(PNG_SIGNATURE)) {
+    fail(`${label}: not a PNG file`);
+  }
+  if (bytes.subarray(12, 16).toString("latin1") !== "IHDR") {
+    fail(`${label}: PNG is missing its IHDR header chunk`);
+  }
+  return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
+}
+
 function fail(message) {
   throw new Error(message);
 }

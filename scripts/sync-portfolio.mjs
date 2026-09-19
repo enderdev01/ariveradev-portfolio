@@ -74,6 +74,10 @@ import {
   resolveDiscoveryGate,
 } from "./lib/portfolio-source.mjs";
 import {
+  applyAuthoredAssets,
+  loadAuthoredAssets,
+} from "./lib/portfolio-authored-assets.mjs";
+import {
   DEFAULT_TOPIC,
   discoverPortfolio,
 } from "./lib/portfolio-discovery.mjs";
@@ -83,7 +87,7 @@ import {
   diffDecodedPixels,
   isWithinNoiseBudget,
 } from "./lib/portfolio-thumbnail.mjs";
-import { stageAndInstall } from "./lib/portfolio-artifacts.mjs";
+import { stageAndInstall, assertAuthoredThumbnail, committedThumbnailPath } from "./lib/portfolio-artifacts.mjs";
 import {
   ALERT_STATE_FILE,
   buildAlertHtml,
@@ -96,7 +100,6 @@ import {
 
 // Mirrors the published paths used by scripts/lib/portfolio-artifacts.mjs.
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const committedThumbnailPath = (id) => path.join(repoRoot, "public", "portfolio", `${id}.png`);
 const committedGeneratedJsonPath = path.join(repoRoot, "src", "data", "portfolio.generated.json");
 
 // Returns the committed bytes when they exist and the new capture differs from
@@ -128,6 +131,31 @@ async function preserveCommittedBytesWhenEquivalent(browser, id, png) {
 
 function fail(message) {
   throw new Error(message);
+}
+
+// Applies the committed authored assets to the resolved source list and reports
+// which discovered sources actually produced a published record.
+//
+// The order here is load-bearing: discoveredProvidedIds() tracks published
+// discovered sources by object identity, while decoration returns new objects for
+// decorated sources. It therefore runs BEFORE applyAuthoredAssets, so an authored
+// project is still recognised as a published discovered source and the sync keeps
+// reusing the deployed metadata discovery already fetched instead of fetching the
+// same production page a second time.
+//
+// Only a discovered source that produced a published record counts: one that lost
+// the identity collision to a manual registry entry must still be fetched,
+// otherwise that manual entry loses its deployed SEO texts and publishes empty
+// strings.
+export function resolveAuthoredSources({
+  merged = [],
+  discoveredSources = null,
+  manualSources = [],
+  assets = [],
+} = {}) {
+  const discoveredIds = discoveredProvidedIds({ discoveredSources, sources: merged });
+  const sources = applyAuthoredAssets({ sources: merged, manualSources, assets });
+  return { sources, discoveredIds };
 }
 
 // Numeric ids of the projects currently published in the committed generated
@@ -299,21 +327,28 @@ export async function main() {
     await notifySkippedProjects({ skipped: discovery.skipped, githubToken });
   }
 
-  const sources = resolveSyncSources({
+  const merged = resolveSyncSources({
     manualSources,
     discoveredSources,
     discoveryAttempted,
     vercelEnabled: gate.discoveryEnabled,
   });
+  const authoredAssets = loadAuthoredAssets();
+  const { sources, discoveredIds } = resolveAuthoredSources({
+    merged,
+    discoveredSources,
+    manualSources,
+    assets: authoredAssets,
+  });
   console.log(`Syncing ${sources.length} approved source(s): ${sources.map((s) => s.id).join(", ")}`);
+  for (const [index, source] of sources.entries()) {
+    if (source !== merged[index]) console.log(`Authored asset applied: ${source.id}`);
+  }
 
   // Discovered sources already fetched and validated their deployed production
   // HTML inside discoverPortfolio; reuse those derived SEO texts instead of
-  // fetching the same production page a second time. Only a discovered source
-  // that produced a published record counts: one that lost the identity collision
-  // to a manual registry entry must still be fetched, otherwise that manual entry
-  // loses its deployed SEO texts and publishes empty strings.
-  const discoveredIds = discoveredProvidedIds({ discoveredSources, sources });
+  // fetching the same production page a second time (resolved by
+  // resolveAuthoredSources above, before the authored assets decorated the list).
 
   let playwright;
   try {
@@ -338,13 +373,23 @@ export async function main() {
       }
       const record = buildRecord(source, fetchedMeta);
       generated.push(record);
-      const png = await preserveCommittedBytesWhenEquivalent(
-        browser,
-        source.id,
-        await captureAndCompose(browser, source)
-      );
-      thumbnails.push({ id: source.id, png });
-      console.log(`Captured ${source.id}: "${fetchedMeta?.title ?? source.seo.tituloSeo}"`);
+      // A hand-authored thumbnail is committed by hand and never regenerated: the
+      // sync must not capture over it nor install over it, and it proves the
+      // committed file still matches the compositor canvas before publishing the
+      // JSON that points at it.
+      const titulo = fetchedMeta?.title ?? source.seo.tituloSeo;
+      if (source.thumbnail?.authored === true) {
+        assertAuthoredThumbnail({ id: source.id });
+        console.log(`Published ${source.id}: "${titulo}" (authored thumbnail kept)`);
+      } else {
+        const png = await preserveCommittedBytesWhenEquivalent(
+          browser,
+          source.id,
+          await captureAndCompose(browser, source)
+        );
+        thumbnails.push({ id: source.id, png });
+        console.log(`Captured ${source.id}: "${titulo}"`);
+      }
     }
 
     // Phase 2: stage and install. Thumbnails are installed first and the JSON

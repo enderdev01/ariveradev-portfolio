@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "butacas-libres",
+      "github": { "owner": "enderdev01", "repo": "butacas-libres" },
+      "seo": {
+        "categoria": "Herramienta de datos",
+        "desafio": "Elegir función sigue siendo una apuesta: nadie sabe si la sala de las siete está llena hasta llegar. Los tres cines que operan en Perú publican esa información, cada uno a su manera y ninguno con una API, así que compararla obliga a abrir tres sitios y sumar a mano. La dificultad no estaba en mostrar butacas, estaba en preguntar de modo que las tres cadenas siguieran respondiendo.",
+        "enfoque": "El proyecto consulta los sitios públicos de Cineplanet, Cinemark y Cinépolis en vivo y agrupa las butacas libres por sede y función con su porcentaje de ocupación; en Cineplanet además abre el plano de asientos real con una calculadora de precios en vivo. Está construido en Node.js sin dependencias ni base de datos: no guarda nada. Y está diseñado para pesar poco sobre servidores ajenos: nada de sondeo en segundo plano, una sola cola de salida por cadena con límite de peticiones por segundo, cancelación real de lo pendiente y enfriamiento cuando una cadena corta el acceso. En Cinépolis las columnas de asientos van ocultas a propósito: su cartelera es pública, pero los asientos viven detrás de medidas anti-bot que este proyecto no sortea."
+      },
+      "thumbnail": { "authored": true }
+    }
+  ]
+}
