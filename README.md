@@ -81,7 +81,7 @@ El sync tiene que seguir siendo determinista —entradas idénticas producen sal
 2. **Asset de autoría** (`scripts/portfolio-authored-assets.json`).
 3. **Valor derivado** (discovery).
 
-Cada asset se identifica por `id` (el slug) y, opcionalmente, por `github: { owner, repo }`, que sobrevive un rename del repositorio. Campos admitidos: `card.{nombre,descripcion}`, `seo.{categoria,tituloSeo,descripcionSeo,desafio,enfoque}` y `thumbnail: { authored: true }`. `seo.slug` **no** es autorable: el slug es la URL pública y cambiarlo es una migración con redirects.
+Cada asset se identifica por `id` (el slug) y, opcionalmente, por `github: { owner, repo }`, que sobrevive un rename del repositorio. Campos admitidos: `stack`, `card.{nombre,descripcion}`, `seo.{categoria,tituloSeo,descripcionSeo,desafio,enfoque}` y `thumbnail: { authored: true }`. `stack` reemplaza el stack derivado, que lee el lenguaje principal y los topics del repositorio: un proyecto escrito en un lenguaje y construido con varias librerías puede terminar publicando una sola palabra que no dice nada de lo que usa. `seo.slug` **no** es autorable: el slug es la URL pública y cambiarlo es una migración con redirects.
 
 Campos desconocidos, identidades duplicadas, JSON inválido y assets que no matchean ninguna fuente **abortan** la corrida antes de escribir: un typo no puede terminar publicando el boilerplate derivado.
 

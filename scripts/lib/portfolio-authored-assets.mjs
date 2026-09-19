@@ -31,7 +31,7 @@ export const AUTHORED_ASSETS_PATH = path.join(scriptDir, "..", "portfolio-author
 
 // `slug` is deliberately absent: the slug is the public URL, so changing it is a
 // redirect migration, not an authoring edit. It stays owned by the source.
-const ASSET_KEYS = new Set(["id", "github", "card", "seo", "thumbnail"]);
+const ASSET_KEYS = new Set(["id", "github", "card", "seo", "stack", "thumbnail"]);
 const CARD_KEYS = new Set(["nombre", "descripcion"]);
 const SEO_KEYS = new Set(["categoria", "tituloSeo", "descripcionSeo", "desafio", "enfoque"]);
 const KEBAB_CASE = /^[a-z0-9-]+$/;
@@ -93,6 +93,19 @@ function validateAsset(asset, position) {
     rejectUnknownKeys(asset.seo, SEO_KEYS, `${id}.seo`);
     for (const field of Object.keys(asset.seo)) {
       requireNonEmptyString(asset.seo[field], `${id}.seo.${field}`);
+    }
+  }
+
+  if (asset.stack !== undefined) {
+    // The derived stack reads the repository's primary language and topics, so a
+    // project written in one language and built with several libraries can publish a
+    // single-word stack ("HTML") that says nothing about what it actually uses.
+    if (
+      !Array.isArray(asset.stack) ||
+      asset.stack.length === 0 ||
+      !asset.stack.every((tech) => typeof tech === "string" && tech.trim())
+    ) {
+      fail(`authored asset ${id}: "stack" must be a non-empty array of non-empty strings`);
     }
   }
 
@@ -185,6 +198,7 @@ export function applyAuthoredAssets({ sources = [], manualSources = [], assets =
       ...source,
       ...(asset.card ? { card: { ...source.card, ...asset.card } } : {}),
       ...(asset.seo ? { seo: { ...source.seo, ...asset.seo } } : {}),
+      ...(asset.stack ? { stack: [...asset.stack] } : {}),
       ...(asset.thumbnail?.authored
         ? { thumbnail: { ...source.thumbnail, authored: true } }
         : {}),

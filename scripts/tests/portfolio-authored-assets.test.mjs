@@ -93,6 +93,10 @@ const invalidRegistries = {
   "unknown seo key": { assets: [{ id: "x", seo: { resumen: "X" } }] },
   "empty seo field": { assets: [{ id: "x", seo: { desafio: "" } }] },
   "thumbnail without authored true": { assets: [{ id: "x", thumbnail: { gradient: ["#000"] } }] },
+  "stack is not an array": { assets: [{ id: "x", stack: "HTML" }] },
+  "stack is empty": { assets: [{ id: "x", stack: [] }] },
+  "stack with an empty entry": { assets: [{ id: "x", stack: ["Web", "   "] }] },
+  "stack with a non-string entry": { assets: [{ id: "x", stack: ["Web", 3] }] },
   "thumbnail authored false": { assets: [{ id: "x", thumbnail: { authored: false } }] },
   "duplicate id": { assets: [{ id: "x" }, { id: "x" }] },
   "duplicate repository": {
@@ -193,6 +197,16 @@ test("applyAuthoredAssets aborts when an asset targets a manual registry entry",
       }),
     /targets a manual registry entry/
   );
+});
+
+test("applyAuthoredAssets replaces the derived stack", () => {
+  const [source] = applyAuthoredAssets({
+    sources: [discoveredSource],
+    assets: [{ id: "butacas-libres", stack: ["JavaScript", "Web Crypto", "IndexedDB"] }],
+  });
+  assert.deepEqual(source.stack, ["JavaScript", "Web Crypto", "IndexedDB"]);
+  assert.deepEqual(discoveredSource.stack, ["JavaScript", "Node.js"], "the input is untouched");
+  assert.notEqual(source.stack, discoveredSource.stack, "the array is not shared");
 });
 
 test("applyAuthoredAssets accepts a card-only asset", () => {
