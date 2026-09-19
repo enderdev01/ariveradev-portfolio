@@ -69,6 +69,8 @@ El workflow (`.github/workflows/sync-portfolio.yml`) corre el sync y abre un PR;
 
 Los tokens solo se exponen al paso de sync del workflow, nunca a la acción que abre el PR.
 
+Las miniaturas se componen en un canvas **4:3 (1920x1440)**, que es la geometría del resto del portfolio: cada imagen de proyecto curada a mano mide 4:3 y tanto la tarjeta del grid como la página de detalle renderizan en una caja `aspect-[4/3]` con `object-cover`. Una captura 16:9 dentro de esa caja pierde el 28% inferior, así que la captura de la página también es 4:3 y el marco del navegador tiene un área abierta exactamente 4:3, para que la captura entre sin recortar ninguno de los dos ejes.
+
 ### Assets de autoría (copy e imagen escritos a mano)
 
 La derivación automática es determinista y por diseño no puede ser específica de cada proyecto: cae al fallback genérico cuando los topics y el lenguaje no encajan en ningún bucket conocido, y arma la narrativa variando solo por nombre y categoría. Un proyecto que no despliega nada tampoco tiene página deployada de la que sacar un título o una captura. Para eso existe `scripts/portfolio-authored-assets.json`: copy e imágenes escritos una vez, revisados a mano y commiteados, que el sync **lee** pero nunca regenera.
