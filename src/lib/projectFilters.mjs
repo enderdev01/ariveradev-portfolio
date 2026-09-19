@@ -32,6 +32,7 @@ export const FILTRO_POR_CATEGORIA = {
   Plataforma: "platform",
   "Plataforma cívica": "platform",
   "Herramienta de datos": "platform",
+  "Herramienta de privacidad": "platform",
   "Proyecto web": "platform",
   "Juego online": "game",
 };

@@ -6,10 +6,27 @@
       "github": { "owner": "enderdev01", "repo": "butacas-libres" },
       "seo": {
         "categoria": "Herramienta de datos",
-        "desafio": "Elegir función sigue siendo una apuesta: nadie sabe si la sala de las siete está llena hasta llegar. Los tres cines que operan en Perú publican esa información, cada uno a su manera y ninguno con una API, así que compararla obliga a abrir tres sitios y sumar a mano. La dificultad no estaba en mostrar butacas, estaba en preguntar de modo que las tres cadenas siguieran respondiendo.",
-        "enfoque": "El proyecto consulta los sitios públicos de Cineplanet, Cinemark y Cinépolis en vivo y agrupa las butacas libres por sede y función con su porcentaje de ocupación; en Cineplanet además abre el plano de asientos real con una calculadora de precios en vivo. Está construido en Node.js sin dependencias ni base de datos: no guarda nada. Y está diseñado para pesar poco sobre servidores ajenos: nada de sondeo en segundo plano, una sola cola de salida por cadena con límite de peticiones por segundo, cancelación real de lo pendiente y enfriamiento cuando una cadena corta el acceso. En Cinépolis las columnas de asientos van ocultas a propósito: su cartelera es pública, pero los asientos viven detrás de medidas anti-bot que este proyecto no sortea."
+        "desafio": "Elegir función a ciegas es lo normal: nadie sabe si la sala de las siete está llena hasta llegar. Los tres cines que operan en Perú publican esa información, cada uno a su manera y ninguno con una API, así que compararla obliga a abrir tres sitios y sumar a mano.",
+        "enfoque": "Butacas Libres cruza Cineplanet, Cinemark y Cinépolis en vivo y muestra las butacas libres de cada función por sede, con su porcentaje de ocupación y, en Cineplanet, el plano de asientos real con precios actualizados. Está hecho en Node.js sin dependencias ni base de datos: no guarda nada. Y consulta con moderación —sin sondeos en segundo plano, con un ritmo que cada cadena tolera—, que es la razón por la que las tres siguen respondiendo."
       },
       "thumbnail": { "authored": true }
+    },
+    {
+      "id": "selnote-web",
+      "github": { "owner": "enderdev01", "repo": "selnote-web" },
+      "stack": [
+        "JavaScript",
+        "Web Crypto",
+        "WebRTC P2P",
+        "IndexedDB",
+        "Service Worker",
+        "Three.js"
+      ],
+      "seo": {
+        "categoria": "Herramienta de privacidad",
+        "desafio": "Anotar algo privado tiene un costo que casi nadie nota: la nota termina en el servidor de otra empresa, atada a una cuenta que hay que mantener. Guardarla solo en el teléfono arregla la privacidad y rompe lo útil, que es tenerla también en la computadora.",
+        "enfoque": "Selnote cifra las notas en el navegador y las replica directo entre tus dispositivos. No hay cuentas ni un servidor que almacene contenido: la llave viaja en el enlace secreto y la red solo ayuda a que los dispositivos se encuentren. Los adjuntos —hasta 2 GB por archivo— se cifran por fragmentos y se reparten entre los equipos conectados, y una nota con sus archivos puede cruzar de una pantalla a una cámara por códigos QR —hasta 2 MB— cuando no hay red de ningún tipo. Está hecha en JavaScript, sin proceso de compilación ni dependencias de ejecución, y funciona instalada y sin internet."
+      }
     }
   ]
 }
