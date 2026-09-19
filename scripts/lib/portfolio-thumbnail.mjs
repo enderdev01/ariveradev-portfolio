@@ -32,13 +32,19 @@ const FROZEN_CLOCK_TIME = new Date("2025-01-06T12:00:00Z");
 // card and the project page render into an `aspect-[4/3]` box with `object-cover`.
 // A 16:9 capture in a 4:3 box loses the bottom 28% of the image, which is why the
 // capture viewport is 4:3 too: it fills the frame without cropping the sides.
-const CAPTURE_VIEWPORT = { width: 1600, height: 1200 };
+const CAPTURE_VIEWPORT = { width: 1600, height: 840 };
 const COMPOSITION_VIEWPORT = { width: 1920, height: 1440 };
 
-// Browser frame inside the composition canvas: 1620 wide, and 1215px of viewport
-// below the 52px chrome, so the frame's own open area is exactly 4:3 and the 4:3
-// capture scales to it without cropping either axis.
-const COMPOSITION_FRAME = { width: 1620, chromeHeight: 52, viewportHeight: 1215 };
+// Browser frame inside the composition canvas.
+//
+// The frame is deliberately shorter than the canvas allows: 850px of viewport below the
+// 52px chrome is ~30% less than the 4:3 height that would nearly touch the edges, so the
+// gradient keeps real space above and below the component instead of the window filling
+// the whole image.
+//
+// The viewport height follows the capture's aspect (1620 / 850 is the same ratio as
+// 1600 / 840), so the capture fills the frame without cropping either axis.
+const COMPOSITION_FRAME = { width: 1620, chromeHeight: 52, viewportHeight: 850 };
 
 const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
