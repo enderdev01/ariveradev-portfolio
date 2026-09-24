@@ -195,8 +195,12 @@ export async function captureAndCompose(browser, source) {
     await capturePage.clock.install();
     await capturePage.clock.setFixedTime(FROZEN_CLOCK_TIME);
   }
+  // `load`, not `networkidle`: pages that stream media (hls video segments) never
+  // sit silent for the 500ms networkidle needs, so a perfectly healthy page
+  // intermittently hard-times-out there. `load` plus the font/settle waits below
+  // covers late paint without turning capture into a flake.
   await capturePage.goto(source.productionUrl, {
-    waitUntil: "networkidle",
+    waitUntil: "load",
     timeout: 60000,
   });
   if (typeof capturePage.clock?.pauseAt === "function") {
