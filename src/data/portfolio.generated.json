@@ -109,6 +109,26 @@
         "desafio": "Anotar algo privado tiene un costo que casi nadie nota: la nota termina en el servidor de otra empresa, atada a una cuenta que hay que mantener. Guardarla solo en el teléfono arregla la privacidad y rompe lo útil, que es tenerla también en la computadora.",
         "enfoque": "Selnote cifra las notas en el navegador y las replica directo entre tus dispositivos. No hay cuentas ni un servidor que almacene contenido: la llave viaja en el enlace secreto y la red solo ayuda a que los dispositivos se encuentren. Los adjuntos —hasta 2 GB por archivo— se cifran por fragmentos y se reparten entre los equipos conectados, y una nota con sus archivos puede cruzar de una pantalla a una cámara por códigos QR —hasta 2 MB— cuando no hay red de ningún tipo. Está hecha en JavaScript, sin proceso de compilación ni dependencias de ejecución, y funciona instalada y sin internet."
       }
+    },
+    {
+      "id": 1382391139,
+      "card": {
+        "nombre": "DepaLens",
+        "url": "https://depalens.com",
+        "imagen": "/portfolio/depalens-landing.png",
+        "stack": [
+          "Astro"
+        ],
+        "descripcion": "DepaLens agrega un puntaje de 0 a 100 a cada aviso de alquiler o venta en Urbania, Adondevivir, InfoCasas y Nestoria, con la evidencia que lo explica."
+      },
+      "seo": {
+        "slug": "depalens-landing",
+        "categoria": "Proyecto web",
+        "tituloSeo": "DepaLens — puntaje explicable para avisos de departamentos",
+        "descripcionSeo": "DepaLens agrega un puntaje de 0 a 100 a cada aviso de alquiler o venta en Urbania, Adondevivir, InfoCasas y Nestoria, con la evidencia que lo explica.",
+        "desafio": "El punto de partida de DepaLens es el de todo Proyecto web: explicar en segundos de qué va el proyecto y ofrecer al visitante un paso siguiente claro, sin que la primera pantalla prometa más de lo que el sitio muestra.",
+        "enfoque": "El sitio de DepaLens se construyó con Astro. El trabajo se centró en una jerarquía de información clara, tiempos de carga razonables y un recorrido de uso sin pasos de más."
+      }
     }
   ]
 }
