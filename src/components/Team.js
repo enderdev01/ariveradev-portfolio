@@ -44,6 +44,11 @@ export default function Team() {
                 <h3 className="font-bold leading-tight text-text-primary">
                   {miembro.nombre}
                 </h3>
+                {miembro.nombreReal && (
+                  <p className="mt-0.5 text-sm font-medium text-text-secondary">
+                    {miembro.nombreReal}
+                  </p>
+                )}
                 <p className="mt-1 text-sm font-semibold text-accent-strong">
                   {miembro.rol}
                 </p>
@@ -101,6 +106,12 @@ export default function Team() {
               <h3 className="relative z-10 text-lg lg:text-xl font-bold text-text-primary mb-1">
                 {miembro.nombre}
               </h3>
+
+              {miembro.nombreReal && (
+                <p className="relative z-10 text-sm text-text-secondary font-medium mb-1">
+                  {miembro.nombreReal}
+                </p>
+              )}
 
               <p className="relative z-10 text-accent-strong mb-4 font-semibold text-sm lg:text-base">
                 {miembro.rol}

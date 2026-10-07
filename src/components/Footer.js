@@ -104,6 +104,12 @@ export default function Footer() {
           <p className="text-text-muted text-xs sm:text-sm">
             © {currentYear} OniLabs. Todos los derechos reservados.
           </p>
+          <p className="mt-1 text-text-muted text-xs sm:text-sm">
+            Fundada en enero de 2026 · Lima, Perú ·{" "}
+            <a href="mailto:contacto@onilabs.site" className="hover:text-primary">
+              contacto@onilabs.site
+            </a>
+          </p>
         </div>
       </div>
     </footer>

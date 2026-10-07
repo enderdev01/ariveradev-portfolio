@@ -27,13 +27,23 @@ const structuredData = {
       name: "Onilabs",
       url: SITE_URL,
       description: DESCRIPTION,
+      foundingDate: "2026-01",
+      founder: {
+        "@type": "Person",
+        name: "Anthoni Rivera La Rosa",
+      },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Lima",
+        addressCountry: "PE",
+      },
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/logo.png`,
       },
       contactPoint: {
         "@type": "ContactPoint",
-        email: "contacto.onilabs@gmail.com",
+        email: "contacto@onilabs.site",
         contactType: "customer service",
         availableLanguage: ["Spanish", "English"],
       },

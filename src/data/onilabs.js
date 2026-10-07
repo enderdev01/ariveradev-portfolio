@@ -113,7 +113,8 @@ export const equipo = [
   {
     id: 1,
     nombre: "ENDER",
-    rol: "CEO",
+    nombreReal: "Anthoni Rivera La Rosa",
+    rol: "CEO y fundador",
     bio: "Lidera la visión estratégica y las relaciones con clientes, enfocado en entregar soluciones que generen valor real.",
     iniciales: "E",
     imagen: "/ender.png",
