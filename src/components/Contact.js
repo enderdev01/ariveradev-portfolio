@@ -267,11 +267,11 @@ export default function Contact() {
                   OniLabs en LinkedIn
                 </a>
                 <a
-                  href="mailto:contacto.onilabs@gmail.com"
+                  href="mailto:contacto@onilabs.site"
                   className="flex min-h-[44px] items-center gap-3 break-all font-medium hover:text-primary"
                 >
                   <AiOutlineMail className="h-5 w-5 shrink-0 text-primary" />
-                  contacto.onilabs@gmail.com
+                  contacto@onilabs.site
                 </a>
               </div>
 
@@ -326,7 +326,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="mailto:contacto.onilabs@gmail.com"
+                  href="mailto:contacto@onilabs.site"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 text-text-secondary hover:text-primary transition-colors duration-hover-in ease-hover group"
@@ -334,7 +334,7 @@ export default function Contact() {
                   <span className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors duration-hover-in ease-hover">
                     <AiOutlineMail className="w-5 h-5 text-primary" />
                   </span>
-                  <span>contacto.onilabs@gmail.com</span>
+                  <span>contacto@onilabs.site</span>
                 </a>
               </div>
             </Reveal>
