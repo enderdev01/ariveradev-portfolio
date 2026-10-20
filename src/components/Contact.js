@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AiOutlineLinkedin, AiOutlineMail } from "react-icons/ai";
 import AnimatedDisclosure from "./AnimatedDisclosure";
 import Reveal from "./Reveal";
+import { trackEvent } from "../lib/gtag";
 // import { FaWhatsapp } from "react-icons/fa"; // comentado para uso futuro
 
 export default function Contact() {
@@ -49,6 +50,10 @@ export default function Contact() {
       if (!res.ok) throw new Error();
 
       setStatus("success");
+      trackEvent("generate_lead", {
+        form: "contacto",
+        project_type: formData.tipo || undefined,
+      });
 
       setFormData({
         nombre: "",
