@@ -1,5 +1,9 @@
 export default function ProjectBadges({ proyecto }) {
   const badges = [
+    proyecto.nuevo && {
+      label: "Nuevo",
+      className: "bg-blue-50 text-blue-700 border-blue-200",
+    },
     proyecto.sinSoporte && {
       label: "Sin soporte activo",
       className: "bg-amber-50 text-amber-700 border-amber-200",

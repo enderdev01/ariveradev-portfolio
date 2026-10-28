@@ -184,11 +184,12 @@ const proyectosBaseSinGenerar = [
   },
   {
     id: 2,
-    nombre: "Integra BPO",
+    nombre: "Integra Landing",
+    nuevo: true,
     imagen: "/integra.png",
-    url: "https://integrasgp.com/",
-    descripcion: "Sitio corporativo para presentar servicios BPO, fortalecer la confianza comercial y captar oportunidades desde Latam.",
-    stack: ["Next.js", "Tailwind CSS", "Node.js"],
+    url: "https://www.integrasgp.com/",
+    descripcion: "Rediseño del sitio de Integra para presentar sus servicios de ventas, asistencia virtual y reclutamiento, y facilitar el contacto comercial.",
+    stack: ["Astro"],
   },
   {
     id: 3,
@@ -342,6 +343,7 @@ for (const generado of projectsGenerados) {
 }
 
 export const proyectosReales = proyectosBase.sort((a, b) => {
+  if (Boolean(a.nuevo) !== Boolean(b.nuevo)) return a.nuevo ? -1 : 1;
   if (a.sinSoporte !== b.sinSoporte) return a.sinSoporte ? 1 : -1;
   return b.id - a.id;
 });

@@ -24,7 +24,7 @@ const proyectosSeoBase = {
     desafio:
       "Una empresa de BPO que vende a otras empresas se juega la primera impresión en el sitio. El visitante no compra ahí: evalúa si vale la pena una reunión.",
     enfoque:
-      "Construimos el sitio con Next.js, priorizando velocidad de carga y una estructura que ordena los servicios de forma comprensible para alguien que llega sin contexto. El foco estuvo en convertir la visita en una consulta comercial concreta, no en acumular secciones.",
+      "Rediseñamos el sitio para presentar los servicios de Integra y facilitar el contacto comercial. La nueva estructura organiza la oferta por servicio e industria, con opciones para agendar una consulta.",
   },
   3: {
     slug: "creative-home",
