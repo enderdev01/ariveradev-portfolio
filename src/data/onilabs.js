@@ -175,6 +175,24 @@ export const procesop = [
 
 const proyectosBaseSinGenerar = [
   {
+    id: 20,
+    nombre: "Agent Notch",
+    nuevo: true,
+    imagen: "/portfolio/agent-notch.png",
+    url: "https://github.com/enderdev01/agent-notch",
+    descripcion: "Aplicación para macOS que muestra la actividad de agentes de programación con IA en el notch y permite responder solicitudes de permisos.",
+    stack: ["Swift", "SwiftUI", "macOS"],
+  },
+  {
+    id: 21,
+    nombre: "Mis Servicios",
+    nuevo: true,
+    imagen: "/portfolio/mis-servicios.png",
+    url: "https://github.com/enderdev01/mis-servicios-donde",
+    descripcion: "Piloto comunitario para reportar y consultar cortes de agua, luz e internet en zonas de Lima, con protección de la ubicación exacta.",
+    stack: ["Astro", "NestJS", "PostgreSQL", "H3"],
+  },
+  {
     id: 1,
     nombre: "Taffe Regalos",
     imagen: "/tafferegalos.png",

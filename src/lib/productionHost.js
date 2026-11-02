@@ -6,14 +6,18 @@
 // the join key, and the same project would be listed twice — two cards in the
 // grid and two sitemap URLs for one site.
 //
-// The production host is the identity both sides actually share, so it is the
-// join key used here. The `www.` prefix is stripped so an apex host and its www
-// form match, which also covers the redirect between them.
+// Deployed sites are identified by host; GitHub links need owner and repository
+// as well, since many unrelated projects share github.com.
 export function productionHostKey(url) {
   if (typeof url !== "string" || !url.trim()) return null;
   try {
-    const host = new URL(url.trim()).hostname.toLowerCase();
-    return host.startsWith("www.") ? host.slice(4) : host;
+    const parsed = new URL(url.trim());
+    const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
+    if (host === "github.com") {
+      const parts = parsed.pathname.split("/").filter(Boolean);
+      return parts.length >= 2 ? `${host}/${parts[0].toLowerCase()}/${parts[1].replace(/\.git$/i, "").toLowerCase()}` : null;
+    }
+    return host;
   } catch {
     return null;
   }
