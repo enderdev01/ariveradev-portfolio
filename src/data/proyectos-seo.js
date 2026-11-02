@@ -10,6 +10,18 @@ import { catalogoCuradoHosts } from "./onilabs";
 // Never state client metrics or outcomes that the team has not provided.
 
 const proyectosSeoBase = {
+  20: {
+    slug: "agent-notch",
+    categoria: "Plataforma",
+    desafio: "Seguir la actividad y las solicitudes de varios agentes de programación sin interrumpir el trabajo ni perder contexto.",
+    enfoque: "Aplicación local para macOS que presenta el estado de los agentes en el notch, muestra sus tareas y permite responder solicitudes de permisos.",
+  },
+  21: {
+    slug: "mis-servicios",
+    categoria: "Plataforma cívica",
+    desafio: "Ayudar a los vecinos a identificar posibles cortes de servicios sin exponer su ubicación exacta ni presentar los reportes comunitarios como información oficial.",
+    enfoque: "Piloto con Astro, NestJS, PostgreSQL y H3 que agrupa reportes por zonas y muestra información agregada en un mapa, con alertas opcionales por Telegram.",
+  },
   1: {
     slug: "taffe-regalos",
     categoria: "Ecommerce",
