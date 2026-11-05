@@ -127,14 +127,6 @@ export const equipo = [
     iniciales: "A",
     imagen: "/ahksel.png",
   },
-  {
-    id: 3,
-    nombre: "L1NTCH",
-    rol: "Developer",
-    bio: "Desarrollador experto en aplicaciones móviles y APIs, con enfoque en performance y experiencia de usuario.",
-    iniciales: "M",
-    imagen: "/mauro.png",
-  },
 ];
 
 export const procesoi = [
