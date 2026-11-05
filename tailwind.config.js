@@ -12,33 +12,44 @@ module.exports = {
       fontFamily: {
         burtons: ["burtons", "sans-serif"],
         quantico: ["var(--font-quantico)"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+      },
+      /* Radius scale with intent: controls get a small radius, containers a
+         slightly larger one, and nothing goes past 10px except pills. */
+      borderRadius: {
+        lg: "6px",
+        xl: "8px",
+        "2xl": "10px",
+        "3xl": "10px",
       },
       colors: {
         background: "#FFFFFF",
-        surface: "#F8FAFC",
-        "surface-alt": "#F1F5F9",
+        surface: "#F6F7F9",
+        "surface-alt": "#EEF1F4",
         baseEsp: "#F9F7F2",
 
-        "text-primary": "#0F172A",
-        "text-secondary": "#334155",
+        "text-primary": "#131A27",
+        "text-secondary": "#3A4354",
         "text-muted": "#5B6A7D",
 
-        primary: "#2563EB",
-        "primary-soft": "#DBEAFE",
-        "primary-dark": "#1E40AF",
+        primary: "#2457D6",
+        "primary-soft": "#DDE6FA",
+        "primary-dark": "#1C3F9C",
 
-        accent: "#0EA5E9",
-        "accent-soft": "#E0F2FE",
-        // Text-safe accent: #0EA5E9 is 2.77:1 on white and fails WCAG AA.
-        "accent-strong": "#0369A1",
+        accent: "#1597D3",
+        "accent-soft": "#E2F0F8",
+        // On dark surfaces only (hero tagline/dot).
+        "accent-light": "#67C6EC",
+        // Text-safe accent: #1597D3 fails WCAG AA as text on white.
+        "accent-strong": "#0B6594",
 
-        success: "#16A34A",
-        // Text-safe success: #16A34A is 2.79:1 on the success/10 tint and fails AA.
-        "success-strong": "#166534",
-        warning: "#F59E0B",
-        error: "#DC2626",
+        success: "#1A9A4C",
+        // Text-safe success: #1A9A4C fails AA on the success/10 tint.
+        "success-strong": "#1A5F37",
+        warning: "#E89E17",
+        error: "#CF3229",
 
-        border: "#E2E8F0",
+        border: "#DFE3E9",
       },
 
       /* ===== Motion system tokens ===== */

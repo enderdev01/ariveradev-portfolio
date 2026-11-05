@@ -26,19 +26,19 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 text-center">
         {/* Tagline */}
-        <p className="animate-fade-in-up stagger-1 hidden sm:inline-block text-base font-semibold tracking-widest uppercase text-cyan-400 mb-6 px-4 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 backdrop-blur-sm">
+        <p className="animate-fade-in-up stagger-1 hidden sm:inline-block text-base font-semibold tracking-widest uppercase text-accent-light mb-6 px-4 py-1.5 rounded-full border border-accent-light/30 bg-accent-light/10 backdrop-blur-sm">
           Laboratorio de programación
         </p>
 
         <h1 className="animate-fade-in-up stagger-2 text-[2.5rem] sm:text-5xl lg:text-[5.2rem] font-black leading-[1.04] sm:leading-[1.08] tracking-tight text-white mb-5 sm:mb-6">
           Construimos software a medida{" "}
           <br className="hidden sm:block" />
-          <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent">
+          <em className="font-medium italic text-accent-light">
             para negocios reales
-          </span>
+          </em>
         </h1>
 
-        <p className="animate-fade-in-up stagger-3 text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-7 sm:mb-10 leading-relaxed font-light">
+        <p className="animate-fade-in-up stagger-3 text-base sm:text-lg md:text-xl text-white/75 max-w-2xl mx-auto mb-7 sm:mb-10 leading-relaxed font-light">
           Desde microservicios hasta integraciones complejas.
           <span className="hidden sm:inline">
             {" "}Creamos soluciones{" "}
@@ -52,7 +52,7 @@ export default function Hero() {
         <div className="animate-fade-in-up stagger-4 flex justify-center items-center">
           <a
             href="#contactanos"
-            className="group relative w-full max-w-xs sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-full font-bold text-lg overflow-hidden hover-press hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] shadow-[0_0_20px_rgba(37,99,235,0.4)] focus-visible:outline-white"
+            className="group relative w-full max-w-xs sm:w-auto px-8 py-4 bg-primary text-white rounded-full font-bold text-lg overflow-hidden hover-press hover:bg-primary-dark shadow-[0_2px_6px_rgba(0,0,0,0.25)] focus-visible:outline-white"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               Agenda una llamada
@@ -75,7 +75,7 @@ export default function Hero() {
             shifts by an hour across the year — hence the ranges. */}
         <div className="animate-fade-in-up stagger-4 mt-10 hidden sm:flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm text-white/70">
           <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" aria-hidden="true" />
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-light" aria-hidden="true" />
             Equipo nearshore en Perú
           </span>
           <span className="text-white/25" aria-hidden="true">/</span>

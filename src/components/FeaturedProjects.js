@@ -66,16 +66,25 @@ export default function FeaturedProjects() {
         </Reveal>
 
         {/* Grid */}
-        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
+        {/* Lead project gets the large slot; the rest stack beside it. */}
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-8 lg:gap-6">
           {proyectosDestacados.map((proyecto, i) => (
             <Reveal
               key={proyecto.id}
               delay={i * 110}
-              className="bg-white rounded-2xl border border-border overflow-hidden flex flex-col hover-lift"
+              className={`bg-white rounded-2xl border border-border overflow-hidden flex flex-col hover-lift ${
+                i === 0 ? "md:col-span-2 lg:row-span-2" : ""
+              }`}
               style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)" }}
             >
               {/* Image */}
-              <div className="relative aspect-[4/3] lg:aspect-video w-full overflow-hidden bg-surface border-b border-border">
+              <div
+                className={`relative w-full overflow-hidden bg-surface border-b border-border ${
+                  i === 0
+                    ? "aspect-[4/3] md:aspect-[16/9] lg:aspect-auto lg:flex-1 lg:min-h-[18rem]"
+                    : "aspect-[4/3] lg:aspect-video"
+                }`}
+              >
                 <ProjectVisual
                   proyecto={proyecto}
                   showBadges={false}
@@ -85,10 +94,18 @@ export default function FeaturedProjects() {
               {/* Content */}
               <div className="p-6 lg:p-5 flex flex-col flex-grow">
                 <ProjectBadges proyecto={proyecto} />
-                <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
+                <h3
+                  className={`font-bold text-text-primary mb-3 leading-tight ${
+                    i === 0 ? "text-2xl lg:text-3xl" : "text-xl"
+                  }`}
+                >
                   {proyecto.nombre}
                 </h3>
-                <p className="text-text-secondary text-sm mb-6 lg:mb-4 flex-grow leading-relaxed">
+                <p
+                  className={`text-text-secondary text-sm mb-6 lg:mb-4 leading-relaxed ${
+                    i === 0 ? "" : "flex-grow"
+                  }`}
+                >
                   {proyecto.descripcion}
                 </p>
                 <div>
@@ -97,10 +114,7 @@ export default function FeaturedProjects() {
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-block text-text-secondary text-sm font-medium py-2 px-5 rounded-md transition-colors duration-hover-in ease-hover"
-                      style={{ background: "#E2E8F0" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "#CBD5E1")}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "#E2E8F0")}
+                      className="inline-block text-text-secondary text-sm font-medium py-2 px-5 rounded-md bg-border hover:bg-surface-alt transition-colors duration-hover-in ease-hover"
                     >
                       Ver proyecto
                     </a>
@@ -121,7 +135,7 @@ export default function FeaturedProjects() {
             <Link
               href="/proyectos"
               className="bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-12 rounded-full hover-press text-sm uppercase tracking-wider inline-block"
-              style={{ boxShadow: "0 4px 14px 0 rgba(37,99,235,0.39)" }}
+              style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.12)" }}
             >
               Ver más proyectos
             </Link>

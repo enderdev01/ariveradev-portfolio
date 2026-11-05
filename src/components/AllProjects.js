@@ -43,14 +43,14 @@ export default function AllProjects() {
                       ? "1px solid #DB2777"
                       : "1px solid #F9A8D4"
                     : activa === cat.value
-                      ? "1px solid #2563EB"
+                      ? "1px solid var(--primary)"
                       : "1px solid #E2E8F0",
                   color: cat.featured
                     ? activa === cat.value
                       ? "#FFFFFF"
                       : "#BE185D"
                     : activa === cat.value
-                      ? "#2563EB"
+                      ? "var(--primary)"
                       : "#64748B",
                   background: cat.featured
                     ? activa === cat.value
@@ -122,9 +122,9 @@ export default function AllProjects() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-hover-in ease-hover"
-                      style={{ background: "#2563EB" }}
+                      style={{ background: "var(--primary)" }}
                       onMouseEnter={(e) => (e.currentTarget.style.background = "#1E40AF")}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "#2563EB")}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "var(--primary)")}
                     >
                       Ver proyecto
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
