@@ -8,7 +8,6 @@ export const servicios = [
     slug: "desarrollo-web",
     descripcion:
       "Landing pages, sitios corporativos, dashboards y aplicaciones SaaS con tecnologías modernas y escalables.",
-    icono: "🌐",
   },
   {
     id: 2,
@@ -16,7 +15,6 @@ export const servicios = [
     slug: "aplicaciones-moviles",
     descripcion:
       "Apps nativas y multiplataforma para Android e iOS con React Native e Ionic.",
-    icono: "📱",
   },
   {
     id: 3,
@@ -24,7 +22,6 @@ export const servicios = [
     slug: "integraciones-api",
     descripcion:
       "APIs RESTful, integraciones con CRMs, sistemas de pagos, colas de mensajería y webhooks.",
-    icono: "🔌",
   },
   {
     id: 4,
@@ -32,7 +29,6 @@ export const servicios = [
     slug: "ecommerce-woocommerce",
     descripcion:
       "Tiendas online optimizadas, plugins personalizados, integración de pagos y gestión de inventario.",
-    icono: "🛒",
   },
   {
     id: 5,
@@ -40,7 +36,6 @@ export const servicios = [
     slug: "software-a-medida",
     descripcion:
       "Diseño de sistemas robustos, cloud deployment, CI/CD y optimización de performance.",
-    icono: "⚡",
   },
   {
     id: 6,
@@ -48,7 +43,6 @@ export const servicios = [
     slug: "mantenimiento-web",
     descripcion:
       "Soporte continuo, mejoras incrementales, observabilidad y monitoreo de aplicaciones.",
-    icono: "🔧",
   },
 ];
 
@@ -135,18 +129,21 @@ export const procesoi = [
     paso: "Descubrimiento",
     descripcion:
       "Analizamos tus necesidades, objetivos y contexto del negocio para definir el alcance del proyecto.",
+    entregable: "Documento de alcance con objetivos, usuarios y riesgos.",
   },
   {
     id: 3,
     paso: "Diseño/Arquitectura",
     descripcion:
       "Diseñamos la experiencia de usuario y arquitectura técnica que garantice escalabilidad y mantenibilidad.",
+    entregable: "Prototipo navegable y diagrama de arquitectura.",
   },
   {
     id: 5,
     paso: "Deploy/Soporte",
     descripcion:
       "Desplegamos en producción y brindamos soporte continuo, monitoreo y mejoras basadas en métricas reales.",
+    entregable: "Sistema en producción, accesos, documentación y plan de soporte.",
   },
 ];
 
@@ -156,12 +153,14 @@ export const procesop = [
     paso: "Propuesta",
     descripcion:
       "Presentamos una propuesta técnica detallada con tiempos, tecnologías y presupuesto ajustado a tus requerimientos.",
+    entregable: "Propuesta con cronograma, stack y presupuesto.",
   },
   {
     id: 4,
     paso: "Desarrollo",
     descripcion:
       "Desarrollamos iterativamente con entregas incrementales, manteniendo comunicación constante y feedback continuo.",
+    entregable: "Versiones funcionales en un entorno de pruebas para tu revisión.",
   },
 ];
 

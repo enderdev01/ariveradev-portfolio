@@ -49,7 +49,7 @@ export default function Footer() {
                 height={48}
                 className="h-12 w-12 object-contain"
               />
-              <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-text-primary">
                 OniLabs
               </span>
             </Link>

@@ -26,57 +26,39 @@ export default function Services() {
           </Reveal>
         </div>
 
-        <Reveal className="sm:hidden divide-y divide-border border-y border-border">
-          {serviciosPrioritarios.map((servicio) => (
-            <Link
-              key={servicio.id}
-              href={`/servicios/${servicio.slug}`}
-              className="group flex min-h-[56px] items-center justify-between gap-4 py-3 text-left text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-baseEsp"
-            >
-              <span className="font-semibold leading-tight">{servicio.titulo}</span>
-              <span
-                aria-hidden="true"
-                className="shrink-0 text-xl text-primary transition-transform duration-hover-in ease-hover group-hover:translate-x-1"
-              >
-                &rarr;
-              </span>
-            </Link>
-          ))}
-        </Reveal>
-
-        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-4">
+        {/* A list, not a card grid: secondary services show only on tablet. */}
+        <ul className="border-t border-border">
           {servicios.map((servicio, i) => (
             <Reveal
+              as="li"
               key={servicio.id}
-              delay={i * 90}
-              className={`group relative bg-background text-center border border-border rounded-2xl p-6 sm:p-8 lg:p-6 hover-lift hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 ${
+              delay={i * 70}
+              className={`border-b border-border ${
                 serviciosPrioritarios.some(({ id }) => id === servicio.id)
                   ? ""
-                  : "lg:hidden"
+                  : "hidden sm:block lg:hidden"
               }`}
             >
-              <div className="text-4xl mb-5" aria-hidden="true">
-                {servicio.icono}
-              </div>
-
-              <h3 className="text-lg sm:text-xl font-bold mb-3 text-text-primary">
-                {servicio.titulo}
-              </h3>
-
-              <p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-5">
-                {servicio.descripcion}
-              </p>
-
               <Link
                 href={`/servicios/${servicio.slug}`}
-                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-[gap,color] duration-hover-in ease-hover"
+                className="group grid min-h-[56px] grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)_auto] items-center sm:items-baseline gap-4 sm:gap-8 py-3 sm:py-6 text-left text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-baseEsp"
               >
-                Ver más
-                <span aria-hidden="true">&rarr;</span>
+                <h3 className="font-semibold leading-tight sm:text-2xl transition-colors duration-hover-in ease-hover group-hover:text-primary">
+                  {servicio.titulo}
+                </h3>
+                <p className="hidden sm:block text-base text-text-secondary leading-relaxed">
+                  {servicio.descripcion}
+                </p>
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 text-xl text-primary transition-transform duration-hover-in ease-hover group-hover:translate-x-1"
+                >
+                  &rarr;
+                </span>
               </Link>
             </Reveal>
           ))}
-        </div>
+        </ul>
 
         <div className="mt-12 lg:mt-8 text-center">
           <Reveal delay={120}>

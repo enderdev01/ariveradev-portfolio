@@ -155,7 +155,7 @@ export default function Navbar() {
                 ${
                   isHeaderOnDarkSurface
                     ? "text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]"
-                    : "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
+                    : "text-text-primary"
                 }
               `}
             >

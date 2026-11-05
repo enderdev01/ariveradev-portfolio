@@ -72,24 +72,11 @@ export default function Team() {
                 shadow-sm overflow-hidden
                 select-none cursor-default
                 hover-lift
-                hover:border-primary/50 hover:shadow-xl hover:shadow-primary/8
-                focus-within:border-primary/50 focus-within:shadow-xl
+                hover:border-primary/50 hover:shadow-md
+                focus-within:border-primary/50 focus-within:shadow-md
               "
             >
-              <div
-                className="
-                  glow-bloom
-                  absolute -top-20 lg:-top-28 left-1/2
-                  w-64 h-64 lg:w-[22rem] lg:h-[22rem]
-                  rounded-full
-                  hidden lg:block
-                  z-0 pointer-events-none
-                "
-                aria-hidden="true"
-              />
-
               <div className="relative z-10 w-36 h-36 lg:w-40 lg:h-40 mb-6">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent hidden lg:block blur-xl opacity-20 rounded-full" />
                 <div className="relative w-full h-full rounded-full overflow-hidden shadow-md bg-surface">
                   <Image
                     src={miembro.imagen}

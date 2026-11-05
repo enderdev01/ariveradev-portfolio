@@ -5,34 +5,34 @@
 :root {
   /* Base colors */
   --background: #FFFFFF;
-  --surface: #F8FAFC;
-  --surface-alt: #F1F5F9;
+  --surface: #F6F7F9;
+  --surface-alt: #EEF1F4;
 
   /* Text colors */
-  --text-primary: #0F172A;
-  --text-secondary: #334155;
+  --text-primary: #131A27;
+  --text-secondary: #3A4354;
   --text-muted: #5B6A7D;
 
   /* Brand blues */
-  --primary: #2563EB;
-  --primary-soft: #DBEAFE;
-  --primary-dark: #1E40AF;
+  --primary: #2457D6;
+  --primary-soft: #DDE6FA;
+  --primary-dark: #1C3F9C;
 
   /* Accents */
-  --accent: #0EA5E9;
-  --accent-soft: #E0F2FE;
+  --accent: #1597D3;
+  --accent-soft: #E2F0F8;
   /* Text-safe accent; --accent itself fails WCAG AA as text. */
-  --accent-strong: #0369A1;
+  --accent-strong: #0B6594;
 
   /* States */
-  --success: #16A34A;
+  --success: #1A9A4C;
   /* Text-safe success; --success itself fails WCAG AA as text. */
-  --success-strong: #166534;
-  --warning: #F59E0B;
-  --error: #DC2626;
+  --success-strong: #1A5F37;
+  --warning: #E89E17;
+  --error: #CF3229;
 
   /* Borders */
-  --border: #E2E8F0;
+  --border: #DFE3E9;
 
   /* ===== Motion tokens ===== */
   --motion-fast: 150ms;
@@ -55,9 +55,6 @@
   --ease-hover: cubic-bezier(0.2, 0, 0, 1);
   --motion-hover-in: 170ms;
   --motion-hover-out: 260ms;
-  /* Large diffuse light is expected to move slowly — see .glow-bloom. */
-  --motion-glow-in: 620ms;
-  --motion-glow-out: 400ms;
 
   --distance-reveal: 32px;
   --distance-lift: -2px;
@@ -85,6 +82,14 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: var(--background);
   color: var(--text-primary);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
 }
 
 a {
@@ -179,10 +184,6 @@ a {
   50% { transform: translateY(8px); }
 }
 
-@keyframes timeline-draw {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0); }
-}
 
 /* --- One-shot animation classes (Hero entrance, etc.) --- */
 
@@ -240,20 +241,6 @@ a {
   will-change: auto;
 }
 
-.timeline-track {
-  clip-path: inset(0 100% 0 0);
-  will-change: clip-path;
-}
-
-.timeline-reveal.visible .timeline-track {
-  animation: timeline-draw 800ms var(--ease-reveal) both;
-}
-
-.timeline-reveal.revealed .timeline-track {
-  clip-path: inset(0);
-  animation: none;
-  will-change: auto;
-}
 
 /* --- Soft blur variant for headings and hero-level text --- */
 
@@ -364,50 +351,6 @@ a {
   transform: scale(var(--scale-press));
 }
 
-/* --- Ambient glow -----------------------------------------------------------
-
-   A large, soft light source revealed on hover. Three rules make it read as
-   light instead of as a blue disc being switched on:
-
-   1. It is a radial gradient with a long alpha falloff, not a solid fill under
-      a blur filter. A flat circle plus `blur()` has a uniform core and a hard
-      shoulder — the eye reads a smudge. A gradient that ramps to transparent
-      has no edge to find. It also skips the filter, so scaling it does not
-      force the layer to re-rasterize every frame.
-   2. It blooms: opacity and scale move together. Light that only fades is a
-      switch; light that grows and brightens is a source arriving.
-   3. It enters SLOWER than it leaves — the inverse of .hover-lift, on purpose.
-      Big diffuse things are expected to move slowly; a 288px glow arriving in
-      under 200ms is what reads as "fast" and cheap. It leaves a little quicker
-      so it does not ghost behind the pointer.
-
-   The element it sits on is horizontally centered, so the centering translate
-   lives here: a `transform` in this class would otherwise clobber Tailwind's
-   `-translate-x-1/2`. */
-
-.glow-bloom {
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgb(37 99 235 / 0.16) 0%,
-    rgb(14 165 233 / 0.12) 30%,
-    rgb(37 99 235 / 0.05) 56%,
-    transparent 74%
-  );
-  opacity: 0;
-  transform: translateX(-50%) scale(0.82);
-  transition:
-    opacity var(--motion-glow-out) var(--ease-hover),
-    transform var(--motion-glow-out) var(--ease-hover);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .group:hover .glow-bloom,
-  .group:focus-within .glow-bloom {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-    transition-duration: var(--motion-glow-in);
-  }
-}
 
 /* ===== Performance: content-visibility deshabilitado — causaba que secciones
    no renderizaran en mobile y las animaciones .reveal no se dispararan ===== */
@@ -732,10 +675,6 @@ a {
     transition: none;
   }
 
-  .timeline-track {
-    clip-path: inset(0);
-  }
-
   .hover-lift:hover,
   .hover-lift:focus-within,
   .group:hover .hover-lift-group,
@@ -743,16 +682,6 @@ a {
   .hover-press:hover,
   .hover-press:active {
     transform: none;
-  }
-
-  /* The glow still confirms the hover; it just stops growing. */
-  .glow-bloom {
-    transform: translateX(-50%);
-  }
-
-  .group:hover .glow-bloom,
-  .group:focus-within .glow-bloom {
-    transform: translateX(-50%);
   }
 
   .link-underline::after {
