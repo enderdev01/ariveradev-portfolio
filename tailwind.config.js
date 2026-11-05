@@ -12,6 +12,7 @@ module.exports = {
       fontFamily: {
         burtons: ["burtons", "sans-serif"],
         quantico: ["var(--font-quantico)"],
+        sans: ["var(--font-sans)", "Helvetica Neue", "Arial", "sans-serif"],
         display: ["var(--font-display)", "Georgia", "serif"],
       },
       /* Radius scale with intent: controls get a small radius, containers a
