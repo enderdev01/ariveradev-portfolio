@@ -33,7 +33,7 @@ export default function Hero() {
         <h1 className="animate-fade-in-up stagger-2 text-[2.5rem] sm:text-5xl lg:text-[5.2rem] font-black leading-[1.04] sm:leading-[1.08] tracking-tight text-white mb-5 sm:mb-6">
           Construimos software a medida{" "}
           <br className="hidden sm:block" />
-          <em className="font-medium italic text-accent-light">
+          <em className="font-medium not-italic text-accent-light">
             para negocios reales
           </em>
         </h1>
