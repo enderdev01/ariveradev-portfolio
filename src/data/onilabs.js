@@ -46,63 +46,6 @@ export const servicios = [
   },
 ];
 
-export const proyectosEjemplo = [
-  {
-    id: 1,
-    titulo: "Ecommerce WooCommerce para Retail",
-    objetivo:
-      "Plataforma de comercio electrónico completa con catálogo extenso, múltiples métodos de pago y gestión de envíos.",
-    stack: ["WordPress", "WooCommerce", "PHP", "MySQL", "Stripe"],
-    resultado:
-      "Mejoró la conversión de visitantes a clientes y redujo tiempos de procesamiento de pedidos.",
-  },
-  {
-    id: 2,
-    titulo: "Web Corporativa con CMS Multi-idioma",
-    objetivo:
-      "Sitio web corporativo con gestión de contenido y soporte multi-idioma para expansión internacional.",
-    stack: ["Next.js", "Contentful", "i18n", "Tailwind CSS"],
-    resultado:
-      "Aumentó el alcance internacional y facilitó la gestión de contenido por parte del equipo.",
-  },
-  {
-    id: 3,
-    titulo: "Dashboard de Analítica Empresarial",
-    objetivo:
-      "Panel de control con métricas en tiempo real, roles de usuario y exportación de reportes.",
-    stack: ["React", "TypeScript", "Chart.js", "Node.js", "PostgreSQL"],
-    resultado:
-      "Centralizó la información y mejoró la toma de decisiones estratégicas.",
-  },
-  {
-    id: 4,
-    titulo: "App Móvil para Logística",
-    objetivo:
-      "Aplicación móvil para seguimiento de entregas, notificaciones push y gestión de estados en tiempo real.",
-    stack: ["React Native", "Firebase", "Node.js", "MongoDB"],
-    resultado:
-      "Optimizó la comunicación con clientes y redujo consultas de seguimiento.",
-  },
-  {
-    id: 5,
-    titulo: "Integración de Pagos + Webhooks",
-    objetivo:
-      "Sistema de integración con Mercado Pago, procesamiento de webhooks y reconciliación automática.",
-    stack: ["Node.js", "NestJS", "PostgreSQL", "Redis", "Mercado Pago API"],
-    resultado:
-      "Automatizó el proceso de pagos y mejoró la precisión en la reconciliación financiera.",
-  },
-  {
-    id: 6,
-    titulo: "Plataforma SaaS con Suscripciones",
-    objetivo:
-      "Aplicación SaaS con planes free/premium, control de acceso basado en roles y facturación automática.",
-    stack: ["Next.js", "Stripe", "PostgreSQL", "Auth0", "AWS"],
-    resultado:
-      "Escaló la base de usuarios y automatizó el proceso de facturación y gestión de suscripciones.",
-  },
-];
-
 export const equipo = [
   {
     id: 1,

@@ -5,26 +5,23 @@ export default function ProjectVisual({
   proyecto,
   sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw",
   imageClassName = "object-cover",
-  showOverlay = false,
   showBadges = true,
+  // Pass when a visible heading already names the project, so the image is not
+  // announced twice.
+  decorative = false,
+  priority = false,
 }) {
   if (proyecto.imagen) {
     return (
       <>
         <Image
           src={proyecto.imagen}
-          alt={proyecto.nombre}
+          alt={decorative ? "" : proyecto.nombre}
           fill
+          priority={priority}
           sizes={sizes}
           className={imageClassName}
         />
-        {showOverlay && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-hover-in ease-hover flex items-end p-6">
-            <span className="text-white font-semibold text-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-hover-in ease-hover">
-              Ver proyecto
-            </span>
-          </div>
-        )}
         {showBadges && (
           <div className="absolute left-4 top-4">
             <ProjectBadges proyecto={proyecto} />

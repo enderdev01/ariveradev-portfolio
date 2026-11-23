@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Services from "../components/Services";
-import Portfolio from "../components/Portfolio";
 import Process from "../components/Process";
 import Team from "../components/Team";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import { SITE_URL } from "../lib/site";
+import { scrollToSection } from "../lib/smoothScroll";
 
 
 const TITLE =
@@ -81,9 +81,9 @@ export default function Home() {
     const hash = window.location.hash;
     if (!hash) return;
     const el = document.querySelector(hash);
-    if (el) {
-      setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
-    }
+    // Delay past Next's own instant hash jump; scrollToSection defers to CSS
+    // scroll-behavior, so reduced-motion users get an instant scroll.
+    if (el) setTimeout(() => scrollToSection(el), 100);
   }, [router.asPath]);
 
   return (

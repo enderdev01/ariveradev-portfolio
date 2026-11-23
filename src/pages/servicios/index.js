@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { serviciosSeo } from "../../data/servicios-seo";
 import { SITE_URL } from "../../lib/site";
 
@@ -54,17 +55,12 @@ export default function ServiciosPage() {
 
         <main className="pt-28 pb-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <nav aria-label="Ruta de navegación" className="mb-8">
-              <ol className="flex items-center gap-2 text-sm text-text-secondary">
-                <li>
-                  <Link href="/" className="hover:text-primary transition-colors duration-hover-in ease-hover">
-                    Inicio
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li className="text-text-primary font-medium">Servicios</li>
-              </ol>
-            </nav>
+            <Breadcrumbs
+              items={[
+                { href: "/", label: "Inicio" },
+                { href: "/servicios", label: "Servicios" },
+              ]}
+            />
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight mb-6">
               Servicios de desarrollo de software
