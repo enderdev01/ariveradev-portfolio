@@ -1,7 +1,9 @@
+// Native <details>/<summary> disclosure. The browser owns the open state,
+// keyboard support and find-in-page (closed content stays searchable). Items
+// sharing a `name` form an exclusive accordion. The open/close slide lives in
+// globals.css (`.disclosure::details-content`).
 export default function AnimatedDisclosure({
-  id,
-  open,
-  onToggle,
+  name,
   label,
   children,
   className = "",
@@ -9,14 +11,8 @@ export default function AnimatedDisclosure({
   contentClassName = "",
 }) {
   return (
-    <div className={className}>
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls={id}
-        onClick={onToggle}
-        className={buttonClassName}
-      >
+    <details name={name} className={`disclosure group ${className}`.trim()}>
+      <summary className={`cursor-pointer list-none ${buttonClassName}`.trim()}>
         {label}
         <svg
           aria-hidden="true"
@@ -26,32 +22,13 @@ export default function AnimatedDisclosure({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`h-5 w-5 shrink-0 text-primary transition-transform duration-[300ms] ease-hover motion-reduce:transition-none ${
-            open ? "rotate-180" : "rotate-0"
-          }`}
+          className="h-5 w-5 shrink-0 text-primary transition-transform duration-[300ms] ease-hover motion-reduce:transition-none group-open:rotate-180"
         >
           <path d="m6 9 6 6 6-6" />
         </svg>
-      </button>
+      </summary>
 
-      <div
-        className={`grid transition-[grid-template-rows] duration-[300ms] ease-hover motion-reduce:transition-none ${
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-        }`}
-      >
-        <div className="min-h-0 overflow-hidden">
-          <div
-            id={id}
-            aria-hidden={!open}
-            inert={open ? undefined : ""}
-            className={`transition-[opacity,transform] duration-[300ms] ease-hover motion-reduce:transform-none motion-reduce:transition-none ${
-              open ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"
-            } ${contentClassName}`.trim()}
-          >
-            {children}
-          </div>
-        </div>
-      </div>
-    </div>
+      <div className={contentClassName}>{children}</div>
+    </details>
   );
 }

@@ -15,28 +15,44 @@ export default function Contact() {
     mensaje: "",
   });
 
-  const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
-  const [acompanamientoAbierto, setAcompanamientoAbierto] = useState(false);
+  // Fields currently matching :user-invalid, mirrored into aria-invalid so
+  // assistive tech hears an error exactly when it becomes visible.
+  const [invalidFields, setInvalidFields] = useState({});
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, required } = e.target;
     setFormData({ ...formData, [name]: value });
-    if (errors[name]) setErrors({ ...errors, [name]: "" });
+    // `required` accepts whitespace; the old validation trimmed, so keep that rule.
+    if (required) {
+      e.target.setCustomValidity(value && !value.trim() ? "Este campo no puede quedar en blanco." : "");
+    }
   };
 
-  const validate = () => {
-    let newErrors = {};
-    if (!formData.nombre.trim()) newErrors.nombre = "Nombre requerido";
-    if (!formData.correo.trim()) newErrors.correo = "Correo requerido";
-    if (!formData.mensaje.trim()) newErrors.mensaje = "Cuéntanos tu idea";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const syncInvalid = (e) => {
+    const field = e.target;
+    if (!field.name || !field.matches?.("input, select, textarea")) return;
+    const invalid = field.matches(":user-invalid");
+    setInvalidFields((current) =>
+      current[field.name] === invalid ? current : { ...current, [field.name]: invalid }
+    );
   };
 
+  // aria-describedby only lists the error while it is shown: referenced text is
+  // read out even when hidden.
+  // `invalid` does not bubble (React listens on the field itself), so each
+  // required field syncs on its own failed-submit event.
+  const fieldA11y = (name) => ({
+    onInvalid: syncInvalid,
+    "aria-invalid": invalidFields[name] ? "true" : "false",
+    "aria-describedby": invalidFields[name] ? `${name}-error` : undefined,
+  });
+
+  // Native constraint validation blocks invalid submits and focuses the first
+  // invalid field, so this only runs with valid data.
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return;
+    const form = e.currentTarget;
 
     setStatus("loading");
 
@@ -63,6 +79,10 @@ export default function Contact() {
         tipo: "",
         mensaje: "",
       });
+      // reset() also clears the browser's "user interacted" flag, so the emptied
+      // required fields do not show errors.
+      form.reset();
+      setInvalidFields({});
 
       setTimeout(() => setStatus("idle"), 4000);
     } catch {
@@ -72,7 +92,7 @@ export default function Contact() {
   };
 
   const inputClasses =
-    "w-full py-3 bg-transparent border-b border-border text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none transition-colors duration-hover-in ease-hover";
+    "contact-field w-full py-3 bg-transparent border-b border-border text-text-primary placeholder:text-text-muted focus:border-primary focus:outline-none transition-colors duration-hover-in ease-hover";
 
   return (
     <section
@@ -100,20 +120,24 @@ export default function Contact() {
               Cuéntanos qué tienes en mente
             </h3>
 
-            {status === "success" && (
-              <div className="mb-8 bg-success/10 text-success-strong px-4 py-3 rounded-xl text-center font-medium border border-success/20">
-                Mensaje enviado correctamente
-              </div>
-            )}
+            <div role="status">
+              {status === "success" && (
+                <p className="mb-8 bg-success/10 text-success-strong px-4 py-3 rounded-xl text-center font-medium border border-success/20">
+                  Mensaje enviado correctamente
+                </p>
+              )}
 
-            {status === "error" && (
-              <div className="mb-8 bg-error/10 text-error px-4 py-3 rounded-xl text-center font-medium border border-error/20">
-                Error al enviar el mensaje
-              </div>
-            )}
+              {status === "error" && (
+                <p className="mb-8 bg-error/10 text-error px-4 py-3 rounded-xl text-center font-medium border border-error/20">
+                  Error al enviar el mensaje
+                </p>
+              )}
+            </div>
 
             <form
               onSubmit={handleSubmit}
+              onBlurCapture={syncInvalid}
+              onInput={syncInvalid}
               className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-6 gap-y-6 sm:gap-y-8 lg:gap-y-6"
             >
               <div>
@@ -123,13 +147,16 @@ export default function Contact() {
                 <input
                   id="nombre"
                   name="nombre"
+                  autoComplete="name"
+                  required
+                  {...fieldA11y("nombre")}
                   value={formData.nombre}
                   onChange={handleChange}
                   className={inputClasses}
                 />
-                {errors.nombre && (
-                  <p className="text-xs text-error mt-2">{errors.nombre}</p>
-                )}
+                <p id="nombre-error" className="field-error text-xs text-error mt-2">
+                  Error: escribe tu nombre.
+                </p>
               </div>
 
               <div>
@@ -139,6 +166,7 @@ export default function Contact() {
                 <input
                   id="empresa"
                   name="empresa"
+                  autoComplete="organization"
                   value={formData.empresa}
                   onChange={handleChange}
                   className={inputClasses}
@@ -191,13 +219,16 @@ export default function Contact() {
                   id="correo"
                   type="email"
                   name="correo"
+                  autoComplete="email"
+                  required
+                  {...fieldA11y("correo")}
                   value={formData.correo}
                   onChange={handleChange}
                   className={inputClasses}
                 />
-                {errors.correo && (
-                  <p className="text-xs text-error mt-2">{errors.correo}</p>
-                )}
+                <p id="correo-error" className="field-error text-xs text-error mt-2">
+                  Error: escribe un correo válido.
+                </p>
               </div>
 
               <div className="md:col-span-2">
@@ -207,14 +238,16 @@ export default function Contact() {
                 <textarea
                   id="mensaje"
                   name="mensaje"
+                  required
+                  {...fieldA11y("mensaje")}
                   rows={4}
                   value={formData.mensaje}
                   onChange={handleChange}
                   className={`${inputClasses} resize-none`}
                 />
-                {errors.mensaje && (
-                  <p className="text-xs text-error mt-2">{errors.mensaje}</p>
-                )}
+                <p id="mensaje-error" className="field-error text-xs text-error mt-2">
+                  Error: cuéntanos tu idea.
+                </p>
               </div>
 
               <div className="md:col-span-2">
@@ -248,9 +281,6 @@ export default function Contact() {
 
           <Reveal className="sm:hidden">
             <AnimatedDisclosure
-              id="contacto-acompanamiento-contenido"
-              open={acompanamientoAbierto}
-              onToggle={() => setAcompanamientoAbierto((actual) => !actual)}
               label={<span>Cómo te acompañamos</span>}
               className="rounded-xl border border-border bg-background/70"
               buttonClassName="flex min-h-[52px] w-full items-center justify-between gap-4 px-4 py-3 text-left font-semibold text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"

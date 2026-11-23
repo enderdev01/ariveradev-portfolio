@@ -1,10 +1,8 @@
-import { useState } from "react";
 import AnimatedDisclosure from "./AnimatedDisclosure";
 import Reveal from "./Reveal";
 import { procesoi, procesop } from "../data/onilabs";
 
 export default function Process() {
-  const [procesoAbierto, setProcesoAbierto] = useState(null);
   const procesosOrdenados = [...procesoi, ...procesop].sort(
     (a, b) => a.id - b.id,
   );
@@ -32,11 +30,7 @@ export default function Process() {
           {procesosOrdenados.map((item) => (
             <AnimatedDisclosure
               key={item.id}
-              id={`proceso-${item.id}-contenido`}
-              open={procesoAbierto === item.id}
-              onToggle={() =>
-                setProcesoAbierto((actual) => (actual === item.id ? null : item.id))
-              }
+              name="proceso"
               buttonClassName="flex min-h-[56px] w-full items-center gap-3 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
               contentClassName="pb-4 pr-8 text-sm leading-relaxed text-text-secondary"
               label={

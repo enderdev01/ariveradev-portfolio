@@ -100,11 +100,6 @@ a {
   box-sizing: border-box;
 }
 
-@font-face {
-  font-family: "burtons";
-  src: url("../../public/Burtons.otf");
-}
-
 /* ===== Focus visible for accessibility ===== */
 *:focus-visible {
   outline: 2px solid var(--primary);
@@ -113,21 +108,29 @@ a {
 }
 
 /* ===== Custom scrollbar ===== */
-::-webkit-scrollbar {
-  width: 10px;
+html {
+  scrollbar-color: var(--border) transparent;
+  scrollbar-width: thin;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
+/* Only engines without the standard properties fall back to the vendor ones. */
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 5px;
-}
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
 }
 
 /* ==========================================================
@@ -167,17 +170,6 @@ a {
   }
 }
 
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes scroll-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(8px); }
@@ -196,11 +188,6 @@ a {
   will-change: opacity;
 }
 
-.animate-scale-in {
-  animation: scale-in var(--motion-base) var(--ease-out) both;
-  will-change: opacity, transform;
-}
-
 .animate-scroll-bounce {
   animation: scroll-bounce 2s var(--ease-loop) infinite;
 }
@@ -217,49 +204,88 @@ a {
 .stagger-4 { animation-delay: calc(var(--motion-stagger) * 4); }
 .stagger-5 { animation-delay: calc(var(--motion-stagger) * 5); }
 
-/* --- Scroll reveal (IntersectionObserver driven) ---
-   The reveal runs as a one-shot animation (not a transition) so the
-   element's own Tailwind `transition-all` stays free for hover effects.
-   Once the animation ends, Reveal.js swaps `.visible` for `.revealed`,
-   which releases the animation fill-mode lock. */
+/* --- Scroll reveal ---
+   Native: a scroll-driven animation on a view() timeline. `backwards` fill only
+   applies before the range ends, so once revealed the element is back on its
+   own styles and its hover transitions keep working.
+   Fallback: Reveal.js adds `.reveal-pending` (hidden) and then `.visible`
+   (one-shot animation) via IntersectionObserver. The hidden state is never set
+   by CSS alone, so content stays visible without JavaScript. */
 
-.reveal {
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .reveal {
+      animation: fade-up auto linear backwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+
+    .reveal-blur {
+      animation-name: reveal-blur;
+    }
+  }
+}
+
+.reveal-pending {
   opacity: 0;
   transform: translateY(var(--distance-reveal));
   will-change: opacity, transform;
 }
 
-.reveal.visible {
-  animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
-}
-
-.reveal.revealed {
-  opacity: 1;
-  transform: none;
-  animation: none;
-  will-change: auto;
-}
-
-
-/* --- Soft blur variant for headings and hero-level text --- */
-
-.reveal-blur {
-  opacity: 0;
-  transform: translateY(var(--distance-reveal));
+.reveal-blur.reveal-pending {
   filter: blur(8px);
   will-change: opacity, transform, filter;
 }
 
-.reveal-blur.visible {
-  animation: reveal-blur var(--motion-reveal) var(--ease-reveal) both;
+.reveal-pending.visible {
+  animation: fade-up var(--motion-reveal) var(--ease-reveal) both;
 }
 
-.reveal-blur.revealed {
-  opacity: 1;
-  transform: none;
-  filter: none;
-  animation: none;
-  will-change: auto;
+.reveal-blur.reveal-pending.visible {
+  animation-name: reveal-blur;
+}
+
+/* --- Disclosure (native <details>) ---
+   Closed content is hidden with content-visibility, not display:none, so it
+   stays findable. The slide is progressive enhancement: without
+   interpolate-size the item opens and closes instantly. */
+
+.disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  contain: layout;
+}
+
+.disclosure:not([open])::details-content {
+  block-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .disclosure::details-content {
+    transition: block-size, content-visibility;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-hover);
+    transition-behavior: allow-discrete;
+  }
+}
+
+/* --- Contact form validation ---
+   Errors show only after interaction (:user-invalid), never on page load. */
+
+.field-error {
+  display: none;
+}
+
+.contact-field:user-invalid {
+  border-color: var(--error);
+}
+
+.contact-field:user-invalid ~ .field-error {
+  display: block;
 }
 
 /* --- Link underline micro-interaction --- */
@@ -384,12 +410,18 @@ a {
 
 /* ===== Full-screen mobile navigation -------------------------------------- */
 
+/* A native modal <dialog>: reset its UA box so it fills the viewport. */
 .mobile-menu {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 60;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
@@ -406,6 +438,21 @@ a {
     clip-path 520ms var(--ease-reveal),
     opacity 260ms var(--ease-hover),
     visibility 0s linear 520ms;
+}
+
+.mobile-menu[open] {
+  display: flex;
+}
+
+/* Without these, scrolling over the menu would scroll the page behind it. */
+.mobile-menu:modal {
+  overscroll-behavior: contain;
+}
+
+.mobile-menu::backdrop {
+  background: transparent;
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 .mobile-menu[data-open="true"] {
@@ -538,11 +585,6 @@ a {
   color: #fff;
 }
 
-.mobile-menu__link[data-menu-initial-focus] {
-  outline: none;
-  box-shadow: none;
-}
-
 .mobile-menu__link-number {
   align-self: start;
   padding-top: 0.25rem;
@@ -637,16 +679,23 @@ a {
   transform: translateY(-5px) rotate(-45deg);
 }
 
-@media (max-width: 767px) {
-  .mobile-menu {
-    display: flex;
+/* ===== Header hides while scrolling down -----------------------------------
+   Progressive enhancement: the root remembers the last scroll direction.
+   Browsers without scroll-state queries keep the always-visible header. */
+
+html {
+  container-type: scroll-state;
+}
+
+@container scroll-state((scrolled: bottom) and (scrollable: top)) {
+  .site-nav {
+    transform: translateY(-100%);
   }
 }
 
-@media (min-width: 768px) {
-  .mobile-menu {
-    display: none;
-  }
+/* Never hide the header while it holds keyboard focus. */
+.site-nav:focus-within {
+  transform: none;
 }
 
 /* --- Reduced motion — everything instant or static --- */
@@ -662,11 +711,8 @@ a {
   }
 
   .reveal,
-  .reveal.visible,
-  .reveal.revealed,
-  .reveal-blur,
-  .reveal-blur.visible,
-  .reveal-blur.revealed {
+  .reveal-pending,
+  .reveal-pending.visible {
     opacity: 1;
     transform: none;
     filter: none;

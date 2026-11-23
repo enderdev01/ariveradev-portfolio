@@ -1,15 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { smoothScrollToElement } from "../lib/smoothScroll";
+import { scrollToSection } from "../lib/smoothScroll";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const menuButtonRef = useRef(null);
   const menuRef = useRef(null);
-  const firstMenuLinkRef = useRef(null);
+  const closeButtonRef = useRef(null);
   const router = useRouter();
 
   // On the home page the hero runs full-bleed underneath the navbar, so the bar
@@ -23,70 +22,49 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    if (!isMenuOpen) return undefined;
+  // The menu is a native modal <dialog>: the browser makes the page inert,
+  // contains focus, handles Esc / back gesture and returns focus to the toggle.
+  // `data-open` only drives the CSS enter/exit transitions.
+  const openMenu = () => {
+    const dialog = menuRef.current;
+    if (!dialog || dialog.open) return;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    dialog.showModal();
+    closeButtonRef.current?.focus();
+    // Flush the closed styles so the transition runs from them.
+    dialog.getBoundingClientRect();
+    dialog.setAttribute("data-open", "true");
+    setIsMenuOpen(true);
+  };
 
-    const releaseInitialFocus = () => {
-      firstMenuLinkRef.current?.removeAttribute("data-menu-initial-focus");
-    };
+  const closeMenu = useCallback(async () => {
+    const dialog = menuRef.current;
+    if (!dialog?.open) return;
 
-    const focusFrame = window.requestAnimationFrame(() => {
-      const firstLink = firstMenuLinkRef.current;
-      if (!firstLink) return;
+    dialog.removeAttribute("data-open");
+    setIsMenuOpen(false);
 
-      firstLink.setAttribute("data-menu-initial-focus", "true");
-      firstLink.focus({ preventScroll: true });
-    });
-    const focusTimeout = window.setTimeout(releaseInitialFocus, 750);
+    // Keep the dialog in the top layer until the exit transition finishes.
+    const animations = dialog.getAnimations({ subtree: true });
+    await Promise.race([
+      Promise.allSettled(animations.map((animation) => animation.finished)),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
+    ]);
 
-    const onKeyDown = (event) => {
-      releaseInitialFocus();
+    if (dialog.hasAttribute("data-open")) return; // reopened meanwhile
+    dialog.close();
+  }, []);
 
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setIsMenuOpen(false);
-        menuButtonRef.current?.focus();
-        return;
-      }
+  const handleCancel = (event) => {
+    // Route Esc through the animated close instead of the instant native one.
+    event.preventDefault();
+    closeMenu();
+  };
 
-      if (event.key !== "Tab") return;
-
-      if (!menuRef.current) return;
-
-      const focusableElements = [
-        menuButtonRef.current,
-        ...menuRef.current.querySelectorAll("a[href], button:not([disabled])"),
-      ].filter(Boolean);
-
-      if (!focusableElements.length) return;
-
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault();
-        lastElement.focus();
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault();
-        firstElement.focus();
-      }
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    document.addEventListener("pointerdown", releaseInitialFocus);
-
-    return () => {
-      window.cancelAnimationFrame(focusFrame);
-      window.clearTimeout(focusTimeout);
-      document.removeEventListener("keydown", onKeyDown);
-      document.removeEventListener("pointerdown", releaseInitialFocus);
-      releaseInitialFocus();
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [isMenuOpen]);
+  const handleClose = () => {
+    menuRef.current?.removeAttribute("data-open");
+    setIsMenuOpen(false);
+  };
 
   const isHeaderOnDarkSurface = isMenuOpen || (isHome && !isScrolled);
 
@@ -94,14 +72,11 @@ export default function Navbar() {
     const hash = href.replace("/#", "#");
     const el = router.pathname === "/" ? document.querySelector(hash) : null;
 
-    if (el) {
-      e.preventDefault();
-      setIsMenuOpen(false);
-      window.requestAnimationFrame(() => smoothScrollToElement(el));
-      return;
-    }
+    closeMenu();
+    if (!el) return;
 
-    setIsMenuOpen(false);
+    e.preventDefault();
+    scrollToSection(el, hash);
   };
 
   const navLinks = [
@@ -114,10 +89,10 @@ export default function Navbar() {
   return (
     <nav
       className={`
-        fixed top-0 w-full z-[70]
+        site-nav fixed top-0 w-full z-[70]
         py-2 px-4 sm:px-6 lg:px-8
         border-b
-        transition-[background-color,border-color,backdrop-filter] duration-base ease-out-expo
+        transition-[background-color,border-color,backdrop-filter,transform] duration-base ease-out-expo
         ${
           isHeaderOnDarkSurface
             ? "bg-transparent border-transparent"
@@ -133,11 +108,11 @@ export default function Navbar() {
             href="/"
             className="relative z-[80] flex-shrink-0 flex items-center gap-3"
             aria-label="OniLabs - Inicio"
-            tabIndex={isMenuOpen ? -1 : 0}
             onClick={(e) => {
               if (router.pathname === "/") {
                 e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                // html's scroll-behavior keeps this smooth, or instant under reduced motion.
+                window.scrollTo({ top: 0 });
               }
             }}
           >
@@ -146,7 +121,6 @@ export default function Navbar() {
               alt="OniLabs logo"
               width={48}
               height={72}
-              priority
               className="h-9 w-auto sm:h-11"
             />
             <span
@@ -203,9 +177,9 @@ export default function Navbar() {
           {/* Mobile button */}
           <div className="md:hidden">
             <button
-              ref={menuButtonRef}
-              onClick={() => setIsMenuOpen((open) => !open)}
-              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              type="button"
+              onClick={openMenu}
+              aria-label="Abrir menú"
               aria-expanded={isMenuOpen}
               aria-controls="mobile-navigation"
               className={`
@@ -252,31 +226,52 @@ export default function Navbar() {
         </div>
 
         {/* Full-screen mobile navigation */}
-        <div
+        <dialog
           ref={menuRef}
           id="mobile-navigation"
           className="mobile-menu"
-          data-open={isMenuOpen}
-          role="dialog"
-          aria-modal="true"
           aria-labelledby="mobile-menu-title"
-          aria-hidden={!isMenuOpen}
+          onCancel={handleCancel}
+          onClose={handleClose}
         >
           <div className="mobile-menu__orb" aria-hidden="true" />
+          {/* The dialog covers the header, so it repeats the brand and offers its own close control. */}
+          <div className="absolute inset-x-0 top-0 z-[2] py-2 px-4 sm:px-6">
+            <div className="max-w-7xl mx-auto flex min-h-16 items-center justify-between">
+              <span className="flex items-center gap-3" aria-hidden="true">
+                <Image
+                  src="/logo.png"
+                  alt=""
+                  width={48}
+                  height={72}
+                  className="h-9 w-auto sm:h-11"
+                />
+                <span className="text-xl sm:text-2xl font-bold text-white">OniLabs</span>
+              </span>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                onClick={closeMenu}
+                aria-label="Cerrar menú"
+                className="w-11 h-11 flex items-center justify-center rounded-lg text-white hover:bg-white/10 transition-colors duration-hover-in ease-hover"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6l12 12M18 6 6 18" />
+                </svg>
+              </button>
+            </div>
+          </div>
           <div className="mobile-menu__inner">
             <div className="mobile-menu__heading">
               <h2 id="mobile-menu-title">Navegación</h2>
               <span aria-hidden="true">OniLabs / 2026</span>
             </div>
 
-            <div className="mobile-menu__nav" role="menu">
+            <div className="mobile-menu__nav">
               {navLinks.map((link, index) => (
                 <Link
                   key={link.href}
-                  ref={index === 0 ? firstMenuLinkRef : undefined}
                   href={link.href}
-                  role="menuitem"
-                  tabIndex={isMenuOpen ? 0 : -1}
                   style={{ "--menu-index": index }}
                   className="mobile-menu__link"
                   onClick={(e) => handleNavClick(e, link.href)}
@@ -306,8 +301,6 @@ export default function Navbar() {
             <div className="mobile-menu__footer">
               <Link
                 href="/#contactanos"
-                role="menuitem"
-                tabIndex={isMenuOpen ? 0 : -1}
                 className="mobile-menu__cta hover-press"
                 onClick={(e) => handleNavClick(e, "/#contactanos")}
               >
@@ -327,7 +320,7 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-        </div>
+        </dialog>
       </div>
     </nav>
   );
