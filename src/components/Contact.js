@@ -53,6 +53,11 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    // Send what the browser just validated (the DOM), not React state, which
+    // can lag behind autofill. Trimmed so whitespace never reaches the API.
+    const payload = Object.fromEntries(
+      [...new FormData(form)].map(([key, value]) => [key, String(value).trim()])
+    );
 
     setStatus("loading");
 
@@ -60,7 +65,7 @@ export default function Contact() {
       const res = await fetch("/api/contacto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) throw new Error();
@@ -68,7 +73,7 @@ export default function Contact() {
       setStatus("success");
       trackEvent("generate_lead", {
         form: "contacto",
-        project_type: formData.tipo || undefined,
+        project_type: payload.tipo || undefined,
       });
 
       setFormData({
