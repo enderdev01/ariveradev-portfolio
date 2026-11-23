@@ -179,7 +179,7 @@ const proyectosBaseSinGenerar = [
     nombre: "Mis Servicios",
     nuevo: true,
     imagen: "/portfolio/mis-servicios.png",
-    url: "https://github.com/enderdev01/mis-servicios-donde",
+    url: "https://www.reportatuservicio.lat/",
     descripcion: "Piloto comunitario para reportar y consultar cortes de agua, luz e internet en zonas de Lima, con protección de la ubicación exacta.",
     stack: ["Astro", "NestJS", "PostgreSQL", "H3"],
   },
