@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { proyectosReales } from "../../data/onilabs";
 import { proyectosSeo, getProyectoPorSlug } from "../../data/proyectos-seo";
 import { SITE_URL } from "../../lib/site";
@@ -84,28 +85,13 @@ export default function ProyectoPage({ proyecto, relacionados }) {
 
         <main className="pt-28 pb-20 px-4 sm:px-6 lg:px-8">
           <article className="max-w-3xl mx-auto">
-            <nav aria-label="Ruta de navegación" className="mb-8">
-              <ol className="flex flex-wrap items-center gap-2 text-sm text-text-secondary">
-                <li>
-                  <Link href="/" className="hover:text-primary transition-colors duration-hover-in ease-hover">
-                    Inicio
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li>
-                  <Link
-                    href="/proyectos"
-                    className="hover:text-primary transition-colors duration-hover-in ease-hover"
-                  >
-                    Proyectos
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li className="text-text-primary font-medium">
-                  {proyecto.nombre}
-                </li>
-              </ol>
-            </nav>
+            <Breadcrumbs
+              items={[
+                { href: "/", label: "Inicio" },
+                { href: "/proyectos", label: "Proyectos" },
+                { href: `/proyectos/${proyecto.slug}`, label: proyecto.nombre },
+              ]}
+            />
 
             <p className="text-primary font-semibold text-sm tracking-widest uppercase mb-3">
               {proyecto.categoria}
@@ -126,6 +112,7 @@ export default function ProyectoPage({ proyecto, relacionados }) {
                   alt={`Captura del proyecto ${proyecto.nombre}`}
                   fill
                   sizes="(min-width: 768px) 768px, 100vw"
+                  priority
                   className="object-cover object-top"
                 />
               </div>

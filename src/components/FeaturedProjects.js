@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
 import ProjectBadges from "./ProjectBadges";
@@ -48,6 +46,7 @@ export default function FeaturedProjects() {
                   proyecto={proyecto}
                   sizes="(max-width: 639px) calc(100vw - 3rem), 1px"
                   showBadges={false}
+                  decorative
                 />
               </div>
               <div className="flex min-h-[52px] items-center justify-between gap-4 px-4 py-3">
@@ -88,6 +87,7 @@ export default function FeaturedProjects() {
                 <ProjectVisual
                   proyecto={proyecto}
                   showBadges={false}
+                  decorative
                 />
               </div>
 

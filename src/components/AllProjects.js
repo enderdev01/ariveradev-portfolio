@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import { proyectosReales } from "../data/onilabs";
@@ -31,41 +29,32 @@ export default function AllProjects() {
           </h1>
 
           {/* Filtros */}
-          <div className="flex flex-wrap gap-3">
+          <div
+            role="group"
+            aria-label="Filtrar proyectos por categoría"
+            className="flex flex-wrap gap-3"
+          >
             {CATEGORIAS.map((cat) => (
               <button
                 key={cat.value}
+                type="button"
+                aria-pressed={activa === cat.value}
                 onClick={() => setActiva(cat.value)}
-                className="px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-hover-in ease-hover"
-                style={{
-                  border: cat.featured
-                    ? activa === cat.value
-                      ? "1px solid #DB2777"
-                      : "1px solid #F9A8D4"
-                    : activa === cat.value
-                      ? "1px solid var(--primary)"
-                      : "1px solid #E2E8F0",
-                  color: cat.featured
-                    ? activa === cat.value
-                      ? "#FFFFFF"
-                      : "#BE185D"
-                    : activa === cat.value
-                      ? "var(--primary)"
-                      : "#64748B",
-                  background: cat.featured
-                    ? activa === cat.value
-                      ? "#DB2777"
-                      : "#FDF2F8"
-                    : activa === cat.value
-                      ? "#EFF6FF"
-                      : "transparent",
-                  boxShadow: cat.featured && activa === cat.value ? "0 8px 18px rgba(219, 39, 119, 0.22)" : "none",
-                }}
+                className={`px-4 py-1.5 rounded-md border text-sm font-medium transition-colors duration-hover-in ease-hover ${
+                  cat.featured
+                    ? "border-pink-300 bg-pink-50 text-pink-700 hover:border-pink-600 aria-pressed:border-pink-600 aria-pressed:bg-pink-600 aria-pressed:text-white aria-pressed:shadow-[0_8px_18px_rgba(219,39,119,0.22)]"
+                    : "border-slate-200 bg-transparent text-slate-500 hover:text-primary aria-pressed:border-primary aria-pressed:bg-blue-50 aria-pressed:text-primary"
+                }`}
               >
                 {cat.label}
               </button>
             ))}
           </div>
+          <p role="status" className="sr-only">
+            {proyectosFiltrados.length === 1
+              ? "1 proyecto"
+              : `${proyectosFiltrados.length} proyectos`}
+          </p>
         </div>
 
         {/* Grid */}
@@ -80,13 +69,14 @@ export default function AllProjects() {
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
                 <ProjectVisual
                   proyecto={proyecto}
+                  decorative
                   imageClassName="object-cover transition-transform duration-slow ease-hover hover:scale-[1.03]"
                 />
               </div>
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-bold text-text-primary mb-3 leading-tight">
+                <h2 className="text-xl font-bold text-text-primary mb-3 leading-tight">
                   {(() => {
                     const seo = getProyectoSeo(proyecto.id);
                     return seo ? (
@@ -100,7 +90,7 @@ export default function AllProjects() {
                       proyecto.nombre
                     );
                   })()}
-                </h3>
+                </h2>
                 <p className="text-text-secondary text-sm mb-4 flex-grow leading-relaxed">
                   {proyecto.descripcion}
                 </p>
@@ -108,8 +98,7 @@ export default function AllProjects() {
                   {proyecto.stack?.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 rounded-md text-xs font-medium text-text-muted"
-                      style={{ background: "#F1F5F9" }}
+                      className="px-3 py-1 rounded-md bg-slate-100 text-xs font-medium text-text-muted"
                     >
                       {tech}
                     </span>
@@ -121,10 +110,7 @@ export default function AllProjects() {
                       href={proyecto.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-hover-in ease-hover"
-                      style={{ background: "var(--primary)" }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = "#1E40AF")}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "var(--primary)")}
+                      className="inline-flex items-center gap-2 bg-primary text-white text-sm font-medium py-2 px-4 rounded-md transition-colors duration-hover-in ease-hover hover:bg-primary-dark focus-visible:bg-primary-dark"
                     >
                       Ver proyecto
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

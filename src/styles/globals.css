@@ -288,6 +288,23 @@ html {
   display: block;
 }
 
+/* --- Breadcrumbs ---
+   Decorative separator: the second `content` value is its (empty) alt text, so
+   screen readers skip it. The first declaration is the fallback for engines
+   without alt-text syntax. */
+
+.breadcrumbs li + li::before {
+  content: "/";
+  content: "/" / "";
+  margin-inline-end: 0.5rem;
+}
+
+@media (forced-colors: active) {
+  .breadcrumbs [aria-current="page"] {
+    text-decoration: underline;
+  }
+}
+
 /* --- Link underline micro-interaction --- */
 
 .link-underline {
