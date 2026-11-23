@@ -1,17 +1,12 @@
 import { useEffect } from "react";
-import { smoothScrollToElement } from "../lib/smoothScroll";
+import { scrollToSection } from "../lib/smoothScroll";
 
-// next/link performs its own instant scroll for hash targets and ignores the
-// CSS `scroll-behavior: smooth`. This intercepts clicks whose target already
-// lives on the current page and scrolls there smoothly instead. Links that
-// point at another route are left alone so normal navigation still happens.
+// Plain in-page anchors (not next/link, which handles its own clicks) would
+// jump instantly when Next's router owns the hash. This intercepts clicks whose
+// target already lives on the current page and hands them to the platform
+// smooth scroll. Links to another route are left alone.
 export default function SmoothHashScroll() {
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReduced) return;
-
     const onClick = (event) => {
       if (event.defaultPrevented || event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -28,8 +23,7 @@ export default function SmoothHashScroll() {
       if (!target) return;
 
       event.preventDefault();
-      smoothScrollToElement(target);
-      window.history.pushState(null, "", url.hash);
+      scrollToSection(target, url.hash);
     };
 
     document.addEventListener("click", onClick);

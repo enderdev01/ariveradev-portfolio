@@ -10,7 +10,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        burtons: ["burtons", "sans-serif"],
         quantico: ["var(--font-quantico)"],
         sans: ["var(--font-sans)", "Helvetica Neue", "Arial", "sans-serif"],
         display: ["var(--font-display)", "Georgia", "serif"],
@@ -72,7 +71,6 @@ module.exports = {
       animation: {
         "fade-up": "fade-up 500ms cubic-bezier(0.16,1,0.3,1) both",
         "fade-in": "fade-in 500ms cubic-bezier(0.16,1,0.3,1) both",
-        "scale-in": "scale-in 250ms cubic-bezier(0.16,1,0.3,1) both",
       },
       keyframes: {
         "fade-up": {
@@ -82,10 +80,6 @@ module.exports = {
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
-        },
-        "scale-in": {
-          "0%": { opacity: "0", transform: "scale(0.95)" },
-          "100%": { opacity: "1", transform: "scale(1)" },
         },
       },
     },

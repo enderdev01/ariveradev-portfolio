@@ -96,16 +96,6 @@ export default function Hero() {
           </svg>
         </div>
       </div>
-
-      <style jsx global>{`
-        html {
-          scrollbar-color: var(--border) transparent;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: transparent;
-        }
-      `}</style>
     </section>
   );
 }

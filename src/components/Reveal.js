@@ -1,17 +1,17 @@
 import { useEffect, useRef } from "react";
 
-// Scroll-reveal primitive. Observes EACH element on its own (not a whole
-// section) so the animation triggers when the element itself enters the
-// viewport — not when the container peeks in. That is what makes the motion
-// actually visible while scrolling.
+const SCROLL_DRIVEN = "(animation-timeline: view()) and (animation-range: entry)";
+
+// Scroll-reveal primitive.
 //
-// - `delay` (ms): stagger siblings without blocking layout.
+// Where scroll-driven animations are supported, globals.css runs the reveal on
+// a `view()` timeline and this component does nothing. Elsewhere it falls back
+// to an IntersectionObserver per element. The hidden state is only ever added
+// by script, so content stays visible if JavaScript never runs.
+//
+// - `delay` (ms): staggers siblings in the fallback (scroll timelines ignore it).
 // - `blur`: adds a soft blur-in for headings / hero-level text.
 // - Renders any tag via `as`, default `div`.
-//
-// The reveal runs as a one-shot CSS animation. On `animationend` we swap
-// `.visible` for `.revealed`, which releases the animation fill-mode lock so
-// the element's own hover transitions keep working afterwards.
 export default function Reveal({
   as: Tag = "div",
   delay = 0,
@@ -26,11 +26,12 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (CSS.supports(SCROLL_DRIVEN)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Already on screen at mount: hiding it now would flash and re-animate it.
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.classList.add("revealed");
-      return;
-    }
+    el.classList.add("reveal-pending");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -43,10 +44,11 @@ export default function Reveal({
       { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
     );
 
+    // Dropping both classes releases the animation fill so the element's own
+    // hover transitions keep working afterwards.
     const onEnd = (event) => {
       if (event.target !== el) return;
-      el.classList.add("revealed");
-      el.classList.remove("visible");
+      el.classList.remove("reveal-pending", "visible");
     };
 
     el.addEventListener("animationend", onEnd);
