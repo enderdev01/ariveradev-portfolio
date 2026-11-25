@@ -1,14 +1,15 @@
 import { FaWhatsapp } from "react-icons/fa";
 import { trackEvent } from "../../lib/gtag";
-import { WHATSAPP_URL } from "../../data/rediseno";
+import { whatsappUrl } from "../../data/rediseno";
 
 // Same pill as the home hero button; `placement` tags the GA event so each
-// position on the page can be counted separately.
-export default function WhatsAppButton({ placement, id, className = "" }) {
+// position on the page can be counted separately, and `intent` picks the
+// pre-filled message (see WHATSAPP_MESSAGES).
+export default function WhatsAppButton({ placement, intent = "general", id, className = "" }) {
   return (
     <a
       id={id}
-      href={WHATSAPP_URL}
+      href={whatsappUrl(intent)}
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => trackEvent("whatsapp_click", { placement, page: "rediseno-web" })}

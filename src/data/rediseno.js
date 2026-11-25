@@ -1,7 +1,22 @@
 // Copy for /rediseno-web. Source of truth: onilabs-marketing/campaigns/rediseno-web/landing-page.md
 // (approved copy). Edit there first, then here, so the page and the campaign file never drift.
 
-export const WHATSAPP_URL = "https://wa.me/51993109998?text=Vengo%20de%20la%20web";
+const WHATSAPP_NUMBER = "51993109998";
+
+// Each button pre-fills a message that says where it came from, what the
+// person wants and asks for the one fact we need to quote (their site or
+// their business), so the first reply can already be useful.
+export const WHATSAPP_MESSAGES = {
+  general:
+    "Hola, vengo de la web de OniLabs. Quiero saber precio y plazo para la web de mi negocio. Mi negocio es: ",
+  rediseno:
+    "Hola, vengo de la web de OniLabs. Me interesa el rediseño de mi web (desde US$250). Mi web actual es: ",
+  pagina:
+    "Hola, vengo de la web de OniLabs. Me interesa una página nueva (US$300). Mi negocio es: ",
+};
+
+export const whatsappUrl = (intent = "general") =>
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGES[intent])}`;
 export const DEMO_URL = "https://hakui-medical.vercel.app/";
 
 export const caminos = [
