@@ -24,7 +24,7 @@ export const serviciosSeo = [
         titulo: "Con qué lo hacemos",
         parrafos: [
           "Trabajamos principalmente con Next.js y React sobre TypeScript, con Tailwind CSS para la interfaz. Del lado del servidor usamos Node.js con PostgreSQL o MongoDB según el caso, y desplegamos en infraestructura cloud con CI/CD.",
-          "No es una lista de modas: son herramientas con comunidad grande y documentación seria, lo que significa que si mañana trabajás con otro equipo, va a poder tomar el código sin arqueología.",
+          "No es una lista de modas: son herramientas con una comunidad grande y buena documentación. Así, si algún día otro equipo se suma a tu proyecto, puede entenderlo rápido y seguir sin empezar de cero.",
         ],
       },
       {
@@ -37,7 +37,7 @@ export const serviciosSeo = [
       {
         titulo: "Para quién es",
         parrafos: [
-          "Para empresas que ya tienen un negocio andando y necesitan que la web deje de ser un folleto. Si tu sitio actual no lo puede editar nadie sin llamar a un programador, si carga lento, o si no tenés idea de cuánta gente lo visita, ese es el punto de partida.",
+          "Para empresas que ya tienen un negocio andando y necesitan que la web deje de ser un folleto. Si tu sitio actual no lo puede editar nadie sin llamar a un programador, si carga lento, o si no tienes idea de cuánta gente lo visita, ese es el punto de partida.",
           "También trabajamos con equipos que ya tienen una plataforma y necesitan hacerla crecer sin reescribirla desde cero.",
         ],
       },
@@ -54,9 +54,9 @@ export const serviciosSeo = [
           "Sí. Trabajamos en remoto con clientes de Latinoamérica, Estados Unidos y Europa, en español o inglés, con horarios que se solapan con tu equipo.",
       },
       {
-        pregunta: "¿El código queda a nombre nuestro?",
+        pregunta: "¿Qué queda a nombre de mi empresa?",
         respuesta:
-          "Sí. El código es tuyo y te lo entregamos en tu propio repositorio. No trabajamos con plataformas cerradas que te dejen atado a nosotros.",
+          "Tu dominio y tus cuentas se registran a tu nombre, y a nosotros solo nos das acceso técnico. Así nunca dependes de nadie para entrar a lo tuyo. Si además quieres el código fuente, por ejemplo para que lo mantenga tu propio equipo, lo incluimos en el acuerdo y te lo entregamos en tu repositorio. Lo conversamos en la propuesta, sin letra chica.",
       },
     ],
   },
@@ -118,7 +118,7 @@ export const serviciosSeo = [
       {
         titulo: "WooCommerce o plataforma a medida",
         parrafos: [
-          "WooCommerce tiene sentido cuando querés arrancar rápido, administrar el catálogo vos mismo y aprovechar un ecosistema enorme de extensiones. Desarrollamos plugins propios cuando lo que necesitás no existe listo.",
+          "WooCommerce tiene sentido cuando quieres arrancar rápido, administrar el catálogo tú mismo y aprovechar un ecosistema enorme de extensiones. Desarrollamos plugins propios cuando lo que necesitas no existe listo.",
           "Una plataforma a medida tiene sentido cuando tu operación no entra en el molde: catálogos muy grandes, lógica de precios particular, integración profunda con un ERP o un flujo de venta que ninguna plantilla contempla. Te decimos cuál conviene según tu caso, no según qué nos resulta más cómodo.",
         ],
       },
@@ -130,7 +130,7 @@ export const serviciosSeo = [
         ],
       },
       {
-        titulo: "Que lo puedas administrar vos",
+        titulo: "Que lo puedas administrar tú",
         parrafos: [
           "El panel de administración es parte del producto, no un extra. Tu equipo tiene que poder cargar productos, cambiar precios, publicar promociones y ver pedidos sin depender de nosotros.",
           "Si cada cambio de precio necesita un programador, la tienda te va a costar plata todos los meses.",
@@ -178,7 +178,7 @@ export const serviciosSeo = [
         titulo: "Que falle bien",
         parrafos: [
           "Una integración se juzga por cómo se comporta cuando el otro sistema no responde. Diseñamos con reintentos, colas y registro de errores, para que un servicio caído signifique una demora y no una venta perdida en silencio.",
-          "Sumamos observabilidad y monitoreo: si algo se rompe, querés enterarte vos antes que tu cliente.",
+          "Sumamos observabilidad y monitoreo: si algo se rompe, quieres enterarte tú antes que tu cliente.",
         ],
       },
     ],
@@ -209,7 +209,7 @@ export const serviciosSeo = [
         titulo: "Cuándo conviene y cuándo no",
         parrafos: [
           "No siempre conviene. Si existe una herramienta que resuelve el ochenta por ciento de tu problema por una suscripción mensual, empezá por ahí. Te lo vamos a decir aunque signifique no vender el proyecto.",
-          "El software a medida se justifica cuando tu proceso es tu ventaja competitiva, cuando el volumen hace que las licencias por usuario dejen de cerrar, o cuando necesitás integrar sistemas que ninguna herramienta genérica contempla.",
+          "El software a medida se justifica cuando tu proceso es tu ventaja competitiva, cuando el volumen hace que las licencias por usuario dejen de cerrar, o cuando necesitas integrar sistemas que ninguna herramienta genérica contempla.",
         ],
       },
       {
