@@ -787,3 +787,39 @@ html {
     transform: none;
   }
 }
+
+/* --- Phone WhatsApp bar (/rediseno-web) ---
+   Slides up once the hero button scrolls away. Enter and exit share the
+   strong ease-out; visibility flips after the exit so the hidden bar is
+   out of the tab order. Safe-area padding keeps it clear of the home bar. */
+
+.whatsapp-bar {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: transform 240ms var(--ease-out), visibility 0s linear 240ms;
+}
+
+.whatsapp-bar.is-visible {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 240ms var(--ease-out), visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-bar,
+  .whatsapp-bar.is-visible {
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Room for the bar under the footer, and focus never lands behind it. */
+  .has-whatsapp-bar {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  html:has(.has-whatsapp-bar) {
+    scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}

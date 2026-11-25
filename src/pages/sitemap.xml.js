@@ -9,6 +9,7 @@ const buildSitemap = () => {
   const urls = [
     { loc: `${SITE_URL}/`, priority: "1.0", changefreq: "monthly" },
     { loc: `${SITE_URL}/servicios`, priority: "0.9", changefreq: "monthly" },
+    { loc: `${SITE_URL}/rediseno-web`, priority: "0.9", changefreq: "monthly" },
     { loc: `${SITE_URL}/proyectos`, priority: "0.8", changefreq: "monthly" },
     ...serviciosSeo.map((servicio) => ({
       loc: `${SITE_URL}/servicios/${servicio.slug}`,
