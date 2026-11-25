@@ -2,6 +2,7 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RedisenoHero from "../components/rediseno/RedisenoHero";
+import AntesDespues from "../components/rediseno/AntesDespues";
 import Caminos from "../components/rediseno/Caminos";
 import Ejemplo from "../components/rediseno/Ejemplo";
 import Medicion from "../components/rediseno/Medicion";
@@ -93,6 +94,7 @@ export default function RedisenoWeb() {
         <Navbar />
         <main>
           <RedisenoHero />
+          <AntesDespues />
           <Caminos />
           <Ejemplo />
           <Medicion />

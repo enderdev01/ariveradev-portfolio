@@ -22,7 +22,7 @@ export default function Cierre() {
           id="cierre"
           className="mt-10 text-3xl font-bold leading-[1.12] text-text-primary [text-wrap:balance] sm:text-4xl lg:text-5xl"
         >
-          ¿Te pasamos precio y plazo para tu web?
+          Tu web nueva empieza con un mensaje.
         </h2>
         <WhatsAppButton placement="closing" className="mt-10 w-full sm:w-auto" />
         <p className="mt-4 text-sm text-text-muted">

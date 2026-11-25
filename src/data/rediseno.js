@@ -7,7 +7,7 @@ export const DEMO_URL = "https://hakui-medical.vercel.app/";
 export const caminos = [
   {
     id: "rediseno",
-    situacion: "Ya tengo web, pero falla",
+    situacion: "Ya tengo web, pero no funciona bien",
     nombre: "Rediseño",
     precio: "desde US$250",
     items: [
@@ -33,10 +33,47 @@ export const caminos = [
 ];
 
 export const pasos = [
-  "Nos escribes por WhatsApp y revisamos tu web o tu ficha de Google.",
-  "Te enviamos alcance, precio y plazo por escrito.",
-  "Pagas 60% para empezar y 40% antes de publicar.",
-  "Dos rondas de cambios y 30 días de soporte después de entregar.",
+  {
+    titulo: "Nos escribes",
+    texto: "Por WhatsApp. Revisamos tu web o tu ficha de Google y te decimos qué falla.",
+  },
+  {
+    titulo: "Te mandamos la propuesta",
+    texto: "Alcance, precio y plazo por escrito. Sin sorpresas después.",
+  },
+  {
+    titulo: "Construimos",
+    texto: "Pagas 60% para empezar y 40% antes de publicar.",
+  },
+  {
+    titulo: "Publicamos y te acompañamos",
+    texto: "Dos rondas de cambios y 30 días de soporte después de entregar.",
+  },
+];
+
+// The three faults a phone visitor hits first, and what the new page does instead.
+export const arreglos = [
+  {
+    antes: "Letra diminuta: hay que hacer zoom para leer.",
+    despues: "Se lee a la primera, sin pellizcar la pantalla.",
+  },
+  {
+    antes: "El WhatsApp está escondido al final, o no está.",
+    despues: "WhatsApp y teléfono arriba, a un toque.",
+  },
+  {
+    antes: "Tarda en cargar y el paciente se va.",
+    despues: "Carga rápida, con SSL y SEO técnico básico.",
+  },
+];
+
+// What gets registered in the client's name. `condicion` marks the one item
+// that depends on the agreement, so the page never overclaims.
+export const titularidad = [
+  { nombre: "Dominio", detalle: "tuclinica.pe" },
+  { nombre: "Correo", detalle: "contacto@tuclinica.pe" },
+  { nombre: "Cuentas y accesos", detalle: "Hosting, Google y analítica" },
+  { nombre: "Código fuente", detalle: "Si el acuerdo lo incluye", condicion: true },
 ];
 
 export const noPrometemos = [

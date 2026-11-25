@@ -1,5 +1,6 @@
 import Image from "next/image";
 import WhatsAppButton from "./WhatsAppButton";
+import { CheckIcon } from "./icons";
 import { DEMO_URL } from "../../data/rediseno";
 
 // Mirrors components/Hero.js: same background, overlay, pill, type scale and
@@ -57,9 +58,14 @@ export default function RedisenoHero() {
           </a>
         </div>
 
-        <p className="animate-fade-in-up stagger-4 mt-4 text-sm text-white/60">
-          Te pasamos alcance, precio y plazo por escrito antes de empezar.
-        </p>
+        <ul className="animate-fade-in-up stagger-5 mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/75 sm:text-base">
+          {["Precio por escrito antes de empezar", "Página nueva en 14 días hábiles", "Dominio a tu nombre"].map((t) => (
+            <li key={t} className="flex items-center gap-2">
+              <CheckIcon className="h-4 w-4 text-accent-light" />
+              {t}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
