@@ -787,3 +787,155 @@ html {
     transform: none;
   }
 }
+
+/* --- Phone WhatsApp bar (/rediseno-web) ---
+   Slides up once the hero button scrolls away. Enter and exit share the
+   strong ease-out; visibility flips after the exit so the hidden bar is
+   out of the tab order. Safe-area padding keeps it clear of the home bar. */
+
+.whatsapp-bar {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: transform 240ms var(--ease-out), visibility 0s linear 240ms;
+}
+
+.whatsapp-bar.is-visible {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform 240ms var(--ease-out), visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-bar,
+  .whatsapp-bar.is-visible {
+    transition: none;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Room for the bar under the footer, and focus never lands behind it. */
+  .has-whatsapp-bar {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  html:has(.has-whatsapp-bar) {
+    scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* --- /rediseno-web motion ---
+   Every sequence starts from the visible state and only plays when the
+   section's `data-play` flips to "true" (set by useInView). Without JS or with
+   reduced motion, everything simply shows. */
+
+/* The typing dots only exist mid-animation; at rest the message is there. */
+.chat-typing { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Chat: typing dots, then the message lands, then the steps follow. */
+  [data-play] .chat-bubble { opacity: 0; transform: translateY(10px) scale(0.96); transform-origin: left bottom; }
+  [data-play] .chat-step { opacity: 0; transform: translateY(12px); }
+
+  [data-play="true"] .chat-typing {
+    animation: chat-typing 1100ms var(--ease-out) 300ms both;
+  }
+  [data-play="true"] .chat-online {
+    animation: chat-online 1100ms var(--ease-out) 300ms both;
+  }
+  [data-play="true"] .chat-bubble {
+    animation: chat-pop 520ms var(--ease-out) both;
+    animation-delay: var(--d, 1350ms);
+  }
+  [data-play="true"] .chat-step {
+    animation: fade-up 700ms var(--ease-reveal) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Callouts around the demo phone: line draws, then the label slides in. */
+  [data-play] .callout { opacity: 0; transform: translateX(var(--from, -12px)); }
+  [data-play] .callout-line { transform: scaleX(0); }
+  [data-play="true"] .callout {
+    animation: callout-in 700ms var(--ease-reveal) both;
+    animation-delay: var(--d, 0ms);
+  }
+  [data-play="true"] .callout-line {
+    animation: line-draw 600ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Timeline rail fills left to right (top to bottom on phones). */
+  [data-play] .rail-fill { transform: scaleY(0); }
+  [data-play="true"] .rail-fill { animation: rail-y 1600ms var(--ease-out) 200ms both; }
+  @media (min-width: 1024px) {
+    [data-play] .rail-fill { transform: scaleX(0); }
+    [data-play="true"] .rail-fill { animation-name: rail-x; }
+  }
+  [data-play] .rail-dot { transform: scale(0.4); opacity: 0; }
+  [data-play="true"] .rail-dot {
+    animation: dot-in 500ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Payment bar segments grow in order. */
+  [data-play] .pay-seg { transform: scaleX(0); }
+  [data-play="true"] .pay-seg {
+    animation: line-draw 900ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Ownership ledger: the "A tu nombre" stamp presses in. */
+  [data-play] .stamp { opacity: 0; transform: scale(1.35) rotate(-6deg); }
+  [data-play="true"] .stamp {
+    animation: stamp-in 460ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Before/after hint: the handle nudges once so people know it moves. */
+  [data-play="true"] .compare-hint { animation: compare-nudge 1400ms var(--ease-loop) 600ms 2; }
+}
+
+@keyframes chat-typing {
+  0% { opacity: 0; transform: translateY(6px); }
+  20%, 80% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
+}
+@keyframes chat-online {
+  0%, 100% { opacity: 1; }
+  20%, 80% { opacity: 0; }
+}
+@keyframes chat-pop {
+  from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes callout-in {
+  from { opacity: 0; transform: translateX(var(--from, -12px)); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes line-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes rail-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes rail-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes dot-in {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes stamp-in {
+  from { opacity: 0; transform: scale(1.35) rotate(-6deg); }
+  to { opacity: 1; transform: rotate(-3deg); }
+}
+@keyframes compare-nudge {
+  0%, 100% { transform: translateX(0); }
+  30% { transform: translateX(-14px); }
+  65% { transform: translateX(10px); }
+}
+
+
+/* The compare slider's real control is an invisible range input; show its
+   keyboard focus on the visible handle. */
+figure:has(.compare-range:focus-visible) .compare-hint {
+  outline: 3px solid #2457d6;
+  outline-offset: 3px;
+}

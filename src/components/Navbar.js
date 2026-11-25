@@ -11,9 +11,9 @@ export default function Navbar() {
   const closeButtonRef = useRef(null);
   const router = useRouter();
 
-  // On the home page the hero runs full-bleed underneath the navbar, so the bar
-  // stays transparent until the user scrolls past it.
-  const isHome = router.pathname === "/";
+  // Pages whose dark hero runs full-bleed underneath the navbar keep the bar
+  // transparent until the user scrolls past it.
+  const hasDarkHero = ["/", "/rediseno-web"].includes(router.pathname);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
@@ -66,7 +66,7 @@ export default function Navbar() {
     setIsMenuOpen(false);
   };
 
-  const isHeaderOnDarkSurface = isMenuOpen || (isHome && !isScrolled);
+  const isHeaderOnDarkSurface = isMenuOpen || (hasDarkHero && !isScrolled);
 
   const handleNavClick = (e, href) => {
     const hash = href.replace("/#", "#");
