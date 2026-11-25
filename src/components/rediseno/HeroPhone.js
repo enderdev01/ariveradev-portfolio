@@ -6,14 +6,14 @@ import {
   IoCheckmarkDone,
   IoChevronBack,
   IoMicOutline,
-  IoPerson,
   IoSend,
   IoVideocamOutline,
 } from "react-icons/io5";
+import { TbDental } from "react-icons/tb";
 import Phone from "./Phone";
 import Touch from "./Touch";
 import useInView from "./useInView";
-import { PantallaDespues } from "./AntesDespues";
+import ClinicaSonrisa from "./ClinicaSonrisa";
 
 // The hero's story in one loop, the promise of the H1 played out: the
 // clinic's new page on a phone, the WhatsApp button at the top tapped, the
@@ -70,8 +70,8 @@ function Chat({ s }) {
       <div className="bg-[#f6f6f6] pt-[62px] shadow-[0_0.5px_0_rgba(0,0,0,0.15)]">
         <div className="flex h-[52px] items-center gap-2.5 pl-2 pr-4">
           <IoChevronBack className="h-[28px] w-[28px]" />
-          <span className="flex h-[38px] w-[38px] items-center justify-center overflow-hidden rounded-full bg-[#dfe5e7]">
-            <IoPerson className="mt-2.5 h-[34px] w-[34px] text-white" />
+          <span className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#0d4a4a]">
+            <TbDental className="h-[22px] w-[22px] text-white" />
           </span>
           <div className="min-w-0 flex-1 leading-[1.25]">
             <p className="truncate text-[17px] font-semibold">Clínica Dental Sonrisa</p>
@@ -91,8 +91,8 @@ function Chat({ s }) {
         </p>
         {/* The intro card WhatsApp shows at the top of a chat with a business. */}
         <div className="mx-10 mb-3 mt-2 flex flex-col items-center rounded-[14px] bg-white px-4 pb-4 pt-5 text-center shadow-[0_1px_0.5px_rgba(11,20,26,0.1)]">
-          <span className="flex h-[64px] w-[64px] items-center justify-center overflow-hidden rounded-full bg-[#dfe5e7]">
-            <IoPerson className="mt-4 h-[58px] w-[58px] text-white" />
+          <span className="flex h-[64px] w-[64px] items-center justify-center rounded-full bg-[#0d4a4a]">
+            <TbDental className="h-[36px] w-[36px] text-white" />
           </span>
           <p className="mt-2.5 text-[17px] font-semibold">Clínica Dental Sonrisa</p>
           <p className="mt-0.5 text-[13px] text-[#667781]">Cuenta de empresa</p>
@@ -167,7 +167,7 @@ export default function HeroPhone({ className = "" }) {
             className="absolute inset-0"
             style={{ transform: inWa ? "translateX(-28%)" : "none", transition: `transform 500ms ${EASE_TAP}` }}
           >
-            <PantallaDespues waTouch={s.waTouch} />
+            <ClinicaSonrisa waTouch={s.waTouch} />
           </div>
           <div
             className="absolute inset-0 shadow-[-8px_0_24px_rgba(0,0,0,0.12)]"

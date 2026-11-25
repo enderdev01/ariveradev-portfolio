@@ -18,17 +18,15 @@ export default function RedisenoHero() {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
         <div>
           <h1 className="animate-fade-in-up stagger-1 text-[2.3rem] font-black leading-[1.06] tracking-tight text-white [text-wrap:balance] sm:text-5xl lg:text-[3.9rem]">
-            Una web que funciona en el celular,{" "}
-            <em className="font-medium not-italic text-accent-light">
-              con WhatsApp arriba y a tu nombre.
-            </em>
+            De tu web a tu WhatsApp,{" "}
+            <em className="font-medium not-italic text-accent-light">en un toque.</em>
           </h1>
 
           <p className="animate-fade-in-up stagger-2 mt-6 max-w-[38rem] text-base font-light leading-relaxed text-white/75 [text-wrap:pretty] sm:text-lg md:text-xl">
-            Para negocios en Lima. Si ya tienes web, la rediseñamos desde{" "}
-            <span className="font-semibold text-white">US$250</span>. Si no tienes, te armamos
-            una página por <span className="font-semibold text-white">US$300</span> en 14 días
-            hábiles.
+            Para negocios en Lima. Rediseñamos tu web desde{" "}
+            <span className="font-semibold text-white">US$250</span> o armamos una nueva por{" "}
+            <span className="font-semibold text-white">US$300</span> en 14 días hábiles, con el
+            dominio a tu nombre.
           </p>
 
           <div className="animate-fade-in-up stagger-3 mt-8 flex flex-col gap-4 sm:mt-10 sm:flex-row">

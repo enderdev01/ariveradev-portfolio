@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { FaWhatsapp } from "react-icons/fa";
-import { IoCall, IoCard, IoLocationSharp, IoMenu, IoTime } from "react-icons/io5";
 import Phone from "./Phone";
-import Touch from "./Touch";
+import ClinicaSonrisa from "./ClinicaSonrisa";
 import useInView from "./useInView";
 import { CheckIcon, CrossIcon } from "./icons";
 import { sectionScreen, wrap, h2, lead } from "./ui";
@@ -63,61 +61,6 @@ function PantallaAntes() {
   );
 }
 
-// The same clinic after the redesign: what it does in one line, the action
-// first, then what a patient checks before writing. The hero reuses it and
-// passes `waTouch` to press its WhatsApp button.
-export function PantallaDespues({ waTouch = null }) {
-  return (
-    <div className="absolute inset-0 flex flex-col bg-white pt-[62px] text-text-primary" aria-hidden="true">
-      <div className="flex h-[52px] items-center justify-between px-5">
-        <span className="font-display text-[19px] font-bold text-primary-dark">Clínica Dental Sonrisa</span>
-        <IoMenu className="h-[26px] w-[26px]" />
-      </div>
-      <div className="px-5 pt-5">
-        <p className="font-display text-[34px] font-bold leading-[1.1]">
-          Tu dentista en Miraflores, con cita esta semana.
-        </p>
-        <p className="mt-3 text-[17px] leading-[1.35] text-text-secondary">
-          Limpieza, ortodoncia y urgencias. Lunes a sábado.
-        </p>
-        <span
-          className="relative mt-6 flex h-[52px] items-center justify-center gap-2.5 rounded-full text-[17px] font-bold text-white transition-colors duration-100"
-          style={{ backgroundColor: waTouch?.pressed ? "#178a45" : "#1fa855" }}
-        >
-          <FaWhatsapp className="h-[22px] w-[22px]" />
-          Escríbenos por WhatsApp
-          <Touch touch={waTouch} />
-        </span>
-        <span className="mt-3 flex h-[52px] items-center justify-center gap-2 rounded-full border border-border text-[17px] font-semibold">
-          <IoCall className="h-[18px] w-[18px] text-primary" />
-          Llamar
-        </span>
-      </div>
-      <div className="mt-6 grid grid-cols-2 gap-2.5 px-5">
-        {["Limpieza", "Ortodoncia", "Implantes", "Urgencias"].map((s) => (
-          <span key={s} className="rounded-xl bg-surface px-4 py-3.5 text-[15px] font-semibold">
-            {s}
-          </span>
-        ))}
-      </div>
-      <div className="mx-5 mt-4 divide-y divide-border rounded-xl border border-border text-[15px]">
-        <span className="flex items-center gap-3 px-4 py-3">
-          <IoLocationSharp className="h-[18px] w-[18px] shrink-0 text-primary" />
-          Av. Larco 123, Miraflores
-        </span>
-        <span className="flex items-center gap-3 px-4 py-3">
-          <IoTime className="h-[18px] w-[18px] shrink-0 text-primary" />
-          Lun a sáb, 9:00 a 19:00
-        </span>
-        <span className="flex items-center gap-3 px-4 py-3">
-          <IoCard className="h-[18px] w-[18px] shrink-0 text-primary" />
-          Tarjeta, Yape y Plin
-        </span>
-      </div>
-    </div>
-  );
-}
-
 // The page's authored moment: drag (or arrow-key) between the site a patient
 // sees today and the one we would hand over. A native range input drives it,
 // so keyboard and screen readers get a real control.
@@ -163,7 +106,7 @@ export default function AntesDespues() {
             <Phone>
               <PantallaAntes />
               <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${pos}%)` }}>
-                <PantallaDespues />
+                <ClinicaSonrisa />
               </div>
             </Phone>
 
