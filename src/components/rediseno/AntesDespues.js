@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoCall, IoCard, IoLocationSharp, IoMenu, IoTime } from "react-icons/io5";
 import Phone from "./Phone";
+import Touch from "./Touch";
 import useInView from "./useInView";
 import { CheckIcon, CrossIcon } from "./icons";
 import { sectionScreen, wrap, h2, lead } from "./ui";
@@ -63,8 +64,9 @@ function PantallaAntes() {
 }
 
 // The same clinic after the redesign: what it does in one line, the action
-// first, then what a patient checks before writing.
-function PantallaDespues() {
+// first, then what a patient checks before writing. The hero reuses it and
+// passes `waTouch` to press its WhatsApp button.
+export function PantallaDespues({ waTouch = null }) {
   return (
     <div className="absolute inset-0 flex flex-col bg-white pt-[62px] text-text-primary" aria-hidden="true">
       <div className="flex h-[52px] items-center justify-between px-5">
@@ -78,9 +80,13 @@ function PantallaDespues() {
         <p className="mt-3 text-[17px] leading-[1.35] text-text-secondary">
           Limpieza, ortodoncia y urgencias. Lunes a sábado.
         </p>
-        <span className="mt-6 flex h-[52px] items-center justify-center gap-2.5 rounded-full bg-[#1fa855] text-[17px] font-bold text-white">
+        <span
+          className="relative mt-6 flex h-[52px] items-center justify-center gap-2.5 rounded-full text-[17px] font-bold text-white transition-colors duration-100"
+          style={{ backgroundColor: waTouch?.pressed ? "#178a45" : "#1fa855" }}
+        >
           <FaWhatsapp className="h-[22px] w-[22px]" />
           Escríbenos por WhatsApp
+          <Touch touch={waTouch} />
         </span>
         <span className="mt-3 flex h-[52px] items-center justify-center gap-2 rounded-full border border-border text-[17px] font-semibold">
           <IoCall className="h-[18px] w-[18px] text-primary" />

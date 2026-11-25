@@ -1,16 +1,24 @@
+import { useRef } from "react";
+
 // An iPhone drawn from real geometry (ported from the Stageshow kit's Phone):
 // the screen is laid out at true iOS points, 402 × 874, and scaled down as a
 // whole, so type inside renders at the size iOS uses (17pt body) instead of
 // 8px. Status bar 62pt tall, Dynamic Island 95 × 37 at 14pt from the top, home
 // indicator 144 × 5 at 8pt from the bottom. `--ps` is the points-to-pixels
-// scale per breakpoint; the outer widths (16.5/18.5/19.5rem) stay as before.
+// scale per breakpoint. The frame is sized in px, not rem: the site's root
+// font size changes on phones and would thicken one side of the bezel.
 //
 // - `dark`: white status bar and home indicator, for dark screens.
 // - `chrome={false}`: no status bar or island (for a screenshot that brings
 //   its own top). Content always starts below the 62pt status bar when chrome
 //   is on, so nothing sits under the island.
-export default function Phone({ children, className = "", dark = false, chrome = true }) {
+// - `back`: an app name ("Safari") shown in place of the time, as iOS does
+//   when another app opened this one.
+export default function Phone({ children, className = "", dark = false, chrome = true, back = null }) {
   const ink = dark ? "text-white" : "text-black";
+  // Keeps the label while it fades out, so it doesn't blank mid-transition.
+  const lastBack = useRef(back);
+  if (back) lastBack.current = back;
   return (
     <div
       className={`mx-auto w-[calc(402px*var(--ps)_+_20px)] rounded-[calc(64px*var(--ps)_+_10px)] bg-text-primary p-[10px] shadow-[0_32px_64px_-24px_rgba(19,26,39,0.55)] [--ps:0.607] sm:[--ps:0.6866] lg:[--ps:0.7264] ${className}`.trim()}
@@ -19,8 +27,21 @@ export default function Phone({ children, className = "", dark = false, chrome =
         <div className="absolute left-0 top-0 h-[874px] w-[402px] origin-top-left [transform:scale(var(--ps))]">
           {chrome && (
             <div className={`pointer-events-none absolute inset-x-0 top-0 z-30 h-[62px] ${ink}`} aria-hidden="true">
-              <span className="absolute left-0 top-[21.5px] w-[138.5px] text-center font-[system-ui] text-[17.67px] font-semibold leading-[22px]">
+              <span
+                className="absolute left-0 top-[21.5px] w-[138.5px] text-center font-[system-ui] text-[17.67px] font-semibold leading-[22px] transition-opacity duration-200"
+                style={{ opacity: back ? 0 : 1 }}
+              >
                 9:41
+              </span>
+              {/* iOS replaces the time with a way back to the app that opened this one. */}
+              <span
+                className="absolute left-0 top-[21.5px] flex h-[22px] w-[138.5px] items-center justify-center gap-0.5 font-[system-ui] text-[14px] font-semibold transition-opacity duration-200"
+                style={{ opacity: back ? 1 : 0 }}
+              >
+                <svg viewBox="0 0 8 13" width="7" height="11" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6.5 1.5 1.5 6.5l5 5" />
+                </svg>
+                {back || lastBack.current}
               </span>
               <span className="absolute left-[285.25px] top-[25.33px] flex items-start gap-2">
                 <Signal />
