@@ -2,7 +2,7 @@ import Reveal from "../Reveal";
 import { CheckIcon } from "./icons";
 import { section, wrap, h2, lead } from "./ui";
 import { trackEvent } from "../../lib/gtag";
-import { caminos, WHATSAPP_URL } from "../../data/rediseno";
+import { caminos, whatsappUrl } from "../../data/rediseno";
 
 // Small drawn scenes that say each path at a glance: a broken page becoming a
 // working one, and an empty phone getting its first page.
@@ -90,7 +90,7 @@ export default function Caminos() {
               <div className="mt-auto pt-8">
                 {camino.nota && <p className="text-sm text-text-muted">{camino.nota}</p>}
                 <a
-                  href={WHATSAPP_URL}
+                  href={whatsappUrl(camino.id)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() =>

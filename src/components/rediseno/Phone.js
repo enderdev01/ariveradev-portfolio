@@ -23,7 +23,10 @@ export default function Phone({ children, className = "", dark = false, chrome =
     <div
       className={`mx-auto w-[calc(402px*var(--ps)_+_20px)] rounded-[calc(64px*var(--ps)_+_10px)] bg-text-primary p-[10px] shadow-[0_32px_64px_-24px_rgba(19,26,39,0.55)] [--ps:0.607] sm:[--ps:0.6866] lg:[--ps:0.7264] ${className}`.trim()}
     >
-      <div className="relative isolate h-[calc(874px*var(--ps))] w-[calc(402px*var(--ps))] overflow-hidden rounded-[calc(64px*var(--ps))]">
+      {/* clip-path, not only overflow + radius: WebKit lets transformed,
+          animating layers (the sliding screens) paint past a rounded
+          overflow clip. */}
+      <div className="relative isolate h-[calc(874px*var(--ps))] w-[calc(402px*var(--ps))] overflow-hidden rounded-[calc(64px*var(--ps))] [clip-path:inset(0_round_calc(64px*var(--ps)))]">
         <div className="absolute left-0 top-0 h-[874px] w-[402px] origin-top-left [transform:scale(var(--ps))]">
           {chrome && (
             <div className={`pointer-events-none absolute inset-x-0 top-0 z-30 h-[62px] ${ink}`} aria-hidden="true">
