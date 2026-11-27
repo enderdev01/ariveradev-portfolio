@@ -64,6 +64,14 @@ export const equipo = [
     iniciales: "A",
     imagen: "/ahksel.png",
   },
+  {
+    id: 3,
+    nombre: "XNELIUS",
+    rol: "Product Designer & Developer",
+    bio: "Experto en desarrollo y diseño de producto, crea herramientas web que convierten ideas en experiencias claras y funcionales.",
+    iniciales: "X",
+    imagen: "/xnelius.png",
+  },
 ];
 
 export const procesoi = [
